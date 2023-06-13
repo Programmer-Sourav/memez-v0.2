@@ -4,10 +4,24 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { makeServer } from "./server";
+import { BrowserRouter } from 'react-router-dom';
+import { ApplicationContext, ApplicationProvider } from './context/ApplicationContext.jsx';
+
+export { ApplicationContext }
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Call make Server
+makeServer();
+
 root.render(
   <React.StrictMode>
+      <BrowserRouter>
+    <ApplicationProvider>
     <App />
+    </ApplicationProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
