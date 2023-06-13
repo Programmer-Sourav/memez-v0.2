@@ -1,55 +1,38 @@
 import axios from "axios";
 import { AUTH_ACTION_TYPE } from "../auth/ActionType";
+import { toast } from "react-hot-toast";
 
-// export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
-//     console.log(userEmail)
-//     console.log(userPassword)
-  
-//     //authDispatch({type: AUTH_ACTION_TYPE.ACTION_SIGN_IN, payload: {email: userEmail, password: userPassword}})
-//     axios.post('/api/auth/login', {
-//         username: userEmail,
-//         password: userPassword
-//       })
-//       .then(function (response) {
-//         console.log(123, response);
-//       })
-//       .catch(function (error) {
-//         console.log(error);
-//       });
-//     }
 
-    export const doLoginCall = async (userEmail, userPassword, authDispatch) =>{
 
-        const item = {username: userEmail,password: userPassword}
-        try{
-          
-            const res = await fetch("/api/auth/login",{
-                method: 'POST',  
-               // headers: { 'Content-Type': 'application/json' },     
-                body: JSON.stringify(item)
-            })
-            
-            const completeRes = res
-            console.log(333, completeRes)
-            const response = await res.json();
-           
+export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
+    console.log(userEmail)
+    console.log(userPassword)
 
-            console.log(111, response)
-            const encodedToken  = response?.encodedToken
-            console.log(1222, encodedToken)
-            
-        }
-        catch(e){
-        console.error(e)
-        }
-    
+    axios.post('/api/auth/login', {
+        username: userEmail,
+        password: userPassword
+      })
+      .then(function (response) {
+        const { encodedToken} = response.data
+            localStorage.setItem("encodedToken", encodedToken)
+            if(localStorage.getItem("encodedToken")){
+                authDispatch({type: AUTH_ACTION_TYPE.ACTION_SIGN_IN, payload: {token: localStorage.getItem("encodedToken"), isLoggedIn: true}})
+                toast.success("Successfully Logged In")
+            }
+      })
+      .catch(function (error) {
+        authDispatch({type: AUTH_ACTION_TYPE.FAILED_ATTEMPT, payload: {isLoggedIn: false}})
+        toast.error("Error Signing In")
+        console.log(error);
+      });
     }
 
+  
 
-   /* export const doSignUpCall = (userEmail, userPassword, userFirstName, userLastName, authDispatch) =>{
+    export const doSignUpCall = (userEmail, userPassword, userFirstName, userLastName, authDispatch) =>{
         console.log(userEmail)
         console.log(userPassword)
-      
+        
         axios.post('/api/auth/signup', { 
             firstName: userFirstName,
             lastName: userLastName,
@@ -57,36 +40,17 @@ import { AUTH_ACTION_TYPE } from "../auth/ActionType";
             password: userPassword,
           })
           .then(function (response) {
-            console.log(123, response);
+            const { encodedToken} = response.data
+            localStorage.setItem("encodedToken", encodedToken)
+
+            if(localStorage.getItem("encodedToken")){
+                authDispatch({type: AUTH_ACTION_TYPE.ACTION_SIGN_UP, payload: {token: localStorage.getItem("encodedToken"), isLoggedIn: true}})
+                toast.success("Successfully Registered.")
+            }
           })
           .catch(function (error) {
+            authDispatch({type: AUTH_ACTION_TYPE.FAILED_ATTEMPT, payload: {isLoggedIn: false}})
+            toast.error("Error during Sign up. Please try again.")
             console.log(error);
           });
-        }*/
-
-        export const doSignUpCall = async (userEmail, userPassword, userFirstName, userLastName, authDispatch) =>{
-            console.log(11, userEmail)
-            const item = {username: userEmail,password: userPassword,firstName: userFirstName,lastName: userLastName}
-            console.log(1567, item)
-            try{
-              
-                const res = await fetch("/api/auth/signup",{
-                    method: 'POST',  
-                   // headers: { 'Content-Type': 'application/json' },     
-                    body: JSON.stringify(item)
-                })
-                
-               
-                const completeRes = res
-                console.log(333, completeRes)
-                const response = await res.json();
-               
-    
-                console.log(111, response)
-                
-            }
-            catch(e){
-            console.error(e)
-            }
-        
         }
