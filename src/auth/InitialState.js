@@ -1,4 +1,4 @@
 export const authInitialState = {
     token: "",
-    isLoggedIn: "", 
+    isLoggedIn: false, 
 }
