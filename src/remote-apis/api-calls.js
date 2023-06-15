@@ -1,6 +1,7 @@
 import axios from "axios";
 import { AUTH_ACTION_TYPE } from "../auth/ActionType";
 import { toast } from "react-hot-toast";
+import { ACTION_TYPES } from "../reducer/ActionType";
 
 
 
@@ -55,27 +56,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
           });
         }
 
-      //homePageDispatch
-      /*export const doCreateAPost = (postText, token) =>{
-             console.log(1333, token)
-             console.log(1444, postText)
-            axios.post(
-              "/api/posts",
-              { postData: { content: postText } },
-              {
-                headers: { authorization: token },
-              })
-            .then(function (response) {
-               const { posts } = response.data
-               console.log(446, posts)
-             })
-             .catch(function (error) {
-            
-               console.log(error);
-             });
-           }*/
-
-           export const doCreateAPost = async (postText, token) =>{
+           export const doCreateAPost = async (postText, token, homePageDispatch) =>{
 
             try{
               
@@ -87,7 +68,10 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
                       authorization: token,
                     }}
                 )
-                console.log(1234, res)     
+               
+                const { posts } = res.data 
+                
+                homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: posts})
             }
             catch(e){
             console.error(e)
