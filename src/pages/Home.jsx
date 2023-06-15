@@ -9,6 +9,7 @@ export default function Home(){
     const { posts, homePageDispatch, token } = useContext(ApplicationContext)
     const [ postText, setPostText ] = useState("")
     
+    
     return(
         <div className="container">
             <nav className="white-bg">
@@ -76,7 +77,7 @@ export default function Home(){
                   <i className="bi bi-filetype-gif"></i>
                   <i className="bi bi-emoji-smile"></i>
                 </div>
-                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: postText}, doCreateAPost(postText, token ), setPostText(""))}}>Post</button>
+                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{doCreateAPost(postText, token, homePageDispatch, setPostText(""))}}>Post</button>
               </div>
             </div>
           </div>
