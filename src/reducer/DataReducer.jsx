@@ -11,9 +11,9 @@ export const DataReducer = (state, action) =>{
         return {...state, currentPosts: action.payload}
 
         case ACTION_TYPES.CREATE_A_POST : 
-
-        return {}
-
+        console.log(3344, action.payload)
+        return {...state, createAPost: action.payload}
+         
         case ACTION_TYPES.SEARCH_ACTION: 
         return {}
 
