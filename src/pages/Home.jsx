@@ -1,11 +1,14 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import "../stylesheets/style.css"
 import { ApplicationContext } from "../context/ApplicationContext"
+import { ACCESSOR_TYPES } from "@babel/types"
+import { ACTION_TYPES } from "../reducer/ActionType"
+import { doCreateAPost } from "../remote-apis/api-calls"
 
 export default function Home(){
-    const { posts, homePageDispatch } = useContext(ApplicationContext)
+    const { posts, homePageDispatch, token } = useContext(ApplicationContext)
+    const [ postText, setPostText ] = useState("")
     
-    console.log(333, posts)
     return(
         <div className="container">
             <nav className="white-bg">
@@ -64,14 +67,16 @@ export default function Home(){
           <div className="flex flex-row nowrap p-xs">
             <div className="grey-bg br-full width-xl height-xl p-xs mr-xs" style={{aspectRatio : '1'}}></div>
             <div className="w-full">
-              <textarea name="" id="" cols="50" rows="6" className="w-full lynx-white-bg p-s outline-transparent border-none" style={{resize : 'none'}} placeholder="Write something interesting..."></textarea>
+              <textarea name="make_post" id="make_my_post" value={postText} cols="50" rows="6" className="w-full lynx-white-bg p-s outline-transparent border-none"
+               style={{resize : 'none'}} placeholder="Write something interesting..." 
+               onChange={(e)=>{setPostText(e.target.value)}}></textarea>
               <div className="flex flex-space-between pt-s">
                 <div className="flex " style={{gap : '1rem'}}>
                   <i className="bi bi-card-image"></i>
                   <i className="bi bi-filetype-gif"></i>
                   <i className="bi bi-emoji-smile"></i>
                 </div>
-                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent">Post</button>
+                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: postText}, doCreateAPost(postText, token ), setPostText(""))}}>Post</button>
               </div>
             </div>
           </div>

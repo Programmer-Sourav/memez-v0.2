@@ -54,3 +54,47 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
             console.log(error);
           });
         }
+
+      //homePageDispatch
+      /*export const doCreateAPost = (postText, token) =>{
+             console.log(1333, token)
+             console.log(1444, postText)
+            axios.post(
+              "/api/posts",
+              { postData: { content: postText } },
+              {
+                headers: { authorization: token },
+              })
+            .then(function (response) {
+               const { posts } = response.data
+               console.log(446, posts)
+             })
+             .catch(function (error) {
+            
+               console.log(error);
+             });
+           }*/
+
+           export const doCreateAPost = async (postText, token) =>{
+
+            try{
+              
+                const res = await axios.post("/api/posts",
+            
+                      
+                    { postData: { content: postText } },
+                    {headers: {
+                      authorization: token,
+                    }}
+                )
+                console.log(1234, res)     
+            }
+            catch(e){
+            console.error(e)
+            }
+        
+        }
+
+
+
+        

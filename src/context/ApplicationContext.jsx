@@ -23,7 +23,7 @@ export function ApplicationProvider({children}){
       })
         .then(function (response) {
          const { posts } = response.data;
-       
+         console.log(556, posts.length)
 
         homePageDispatch(
             {type: ACTION_TYPES.INITIALIZE,
