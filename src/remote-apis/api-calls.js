@@ -131,7 +131,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
    }
 
    export const doSaveBookmark = async (postId, token, homePageDispatch) =>{
-      console.log("POST ID ", postId)
+    
     try{
       
         const res = await fetch(`/api/users/bookmark/${postId}`,{
@@ -158,7 +158,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
 }
 
 export const doRemoveBookmark = async (postId, token, homePageDispatch) =>{
-  console.log("POST ID ", postId)
+ 
 try{
   
     const res = await fetch(`/api/users/remove-bookmark/${postId}`,{
@@ -184,5 +184,29 @@ console.error(e)
 
 }
 
+export const doDownloadBookMark = async (token, homePageDispatch) =>{
+ 
+  try{
+    
+      const res = await fetch(`/api/users/bookmark`,{
+          method: 'GET',
+          
+          headers: {
+                authorization: token,
+              },
+            
+         
+      })
+      const { bookmarks } = await res.json();
+      
+      homePageDispatch({type: ACTION_TYPES.DOWNLOADED_BOOKMARK, payload: bookmarks})
+     
+      
+  }
+  catch(e){
+  console.error(e)
+  }
+  
+  }
 
         
