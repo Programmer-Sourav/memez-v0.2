@@ -4,12 +4,19 @@ import { ApplicationContext } from "../context/ApplicationContext"
 import { ACCESSOR_TYPES } from "@babel/types"
 import { ACTION_TYPES } from "../reducer/ActionType"
 import { doCreateAPost } from "../remote-apis/api-calls"
+import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/menu"
+import Modal from "../components/Modal"
+import { useNavigate } from "react-router"
 
 export default function Home(){
     const { posts, homePageDispatch, token } = useContext(ApplicationContext)
     const [ postText, setPostText ] = useState("")
+    const [show, setShow ] = useState(false)
     
-    
+    const navigate = useNavigate()
+    const goToPost = () =>{
+        navigate("/post")
+    }
     return(
         <div className="container">
             <nav className="white-bg">
@@ -46,10 +53,13 @@ export default function Home(){
                 <span>Profile</span>
               </a>
             </div>
-            <button className="mt-m p-s primary-bg white-color border-none outline-transparent new-post-btn">
+            <button className="mt-m p-s primary-bg white-color border-none outline-transparent new-post-btn" onClick={() => setShow(true)}>
               Create New Post
             </button>
+            <Modal show={show} onClose={() => setShow(false)}>
+            </Modal>
           </div>
+          
           
           <div className="flex flex-space-between flex-align-center">
             <div className="flex">
@@ -86,6 +96,7 @@ export default function Home(){
           <h3 className="">Latest Posts</h3>
           <i className="bi bi-sliders2-vertical"></i>
         </div>
+        
         {posts && posts.map(({_id, content, likes, username, createdAt, updatedAt})=>(
 
           
@@ -102,7 +113,17 @@ export default function Home(){
                     <span className="pl-xs">1 min</span>
                   </p>
                 </div>
-                <p className="">∙∙∙</p>
+                <Menu>
+                <MenuButton border="none" background="white">
+                <p>∙∙∙</p>
+                </MenuButton>
+                <MenuList>
+                <MenuItem height="24px" border="none" textStyle="bold" padding="4px">Edit Post</MenuItem>
+                <MenuDivider/>
+                <MenuItem height="24px" border="none" textStyle="bold" padding="4px">Delete Post</MenuItem>
+                </MenuList>
+                </Menu>
+                
               </div>
               <p className="pr-s pt-xs">
                 {content}

@@ -8,6 +8,7 @@ import Signup from "./pages/Signup"
 import MockMan from "mockman-js"
 import { Toaster } from "react-hot-toast";
 import { RequiresAuth } from './auth/RequiresAuth';
+import PostPage from './pages/PostPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/login' element= {<Login/>}/>
           <Route path="/signup" element= {<Signup/>}/>
           <Route path="/home" element={<RequiresAuth><Home/></RequiresAuth>}/>
+          {/* <Route path='/post' element= {<PostPage/>}/> */}
           <Route path='/mockman' element={<MockMan/>}/>
         </Routes>
     </div>
