@@ -3,13 +3,14 @@ import "../stylesheets/style.css"
 import { ApplicationContext } from "../context/ApplicationContext"
 import { ACCESSOR_TYPES } from "@babel/types"
 import { ACTION_TYPES } from "../reducer/ActionType"
-import { doCreateAPost, doDisLikeAPost, doLikeAPost } from "../remote-apis/api-calls"
+import { doCreateAPost, doDisLikeAPost, doLikeAPost, doRemoveBookmark, doSaveBookmark } from "../remote-apis/api-calls"
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/menu"
 import Modal from "../components/Modal"
 import { useNavigate } from "react-router"
+import { Link } from "react-router-dom"
 
 export default function Home(){
-    const { posts, homePageDispatch, token, loginStatus, authenticatedUser } = useContext(ApplicationContext)
+    const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked } = useContext(ApplicationContext)
     const [ postText, setPostText ] = useState("")
     const [show, setShow ] = useState(false)
     
@@ -24,12 +25,25 @@ export default function Home(){
 
     const disLikeThePost = (postId, token, homePageDispatch) =>{
       doDisLikeAPost(postId, token, homePageDispatch )
-}
+     }
 
     const checkIfPostIsLiked = (postId) =>{ 
      const particularPost = posts.find((postItem)=>postItem._id===postId) 
      const likedItem = particularPost.likes.likedBy.filter((user) => user._id === authenticatedUser._id).length>0
      return likedItem
+    }
+
+    const checkIfPostIsBookmarked = (postId) =>{ 
+      const isBookMarked = bookmarked.filter((currentPost) => currentPost._id === postId).length>0
+      return isBookMarked
+     }
+
+    const saveBookMark = (postId, token, homePageDispatch) =>{
+       doSaveBookmark(postId, token, homePageDispatch)
+    }
+
+    const removeBookMark = (postId, token, homePageDispatch) =>{
+      doRemoveBookmark(postId, token, homePageDispatch)
     }
     return(
         <div className="container">
@@ -56,10 +70,10 @@ export default function Home(){
               </a>
             </div>
             <div className="pt-s black-color fw-semibold">
-              <a href="../bookmarks/bookmark.html">
+              <Link to="/bookmark">
                 <i className="bi bi-bookmark"></i> &nbsp;
                 <span>Bookmark</span>
-              </a>
+              </Link>
             </div>
             <div className="pt-s black-color fw-semibold">
               <a href="../profile/profile.html">
@@ -149,7 +163,11 @@ export default function Home(){
                  }
                 <i className="bi bi-chat-left"></i>
                 <i className="bi bi-share"></i>
-                <i className="bi bi-bookmark-fill"></i>
+                {/* <i className="bi bi-bookmark-fill" onClick={()=>saveBookMark(_id, token, homePageDispatch)}></i> */}
+                {loginStatus && checkIfPostIsBookmarked(_id) ?
+                 <i className="bi bi-bookmark-fill" style={{color: "orange"}} onClick={()=>removeBookMark(_id, token, homePageDispatch)}></i>:
+                <i className="bi bi-bookmark" onClick={()=>saveBookMark(_id, token, homePageDispatch)}></i> 
+                 }
               </div>
             </div>
           </div>

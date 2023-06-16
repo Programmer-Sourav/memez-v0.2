@@ -36,7 +36,7 @@ export function ApplicationProvider({children}){
     useEffect(()=>{setTimeout(() => {getPosts()}, 1000)},[])
 
     return(
-        <ApplicationContext.Provider value ={{posts: state.currentPosts, homePageDispatch, token: authState.token, loginStatus: authState.isLoggedIn, authDispatch, authenticatedUser: authState.authenticatedUser, liked: state.liked}} > {children}</ApplicationContext.Provider>
+        <ApplicationContext.Provider value ={{posts: state.currentPosts, homePageDispatch, token: authState.token, loginStatus: authState.isLoggedIn, authDispatch, authenticatedUser: authState.authenticatedUser, liked: state.liked, bookmarked: state.bookmarked}} > {children}</ApplicationContext.Provider>
     )
 
 }

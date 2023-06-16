@@ -17,6 +17,15 @@ export const DataReducer = (state, action) =>{
         
         case ACTION_TYPES.DISLIKE_A_POST: 
         return{ ...state, currentPosts: action.payload}
+
+        case ACTION_TYPES.BOOKMARK: 
+        
+        return {...state, bookmarked: action.payload}
+
+        case ACTION_TYPES.REMOVE_BOOKMARK: 
+
+        console.log(666, {...state, bookmarked: action.payload})
+        return {...state, bookmarked: action.payload}
          
         case ACTION_TYPES.SEARCH_ACTION: 
         return {}
