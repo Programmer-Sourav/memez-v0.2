@@ -68,6 +68,7 @@ export const loginHandler = function (schema, request) {
   const { username, password } = JSON.parse(request.requestBody);
   try {
     const foundUser = schema.users.findBy({ username: username });
+    console.log(444, foundUser)
     if (!foundUser) {
       return new Response(
         404,

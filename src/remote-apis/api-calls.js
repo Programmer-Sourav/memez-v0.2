@@ -6,18 +6,17 @@ import { ACTION_TYPES } from "../reducer/ActionType";
 
 
 export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
-    console.log(userEmail)
-    console.log(userPassword)
-
+   
     axios.post('/api/auth/login', {
         username: userEmail,
         password: userPassword
       })
       .then(function (response) {
-        const { encodedToken} = response.data
+        const {foundUser, encodedToken} = response.data
+       
             localStorage.setItem("encodedToken", encodedToken)
             if(localStorage.getItem("encodedToken")){
-                authDispatch({type: AUTH_ACTION_TYPE.ACTION_SIGN_IN, payload: {token: localStorage.getItem("encodedToken"), isLoggedIn: true}})
+                authDispatch({type: AUTH_ACTION_TYPE.ACTION_SIGN_IN, payload: {token: localStorage.getItem("encodedToken"), isLoggedIn: true, authenticatedUser: foundUser}})
                 toast.success("Successfully Logged In")
             }
       })
@@ -31,21 +30,20 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
   
 
     export const doSignUpCall = (userEmail, userPassword, userFirstName, userLastName, authDispatch) =>{
-        console.log(userEmail)
-        console.log(userPassword)
-        
+      
         axios.post('/api/auth/signup', { 
-            firstName: userFirstName,
-            lastName: userLastName,
             username: userEmail,
             password: userPassword,
+            firstName: userFirstName,
+            lastName: userLastName
           })
           .then(function (response) {
-            const { encodedToken} = response.data
-            localStorage.setItem("encodedToken", encodedToken)
+            const {createdUser, encodedToken} = response.data
 
+            localStorage.setItem("encodedToken", encodedToken)
+            
             if(localStorage.getItem("encodedToken")){
-                authDispatch({type: AUTH_ACTION_TYPE.ACTION_SIGN_UP, payload: {token: localStorage.getItem("encodedToken"), isLoggedIn: true}})
+                authDispatch({type: AUTH_ACTION_TYPE.ACTION_SIGN_UP, payload: {token: localStorage.getItem("encodedToken"), isLoggedIn: true, authenticatedUser: createdUser}})
                 toast.success("Successfully Registered.")
             }
           })
@@ -78,6 +76,59 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
             }
         
         }
+
+      export const doLikeAPost = async (postId, token, homePageDispatch) =>{
+       
+        try{
+          
+            const res = await fetch(`/api/posts/like/${postId}`,{
+                method: 'POST',
+                
+                headers: {
+                      authorization: token,
+                    },
+                  
+               
+            })
+            
+           
+            const { posts } = await res.json();
+            
+            homePageDispatch({type: ACTION_TYPES.LIKE_A_POST, payload: posts})
+           
+            
+        }
+        catch(e){
+        toast.error("Oops! Some Error Occured")
+        }
+    
+    }
+    export const doDisLikeAPost = async (postId, token, homePageDispatch) =>{
+      
+       try{
+         
+           const res = await fetch(`/api/posts/dislike/${postId}`,{
+               method: 'POST',
+               
+               headers: {
+                     authorization: token,
+                   },
+                 
+              
+           })
+           
+          
+           const { posts } = await res.json();
+           
+           homePageDispatch({type: ACTION_TYPES.DISLIKE_A_POST, payload: posts})
+          
+           
+       }
+       catch(e){
+       console.error(e)
+       }
+   
+   }
 
 
 

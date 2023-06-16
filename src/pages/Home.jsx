@@ -3,19 +3,33 @@ import "../stylesheets/style.css"
 import { ApplicationContext } from "../context/ApplicationContext"
 import { ACCESSOR_TYPES } from "@babel/types"
 import { ACTION_TYPES } from "../reducer/ActionType"
-import { doCreateAPost } from "../remote-apis/api-calls"
+import { doCreateAPost, doDisLikeAPost, doLikeAPost } from "../remote-apis/api-calls"
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/menu"
 import Modal from "../components/Modal"
 import { useNavigate } from "react-router"
 
 export default function Home(){
-    const { posts, homePageDispatch, token } = useContext(ApplicationContext)
+    const { posts, homePageDispatch, token, loginStatus, authenticatedUser } = useContext(ApplicationContext)
     const [ postText, setPostText ] = useState("")
     const [show, setShow ] = useState(false)
     
     const navigate = useNavigate()
     const goToPost = () =>{
         navigate("/post")
+    }
+
+    const likeThePost = (postId, token, homePageDispatch) =>{
+          doLikeAPost(postId, token, homePageDispatch )
+    }
+
+    const disLikeThePost = (postId, token, homePageDispatch) =>{
+      doDisLikeAPost(postId, token, homePageDispatch )
+}
+
+    const checkIfPostIsLiked = (postId) =>{ 
+     const particularPost = posts.find((postItem)=>postItem._id===postId) 
+     const likedItem = particularPost.likes.likedBy.filter((user) => user._id === authenticatedUser._id).length>0
+     return likedItem
     }
     return(
         <div className="container">
@@ -129,7 +143,10 @@ export default function Home(){
                 {content}
               </p>
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
-                <i className="bi bi-heart"></i>
+                 {loginStatus && checkIfPostIsLiked(_id) ?
+                 <i className="bi bi-heart-fill" style={{color: "red"}} onClick={()=>disLikeThePost(_id, token, homePageDispatch)}></i>:
+                <i className="bi bi-heart" onClick={()=>likeThePost(_id, token, homePageDispatch)}></i> 
+                 }
                 <i className="bi bi-chat-left"></i>
                 <i className="bi bi-share"></i>
                 <i className="bi bi-bookmark-fill"></i>

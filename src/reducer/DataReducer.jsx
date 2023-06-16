@@ -7,11 +7,16 @@ export const DataReducer = (state, action) =>{
     switch(action.type){
 
         case ACTION_TYPES.INITIALIZE: 
-        
         return {...state, currentPosts: action.payload}
 
         case ACTION_TYPES.CREATE_A_POST : 
         return {...state, currentPosts: action.payload}
+
+        case ACTION_TYPES.LIKE_A_POST:
+        return {...state, currentPosts: action.payload}  
+        
+        case ACTION_TYPES.DISLIKE_A_POST: 
+        return{ ...state, currentPosts: action.payload}
          
         case ACTION_TYPES.SEARCH_ACTION: 
         return {}
