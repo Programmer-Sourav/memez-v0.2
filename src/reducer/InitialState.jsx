@@ -4,6 +4,7 @@ export const initialState = {
     liked: [], 
     bookmarked: [],
     createAPost: "", 
-    bookmarks: []
-
+    bookmarks: [], 
+    users: [], 
+    following: []
 }

@@ -197,6 +197,8 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
             
          
       })
+      
+     
       const { bookmarks } = await res.json();
       
       homePageDispatch({type: ACTION_TYPES.DOWNLOADED_BOOKMARK, payload: bookmarks})
@@ -209,4 +211,74 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
   
   }
 
+  export const doDownlodUsers = async (token, homePageDispatch) =>{
+ 
+    try{
+      
+        const res = await fetch(`/api/users`,{
+            method: 'GET',
+            
+            headers: {
+                  authorization: token,
+                },
+              
+           
+        })
+        
+       
+        const { users } = await res.json();
+        
+        homePageDispatch({type: ACTION_TYPES.USERS, payload: users})
+       
+        
+    }
+    catch(e){
+    console.error(e)
+    }
+    
+    }
+    
+    export const doStartFollowing = async (userId, token, homePageDispatch) =>{
+      try{
+        
+          const res = await fetch(`/api/users/follow/${userId}`,{
+              method: 'POST',
+              
+              headers: {
+                    authorization: token,
+                  },
+                
+             
+          })
+          const { user } = await res.json();
+         homePageDispatch({type: ACTION_TYPES.FOLLOW_USER, payload: user.following})
+      }
+      catch(e){
+      console.error(e)
+      }
+   }
+
+   export const doStartUnFollowing = async (userId, token, homePageDispatch) =>{
+    try{
+      
+        const res = await fetch(`/api/users/unfollow/${userId}`,{
+            method: 'POST',
+            
+            headers: {
+                  authorization: token,
+                },
+              
+           
+        })
+        const { user, followUser } = await res.json();
+       
+       homePageDispatch({type: ACTION_TYPES.FOLLOW_USER, payload: user.following})
+       
+        
+    }
+    catch(e){
+    console.error(e)
+    }
+    
+    }
         

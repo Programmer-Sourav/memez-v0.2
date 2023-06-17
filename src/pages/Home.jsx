@@ -1,24 +1,28 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import "../stylesheets/style.css"
 import { ApplicationContext } from "../context/ApplicationContext"
 import { ACCESSOR_TYPES } from "@babel/types"
 import { ACTION_TYPES } from "../reducer/ActionType"
-import { doCreateAPost, doDisLikeAPost, doLikeAPost, doRemoveBookmark, doSaveBookmark } from "../remote-apis/api-calls"
+import { doCreateAPost, doDisLikeAPost, doDownlodUsers, doLikeAPost, doRemoveBookmark, doSaveBookmark, doStartFollowing, doStartUnFollowing } from "../remote-apis/api-calls"
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/menu"
 import Modal from "../components/Modal"
 import { useNavigate } from "react-router"
 import { Link } from "react-router-dom"
 
 export default function Home(){
-    const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked } = useContext(ApplicationContext)
+    const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked, users, following } = useContext(ApplicationContext)
     const [ postText, setPostText ] = useState("")
     const [show, setShow ] = useState(false)
-    
+   
     const navigate = useNavigate()
     const goToPost = () =>{
         navigate("/post")
     }
 
+    const organicUsers = () =>{
+       const updated = users.filter((user)=>user._id!==authenticatedUser._id)
+       return updated;
+    }
     const likeThePost = (postId, token, homePageDispatch) =>{
           doLikeAPost(postId, token, homePageDispatch )
     }
@@ -45,6 +49,17 @@ export default function Home(){
     const removeBookMark = (postId, token, homePageDispatch) =>{
       doRemoveBookmark(postId, token, homePageDispatch)
     }
+
+    const startFollowing = (followingId, token) =>{
+      doStartFollowing(followingId, token, homePageDispatch)
+    }
+
+    const startUnFollowing = (followingId, token) =>{
+      doStartUnFollowing(followingId, token, homePageDispatch)
+    }
+
+    useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
+
     return(
         <div className="container">
             <nav className="white-bg">
@@ -184,62 +199,24 @@ export default function Home(){
             <div>Who to Follow?</div>
             <div className="primary-color">Show More</div>
           </div>
+          {organicUsers().map((user)=>(
           <div className="flex p-s flex-space-between flex-align-center">
             <div className="grey-bg br-full width-xl height-xl"></div>
             <div className="flex flex-column">
               <a href="../profile/profile1.html">
-                <div className="fw-bold">Tanay Pratap</div>
-                <div className="fw-light grey-color">@tanaypratap</div>
+                <div className="fw-bold">{user.firstName}</div>
+                <div className="fw-light grey-color">@{user.username}</div>
               </a>
             </div>
             <div className="primary-color fw-bold">
-              <a href="../profile/profile2.html">
+             { following.find((userItem)=>userItem._id===user._id) ? <button onClick={()=>{startUnFollowing(user._id, token)}} style={{color:"white", background: "green", border: "none", padding: "4px"}}>
+                Following <i className="bi bi-check-lg"></i>
+              </button> : <button onClick={()=>{startFollowing(user._id, token)}} style={{color:"white", background: "orange", border: "none", padding: "4px"}}>
                 Follow <i className="bi bi-plus-lg"></i>
-              </a>
+              </button>}
             </div>
           </div>
-          <div className="flex p-s flex-space-between flex-align-center">
-            <div className="grey-bg br-full width-xl height-xl"></div>
-            <div className="flex flex-column">
-              <a href="../profile/profile1.html">
-                <div className="fw-bold">Tanay Pratap</div>
-                <div className="fw-light grey-color">@tanaypratap</div>
-              </a>
-            </div>
-            <div className="primary-color fw-bold">
-              <a href="../profile/profile2.html">
-                Follow <i className="bi bi-plus-lg"></i>
-              </a>
-            </div>
-          </div>
-          <div className="flex p-s flex-space-between flex-align-center">
-            <div className="grey-bg br-full width-xl height-xl"></div>
-            <div className="flex flex-column">
-              <a href="../profile/profile1.html">
-                <div className="fw-bold">Tanay Pratap</div>
-                <div className="fw-light grey-color">@tanaypratap</div>
-              </a>
-            </div>
-            <div className="primary-color fw-bold">
-              <a href="../profile/profile2.html">
-                Follow <i className="bi bi-plus-lg"></i>
-              </a>
-            </div>
-          </div>
-          <div className="flex p-s flex-space-between flex-align-center">
-            <div className="grey-bg br-full width-xl height-xl"></div>
-            <div className="flex flex-column">
-              <a href="../profile/profile1.html">
-                <div className="fw-bold">Tanay Pratap</div>
-                <div className="fw-light grey-color">@tanaypratap</div>
-              </a>
-            </div>
-            <div className="primary-color fw-bold">
-              <a href="../profile/profile2.html">
-                Follow <i className="bi bi-plus-lg"></i>
-              </a>
-            </div>
-          </div>
+          ))}
         </div>
       </aside>
         </div>
