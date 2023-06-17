@@ -38,7 +38,8 @@ export function ApplicationProvider({children}){
     return(
         <ApplicationContext.Provider value ={{posts: state.currentPosts, homePageDispatch, token: authState.token,
              loginStatus: authState.isLoggedIn, authDispatch, authenticatedUser: authState.authenticatedUser, 
-             liked: state.liked, bookmarked: state.bookmarked, bookmarks: state.bookmarks}} > {children}</ApplicationContext.Provider>
+             liked: state.liked, bookmarked: state.bookmarked, bookmarks: state.bookmarks, users: state.users, 
+            following: state.following}} > {children}</ApplicationContext.Provider>
     )
 
 }
