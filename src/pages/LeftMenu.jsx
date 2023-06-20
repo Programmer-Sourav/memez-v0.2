@@ -1,9 +1,30 @@
+import { useContext, useState } from "react";
 import "../stylesheets/base.css"
-
+//import Modal from "../components/Modal";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  border
+} from "@chakra-ui/react";
+import {  ChakraProvider } from "@chakra-ui/react";
+import { doCreateAPost } from "../remote-apis/api-calls";
+import { ApplicationContext } from "../context/ApplicationContext";
 
 export default function LeftMenu(){
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [postText, setPostText] = useState("This is just a default text");
+  const { token, homePageDispatch } = useContext(ApplicationContext)
+
+
     return(
-         <div className="container">
+      <div className="container">
         <aside className="p-s pt-xl pl-xxl ml-m sidebar1">
         <div className="flex flex-column flex-space-between sidebar">
           <div>
@@ -31,10 +52,57 @@ export default function LeftMenu(){
                 <span>Profile</span>
               </a>
             </div>
-            <button className="mt-m p-s primary-bg white-color border-none outline-transparent new-post-btn">
+            <button className="mt-m p-s primary-bg white-color border-none outline-transparent new-post-btn" onClick={onOpen}>
               Create New Post
             </button>
+      <ChakraProvider>   
+      <Modal isOpen={isOpen} onClose={onClose}>
+      {console.log("isOpen", isOpen)}
+        <ModalOverlay>
+          <ModalContent>
+            <ModalHeader>Modal Title</ModalHeader>
+            <ModalCloseButton />
 
+            <ModalBody>
+              
+              <input
+                type="text"
+                value={postText}
+                style={{
+                  border: "1px solid black",
+                  height: "128px",
+                  width: "392px"
+                }}
+                onChange={(e) => {
+                  setPostText(e.target.value);
+                }}
+              />
+              <button
+                style={{
+                  background: "green",
+                  padding: "4px",
+                  color: "white",
+                  margin: "4px"
+                }}
+               
+                  onClick={()=>{doCreateAPost(postText, token, homePageDispatch, setPostText(""))}}
+              
+              >
+                {" "}
+                Post{" "}
+              </button>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="blue"  mr={3} onClick={onClose}>
+                Close
+              </Button>
+              <Button variant="ghost">Secondary Action</Button>
+            </ModalFooter>
+          </ModalContent>
+        </ModalOverlay>
+      </Modal>
+      </ChakraProvider>   
            </div>
            <div className="flex flex-space-between flex-align-center">
             <div className="flex">

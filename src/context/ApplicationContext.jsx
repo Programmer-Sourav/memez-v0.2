@@ -6,6 +6,7 @@ import { ACTION_TYPES } from "../reducer/ActionType";
 import axios from "axios";
 import { AuthReducer } from "../auth/AuthReducer";
 import { authInitialState } from "../auth/InitialState";
+import { useState } from "react";
 
 export const ApplicationContext = createContext()
 
@@ -15,6 +16,7 @@ export function ApplicationProvider({children}){
     //piping 
     const [state, homePageDispatch ] = useReducer(DataReducer, initialState)
     const [ authState, authDispatch ] = useReducer(AuthReducer, authInitialState)
+    const [ postText, setPostText ] = useState("")
    
     const getPosts = () =>{
     axios({
@@ -39,7 +41,7 @@ export function ApplicationProvider({children}){
         <ApplicationContext.Provider value ={{posts: state.currentPosts, homePageDispatch, token: authState.token,
              loginStatus: authState.isLoggedIn, authDispatch, authenticatedUser: authState.authenticatedUser, 
              liked: state.liked, bookmarked: state.bookmarked, bookmarks: state.bookmarks, users: state.users, 
-            following: state.following}} > {children}</ApplicationContext.Provider>
+            following: state.following, postText, setPostText}} > {children}</ApplicationContext.Provider>
     )
 
 }
