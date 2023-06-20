@@ -5,16 +5,27 @@ import { ACCESSOR_TYPES } from "@babel/types"
 import { ACTION_TYPES } from "../reducer/ActionType"
 import { doCreateAPost, doDisLikeAPost, doLikeAPost } from "../remote-apis/api-calls"
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/menu"
-import Modal from "../components/Modal"
 import { useNavigate } from "react-router"
-
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  border
+} from "@chakra-ui/react";
+import {  ChakraProvider } from "@chakra-ui/react";
 
   export default function MainView(){
 
     const { posts, homePageDispatch, token, loginStatus, authenticatedUser } = useContext(ApplicationContext)
     const [ postText, setPostText ] = useState("")
     const [show, setShow ] = useState(false)
-
+    const { isOpen, onOpen, onClose } = useDisclosure();
     
     const likeThePost = (postId, token, homePageDispatch) =>{
         doLikeAPost(postId, token, homePageDispatch )
@@ -78,7 +89,7 @@ import { useNavigate } from "react-router"
                 <p>∙∙∙</p>
                 </MenuButton>
                 <MenuList>
-                <MenuItem height="24px" border="none" textStyle="bold" padding="4px">Edit Post</MenuItem>
+                <MenuItem height="24px" border="none" textStyle="bold" padding="4px" onClick={onOpen}>Edit Post</MenuItem>
                 <MenuDivider/>
                 <MenuItem height="24px" border="none" textStyle="bold" padding="4px">Delete Post</MenuItem>
                 </MenuList>
@@ -99,6 +110,7 @@ import { useNavigate } from "react-router"
               </div>
             </div>
           </div>
+           
         </div>
         ))}
       </main>

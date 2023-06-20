@@ -5,16 +5,33 @@ import { ACCESSOR_TYPES } from "@babel/types"
 import { ACTION_TYPES } from "../reducer/ActionType"
 import { doCreateAPost, doDisLikeAPost, doDownlodUsers, doLikeAPost, doRemoveBookmark, doSaveBookmark, doStartFollowing, doStartUnFollowing } from "../remote-apis/api-calls"
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/menu"
-import Modal from "../components/Modal"
+// import Modal from "../components/Modal"
 import { useNavigate } from "react-router"
 import { Link } from "react-router-dom"
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  border
+} from "@chakra-ui/react";
+import {  ChakraProvider } from "@chakra-ui/react";
 
 export default function Home(){
-    const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked, users, following } = useContext(ApplicationContext)
-    const [ postText, setPostText ] = useState("")
+    const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked, users, following, postText, setPostText } = useContext(ApplicationContext)
     const [show, setShow ] = useState(false)
+    
    
+   const { isOpen, onOpen, onClose } = useDisclosure();
+
     const navigate = useNavigate()
+    let updatedProducts = [...posts]
+    console.log(445, updatedProducts)
     const goToPost = () =>{
         navigate("/post")
     }
@@ -58,6 +75,24 @@ export default function Home(){
       doStartUnFollowing(followingId, token, homePageDispatch)
     }
 
+    const getMeTheLatest = () =>{
+     const updated = updatedProducts.sort((p1, p2)=>new Date(p1.updatedAt).toDateString()>new Date(p2.updatedAt).toDateString())
+     homePageDispatch(
+      {type: ACTION_TYPES.INITIALIZE,
+       payload: updated
+      }
+      )
+    }
+
+    const getMeTheTrending = () =>{
+     const updated = updatedProducts.sort((p1, p2)=>p2.likes.likeCount>p1.likes.likeCount)
+     homePageDispatch(
+      {type: ACTION_TYPES.INITIALIZE,
+       payload: updated
+      }
+      )
+    }
+
     useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
 
     return(
@@ -96,11 +131,56 @@ export default function Home(){
                 <span>Profile</span>
               </a>
             </div>
-            <button className="mt-m p-s primary-bg white-color border-none outline-transparent new-post-btn" onClick={() => setShow(true)}>
+            <button className="mt-m p-s primary-bg white-color border-none outline-transparent new-post-btn" onClick={onOpen}>
               Create New Post
             </button>
-            <Modal show={show} onClose={() => setShow(false)}>
-            </Modal>
+             <ChakraProvider>   
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay>
+          <ModalContent>
+            <ModalHeader>Modal Title</ModalHeader>
+            <ModalCloseButton />
+
+            <ModalBody>
+              
+              <input
+                type="text"
+                value={postText}
+                style={{
+                  border: "1px solid black",
+                  height: "128px",
+                  width: "392px"
+                }}
+                onChange={(e) => {
+                  setPostText(e.target.value);
+                }}
+              />
+              <button
+                style={{
+                  background: "green",
+                  padding: "4px",
+                  color: "white",
+                  margin: "4px"
+                }}
+               
+              onClick={()=>{doCreateAPost(postText, token, homePageDispatch, setPostText(""))}}
+                
+              >
+                {" "}
+                Post{" "}
+              </button>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="blue"  mr={3} onClick={onClose}>
+                Close
+              </Button>
+              <Button variant="ghost">Secondary Action</Button>
+            </ModalFooter>
+          </ModalContent>
+        </ModalOverlay>
+      </Modal>
+      </ChakraProvider>  
           </div>
           
           
@@ -140,7 +220,7 @@ export default function Home(){
           <i className="bi bi-sliders2-vertical"></i>
         </div>
         
-        {posts && posts.map(({_id, content, likes, username, createdAt, updatedAt})=>(
+        {updatedProducts && updatedProducts.map(({_id, content, likes, username, createdAt, updatedAt})=>(
 
           
         
@@ -172,15 +252,16 @@ export default function Home(){
                 {content}
               </p>
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
+              
                  {loginStatus && checkIfPostIsLiked(_id) ?
                  <i className="bi bi-heart-fill" style={{color: "red"}} onClick={()=>disLikeThePost(_id, token, homePageDispatch)}></i>:
                 <i className="bi bi-heart" onClick={()=>likeThePost(_id, token, homePageDispatch)}></i> 
-                 }
+                 }{likes.likeCount}
                 <i className="bi bi-chat-left"></i>
                 <i className="bi bi-share"></i>
                 {/* <i className="bi bi-bookmark-fill" onClick={()=>saveBookMark(_id, token, homePageDispatch)}></i> */}
                 {loginStatus && checkIfPostIsBookmarked(_id) ?
-                 <i className="bi bi-bookmark-fill" style={{color: "orange"}} onClick={()=>removeBookMark(_id, token, homePageDispatch)}></i>:
+                <i className="bi bi-bookmark-fill" style={{color: "orange"}} onClick={()=>removeBookMark(_id, token, homePageDispatch)}></i>:
                 <i className="bi bi-bookmark" onClick={()=>saveBookMark(_id, token, homePageDispatch)}></i> 
                  }
               </div>
@@ -190,6 +271,8 @@ export default function Home(){
         ))}
       </main>
       <aside className="mt-xl mr-xxl sidebar2">
+      <button onClick={()=>{getMeTheLatest()}} style={{background: "green", height:"40px", width:"128px", color: "white", margin:"8px"}}>Latest</button>
+          <button onClick={()=>{getMeTheTrending()}} style={{background: "orange", height:"40px", width:"128px", color: "white", margin:"8px"}}>Trending</button>
         <div className="white-bg mb-m pl-s border flex flex-row flex-center nowrap">
           <i className="bi bi-search"></i>
           <input type="search" name="search-bar" className="search-bar border-none outline-transparent p-s width-16" placeholder="Search Posts, People, Anything"/>

@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@chakra-ui/menu": "^2.1.15",
+    "@chakra-ui/modal": "^2.2.12",
+    "@chakra-ui/react": "^2.7.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

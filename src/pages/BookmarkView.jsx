@@ -5,15 +5,31 @@ import { ACCESSOR_TYPES } from "@babel/types"
 import { ACTION_TYPES } from "../reducer/ActionType"
 import { doCreateAPost, doDisLikeAPost, doLikeAPost } from "../remote-apis/api-calls"
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/menu"
-import Modal from "../components/Modal"
 import { useNavigate } from "react-router"
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  border
+} from "@chakra-ui/react";
+import {  ChakraProvider } from "@chakra-ui/react";
+import { OpenModal } from "../components/OpenModal"
 
 
   export default function BookmarkView({bookmarks}){
 
-    const {  homePageDispatch, token, loginStatus, authenticatedUser } = useContext(ApplicationContext)
-    const [ postText, setPostText ] = useState("")
-    const [show, setShow ] = useState(false)
+    const {  homePageDispatch, token, loginStatus, authenticatedUser, postText, setPostText } = useContext(ApplicationContext)
+    console.log("post ", postText)
+    // const [ editText, setEditText ] = useState(postText) 
+    // const [show, setShow ] = useState(false)
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
   console.log(4545, bookmarks.length)  
 
@@ -36,19 +52,17 @@ import { useNavigate } from "react-router"
           <i className="bi bi-sliders2-vertical"></i>
         </div>
         
-        {bookmarks && bookmarks.map(({_id, content, likes, username, createdAt, updatedAt})=>(
-
-          
+        {bookmarks && bookmarks.map((bookMark)=>(
         
-        <div className="white-bg mr-xxl p-xs mt-s" key={_id}>
+        <div className="white-bg mr-xxl p-xs mt-s" key={bookMark._id}>
           <div className="flex flex-row nowrap p-xs">
             <div className="grey-bg br-full width-xl height-xl p-xs mr-xs" style={{aspectRatio : '1'}}></div>
             <div>
               <div className="flex flex-row flex-align-center flex-space-between">
                 <div className="flex flex-row">
-                  <p className="fw-semibold">{username}</p>
+                  <p className="fw-semibold">{bookMark.username}</p>
                   <p className="grey-color pl-xs">
-                    @{username} <span className="pl-xs">•</span>
+                    @{bookMark.username} <span className="pl-xs">•</span>
                     <span className="pl-xs">1 min</span>
                   </p>
                 </div>
@@ -57,7 +71,7 @@ import { useNavigate } from "react-router"
                 <p>∙∙∙</p>
                 </MenuButton>
                 <MenuList>
-                <MenuItem height="24px" border="none" textStyle="bold" padding="4px">Edit Post</MenuItem>
+               <ChakraProvider><OpenModal data={bookMark}/></ChakraProvider> 
                 <MenuDivider/>
                 <MenuItem height="24px" border="none" textStyle="bold" padding="4px">Delete Post</MenuItem>
                 </MenuList>
@@ -65,11 +79,11 @@ import { useNavigate } from "react-router"
                 
               </div>
               <p className="pr-s pt-xs">
-                {content}
+                {bookMark.content}
               </p>
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
-                 {loginStatus && checkIfPostIsLiked(_id) ?
-                 <i className="bi bi-heart-fill" style={{color: "red"}} onClick={()=>disLikeThePost(_id, token, homePageDispatch)}></i>:
+                 {loginStatus && checkIfPostIsLiked(bookMark._id) ?
+                 <i className="bi bi-heart-fill" style={{color: "red"}} onClick={()=>disLikeThePost(bookMark._id, token, homePageDispatch)}></i>:
                 <i className="bi bi-heart" ></i> 
                  }
                 <i className="bi bi-chat-left"></i>

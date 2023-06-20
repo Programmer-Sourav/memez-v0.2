@@ -14,6 +14,7 @@ import LeftMenu from './pages/LeftMenu';
 import MainView from './pages/MainView';
 import RightMenu from './pages/RightMenu';
 import Bookmark from './pages/Bookmark';
+import {  ChakraProvider } from "@chakra-ui/react";
 
 function App() {
   return (
@@ -26,12 +27,13 @@ function App() {
           <Route path="/home" element={<RequiresAuth><Home/></RequiresAuth>}/>
           {/* <Route path='/post' element= {<PostPage/>}/> */}
           <Route path='/mockman' element={<MockMan/>}/>
-          <Route path='/base' element={<LeftMenu/>}/>
+          {/* <Route path='/base' element={<LeftMenu/>}/> */}
           <Route path='/navigation' element={<Navigation/>}/>
           <Route path='/main' element={<MainView/>}/>
           <Route path='/right' element= {<RightMenu/>}/>
           <Route path='/bookmark' element={<Bookmark/>}/>
         </Routes>
+        {/* <ChakraProvider><LeftMenu/></ChakraProvider> */}
     </div>
   );
 }

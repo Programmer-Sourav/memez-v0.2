@@ -77,6 +77,29 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
         
         }
 
+        export const doEditAPost  = async (postId, postText, token, homePageDispatch) =>{
+        
+          try{
+            
+              const res = await axios.post(`/api/posts/edit/${postId}`,
+          
+                    
+                  { postData: { content: postText } },
+                  {headers: {
+                    authorization: token,
+                  }}
+              )
+             
+              const { posts } = res.data 
+              console.log(4445, posts)
+              homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: posts})
+          }
+          catch(e){
+          console.error(e)
+          }
+      
+      }
+
       export const doLikeAPost = async (postId, token, homePageDispatch) =>{
        
         try{
@@ -146,7 +169,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
         
        
         const { bookmarks } = await res.json();
-        console.log(556, bookmarks)
+       // console.log(556, bookmarks)
         homePageDispatch({type: ACTION_TYPES.BOOKMARK, payload: bookmarks})
        
         
@@ -173,7 +196,7 @@ try{
     
    
     const { bookmarks } = await res.json();
-    console.log(556, bookmarks)
+    //console.log(556, bookmarks)
     homePageDispatch({type: ACTION_TYPES.REMOVE_BOOKMARK, payload: bookmarks})
    
     
@@ -246,9 +269,7 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
               
               headers: {
                     authorization: token,
-                  },
-                
-             
+                  },      
           })
           const { user } = await res.json();
          homePageDispatch({type: ACTION_TYPES.FOLLOW_USER, payload: user.following})
