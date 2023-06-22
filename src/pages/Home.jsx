@@ -21,6 +21,7 @@ import {
   border
 } from "@chakra-ui/react";
 import {  ChakraProvider } from "@chakra-ui/react";
+import { toast } from "react-hot-toast"
 
 export default function Home(){
     const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked, users, following, postText, setPostText } = useContext(ApplicationContext)
@@ -31,10 +32,12 @@ export default function Home(){
 
     const navigate = useNavigate()
     let updatedProducts = [...posts]
-    console.log(445, updatedProducts)
+    
     const goToPost = () =>{
         navigate("/post")
     }
+
+  
 
     const organicUsers = () =>{
        const updated = users.filter((user)=>user._id!==authenticatedUser._id)
@@ -93,10 +96,15 @@ export default function Home(){
       )
     }
 
-    const deleteThisPostFromFeed = (postId) =>{
+    const deleteThisPostFromFeed = (postId, username) =>{
+      if(username!== authenticatedUser.username){
+       toast.error("Oops! You are not authenticated to perform this action!")
+      }
+      else{
       doDeleteThePost(postId, token, homePageDispatch)
       const result = posts.filter((postItem)=>postItem._id!==postId)
       homePageDispatch({type: ACTION_TYPES.INITIALIZE, payload: result})
+      } 
     }
 
     useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
@@ -242,7 +250,6 @@ export default function Home(){
                     <span className="pl-xs">1 min</span>
                   </p>
                 </div>
-                { posts.find((postItem)=>postItem.username===authenticatedUser.username) ? 
                 <Menu>
                 <MenuButton border="none" background="white">
                 <p>∙∙∙</p>
@@ -250,10 +257,9 @@ export default function Home(){
                 <MenuList>
                 <MenuItem height="24px" border="none" textStyle="bold" padding="4px">Edit Post</MenuItem>
                 <MenuDivider/>
-                <MenuItem height="24px" border="none" textStyle="bold" padding="4px" onClick={()=>deleteThisPostFromFeed(_id)}>Delete Post</MenuItem>
+                <MenuItem height="24px" border="none" textStyle="bold" padding="4px" onClick={()=>deleteThisPostFromFeed(_id, username)}>Delete Post</MenuItem>
                 </MenuList>
                 </Menu>
-                : "" }
               </div>
               <p className="pr-s pt-xs">
                 {content}

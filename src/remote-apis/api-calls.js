@@ -24,7 +24,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
       .catch(function (error) {
         authDispatch({type: AUTH_ACTION_TYPE.FAILED_ATTEMPT, payload: {isLoggedIn: false}})
         toast.error("Error Signing In")
-        console.log(error);
+        
       });
     }
 
@@ -305,7 +305,7 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
     }
 
     export const doDeleteThePost = async (postId, token, homePageDispatch) =>{
-     console.log(1111, postId)
+    
       try{
         
         const res = await fetch(`/api/posts/${postId}`,{
@@ -316,7 +316,7 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
                 },      
         })
         const { posts } = await res.json();
-        console.log(3344, posts)
+     
     }
     catch(e){
     console.error(e)
