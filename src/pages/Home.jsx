@@ -140,10 +140,10 @@ export default function Home(){
               </Link>
             </div>
             <div className="pt-s black-color fw-semibold">
-              <a href="../profile/profile.html">
+            <Link to="/myprofile">
                 <i className="bi bi-person"></i> &nbsp;
                 <span>Profile</span>
-              </a>
+              </Link>
             </div>
             <button className="mt-m p-s primary-bg white-color border-none outline-transparent new-post-btn" onClick={onOpen}>
               Create New Post
