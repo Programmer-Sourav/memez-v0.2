@@ -3,6 +3,8 @@ import { AUTH_ACTION_TYPE } from "../auth/ActionType";
 import { toast } from "react-hot-toast";
 import { ACTION_TYPES } from "../reducer/ActionType";
 import { position } from "@chakra-ui/styled-system";
+import { useContext } from "react";
+import { ApplicationContext } from "../context/ApplicationContext";
 
 
 
@@ -262,7 +264,7 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
     
     }
     
-    export const doStartFollowing = async (userId, token, homePageDispatch) =>{
+    export const doStartFollowing = async (userId, token, authenticatedUser, homePageDispatch) =>{
       try{
         
           const res = await fetch(`/api/users/follow/${userId}`,{
@@ -273,7 +275,10 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
                   },      
           })
           const { user } = await res.json();
+          authenticatedUser = user
+          console.log(5555, user, authenticatedUser)
          homePageDispatch({type: ACTION_TYPES.FOLLOW_USER, payload: user.following})
+         homePageDispatch({type: ACTION_TYPES.UPDATE_AUTHENTICATED_USER, payload: authenticatedUser})
       }
       catch(e){
       console.error(e)

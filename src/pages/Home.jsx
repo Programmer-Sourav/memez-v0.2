@@ -71,7 +71,7 @@ export default function Home(){
     }
 
     const startFollowing = (followingId, token) =>{
-      doStartFollowing(followingId, token, homePageDispatch)
+      doStartFollowing(followingId, token, authenticatedUser, homePageDispatch)
     }
 
     const startUnFollowing = (followingId, token) =>{
@@ -202,8 +202,8 @@ export default function Home(){
             <div className="flex">
               <div className="grey-bg br-full width-xl height-xl"></div>
               <div className="flex flex-column ml-xs">
-                <div className="fw-bold">Tanay Pratap</div>
-                <div className="fw-light grey-color">@tanaypratap</div>
+                <div className="fw-bold">{authenticatedUser.username}</div>
+                <div className="fw-light grey-color">@{authenticatedUser.username}</div>
               </div>
             </div>
             <div className="grey-color fw-bold">...</div>

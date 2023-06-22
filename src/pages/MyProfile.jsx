@@ -1,10 +1,13 @@
 import { useContext } from "react"
 import { ApplicationContext } from "../context/ApplicationContext"
+import { EditModal } from "../components/EditModal"
+import { ChakraProvider } from "@chakra-ui/react"
 
 export default function MyProfile() {
     
-    const { posts, homePageDispatch, authenticatedUser} = useContext(ApplicationContext)
-    console.log(777, authenticatedUser)
+    const { posts, homePageDispatch, authenticatedUser, editProfile, updatedUser} = useContext(ApplicationContext)
+    
+    
     return (
         <div> 
         <main class="p-s">
@@ -13,25 +16,24 @@ export default function MyProfile() {
           <h3 class="pt-s">@{authenticatedUser.username}</h3>
           <p class="grey-color txt-s">@{authenticatedUser.firstName}</p>
           <button class="border lynx-white-bg p-xs m-xs fw-semibold width-8">
-            Edit Profile
+           <ChakraProvider><EditModal data={authenticatedUser}/></ChakraProvider> 
           </button>
           <p class="m-xs p-xs">
-            Senior Software Engineer @Microsoft | Creator of India’s biggest
-            programming community | Tweets about JavaScript, ReactJS, Career and
-            Startups
+           {editProfile.bio}
           </p>
-          <p class="primary-color">tanaypratap.com</p>
+          <p class="primary-color">{editProfile.url}</p>
           <div class="white-bg p-xs m-xs flex flex-row flex-space-evenly">
             <div class="flex flex-column flex-center m-s ml-m mr-m">
-              <p class="fw-black">0</p>
+              <p class="fw-black">{updatedUser.following? updatedUser.following.length : 0}</p>
               <p class="fw-semibold">Following</p>
             </div>
             <div class="flex flex-column flex-center m-s ml-m mr-m">
-              <p class="fw-black">2K</p>
+                
+              <p class="fw-black">{posts.filter((postItem)=>postItem.username===authenticatedUser.username).length}</p>
               <p class="fw-semibold">Posts</p>
             </div>
             <div class="flex flex-column flex-center m-s ml-m mr-m">
-              <p class="fw-black">37.3K</p>
+              <p class="fw-black">{updatedUser.followers? updatedUser.followers.length : 0}</p>
               <p class="fw-semibold">Followers</p>
             </div>
           </div>

@@ -37,6 +37,10 @@ export const DataReducer = (state, action) =>{
         case ACTION_TYPES.FOLLOW_USER: 
 
         return {...state, following: action.payload}
+
+        case ACTION_TYPES.UPDATE_AUTHENTICATED_USER: 
+         console.log(6666, action.payload)
+        return {...state, updatedUser: action.payload}
          
         case ACTION_TYPES.SEARCH_ACTION: 
         return {}
