@@ -15,8 +15,10 @@ import MainView from './pages/MainView';
 import RightMenu from './pages/RightMenu';
 import Bookmark from './pages/Bookmark';
 import {  ChakraProvider } from "@chakra-ui/react";
+import MyProfile from './pages/MyProfile';
 
 function App() {
+  
   return (
     <div className="App">
        {<Toaster position="bottom-right" reverseOrder={true} />}
@@ -32,6 +34,7 @@ function App() {
           <Route path='/main' element={<MainView/>}/>
           <Route path='/right' element= {<RightMenu/>}/>
           <Route path='/bookmark' element={<Bookmark/>}/>
+          <Route path='/myprofile' element={<MyProfile/>}/>
         </Routes>
         {/* <ChakraProvider><LeftMenu/></ChakraProvider> */}
     </div>
