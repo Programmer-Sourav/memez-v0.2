@@ -19,11 +19,11 @@ export const DataReducer = (state, action) =>{
         return{ ...state, currentPosts: action.payload}
 
         case ACTION_TYPES.BOOKMARK: 
-        
+        console.log(1111, action.payload)
         return {...state, bookmarked: action.payload}
 
         case ACTION_TYPES.REMOVE_BOOKMARK: 
-
+        
         return {...state, bookmarked: action.payload}
 
         case ACTION_TYPES.DOWNLOADED_BOOKMARK: 

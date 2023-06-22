@@ -3,7 +3,7 @@ import "../stylesheets/style.css"
 import { ApplicationContext } from "../context/ApplicationContext"
 import { ACCESSOR_TYPES } from "@babel/types"
 import { ACTION_TYPES } from "../reducer/ActionType"
-import { doCreateAPost, doDisLikeAPost, doDownlodUsers, doLikeAPost, doRemoveBookmark, doSaveBookmark, doStartFollowing, doStartUnFollowing } from "../remote-apis/api-calls"
+import { doCreateAPost, doDeleteThePost, doDisLikeAPost, doDownlodUsers, doLikeAPost, doRemoveBookmark, doSaveBookmark, doStartFollowing, doStartUnFollowing } from "../remote-apis/api-calls"
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/menu"
 // import Modal from "../components/Modal"
 import { useNavigate } from "react-router"
@@ -91,6 +91,12 @@ export default function Home(){
        payload: updated
       }
       )
+    }
+
+    const deleteThisPostFromFeed = (postId) =>{
+      doDeleteThePost(postId, token, homePageDispatch)
+      const result = posts.filter((postItem)=>postItem._id!==postId)
+      homePageDispatch({type: ACTION_TYPES.INITIALIZE, payload: result})
     }
 
     useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
@@ -236,6 +242,7 @@ export default function Home(){
                     <span className="pl-xs">1 min</span>
                   </p>
                 </div>
+                { posts.find((postItem)=>postItem.username===authenticatedUser.username) ? 
                 <Menu>
                 <MenuButton border="none" background="white">
                 <p>∙∙∙</p>
@@ -243,10 +250,10 @@ export default function Home(){
                 <MenuList>
                 <MenuItem height="24px" border="none" textStyle="bold" padding="4px">Edit Post</MenuItem>
                 <MenuDivider/>
-                <MenuItem height="24px" border="none" textStyle="bold" padding="4px">Delete Post</MenuItem>
+                <MenuItem height="24px" border="none" textStyle="bold" padding="4px" onClick={()=>deleteThisPostFromFeed(_id)}>Delete Post</MenuItem>
                 </MenuList>
                 </Menu>
-                
+                : "" }
               </div>
               <p className="pr-s pt-xs">
                 {content}

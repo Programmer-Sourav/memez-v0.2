@@ -2,6 +2,7 @@ import axios from "axios";
 import { AUTH_ACTION_TYPE } from "../auth/ActionType";
 import { toast } from "react-hot-toast";
 import { ACTION_TYPES } from "../reducer/ActionType";
+import { position } from "@chakra-ui/styled-system";
 
 
 
@@ -91,7 +92,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
               )
              
               const { posts } = res.data 
-              console.log(4445, posts)
+              
               homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: posts})
           }
           catch(e){
@@ -302,4 +303,24 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
     }
     
     }
+
+    export const doDeleteThePost = async (postId, token, homePageDispatch) =>{
+     console.log(1111, postId)
+      try{
+        
+        const res = await fetch(`/api/posts/${postId}`,{
+            method: 'DELETE',
+            
+            headers: {
+                  authorization: token,
+                },      
+        })
+        const { posts } = await res.json();
+        console.log(3344, posts)
+    }
+    catch(e){
+    console.error(e)
+    }
+  
+  }
         

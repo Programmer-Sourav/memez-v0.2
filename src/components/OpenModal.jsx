@@ -17,17 +17,16 @@ import { doCreateAPost, doEditAPost } from "../remote-apis/api-calls";
 
 
 function OpenModal({data}){
-  console.log("INSIDE Open modal")
+  
   const { isOpen, onClose, onOpen } = useDisclosure();
   const {postText, setPostText, token, homePageDispatch} = useContext(ApplicationContext);
   
-  console.log(6666, data._id)
-  const [ postEdit, setPostEdit ] = useState(data)
+  
+  const [ postEdit, setPostEdit ] = useState(data.content)
 return(
 <>
 <button onClick={onOpen}>Edit Post</button>
 <Modal isOpen={isOpen} onClose={onClose}>
-      {console.log("isOpen", isOpen)}
         <ModalOverlay/>
           <ModalContent>
             <ModalHeader>Edit your post</ModalHeader>

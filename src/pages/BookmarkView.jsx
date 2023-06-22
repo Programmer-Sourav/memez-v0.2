@@ -43,6 +43,11 @@ import { OpenModal } from "../components/OpenModal"
    return likedItem
   }
 
+  const deleteThisPostFromFeed = (postId) =>{
+    const result = bookmarks.filter((bookmarkItem)=>bookmarkItem._id!==postId)
+    console.log(123, result)
+    homePageDispatch({type: ACTION_TYPES.BOOKMARK, payload: result})
+  }
     
     return(
         <div> 
@@ -73,7 +78,7 @@ import { OpenModal } from "../components/OpenModal"
                 <MenuList>
                <ChakraProvider><OpenModal data={bookMark}/></ChakraProvider> 
                 <MenuDivider/>
-                <MenuItem height="24px" border="none" textStyle="bold" padding="4px">Delete Post</MenuItem>
+                <MenuItem height="24px" border="none" textStyle="bold" padding="4px" onClick={()=>deleteThisPostFromFeed(bookMark._id)}>Delete Post</MenuItem>
                 </MenuList>
                 </Menu>
                 
