@@ -6,5 +6,6 @@ export const initialState = {
     createAPost: "", 
     bookmarks: [], 
     users: [], 
-    following: []
+    following: [],
+    updatedUser: ""
 }

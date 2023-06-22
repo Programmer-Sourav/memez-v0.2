@@ -17,6 +17,7 @@ export function ApplicationProvider({children}){
     const [state, homePageDispatch ] = useReducer(DataReducer, initialState)
     const [ authState, authDispatch ] = useReducer(AuthReducer, authInitialState)
     const [ postText, setPostText ] = useState("")
+    const [ editProfile, setEditProfile ] = useState({bio:'Your bio', url: 'website url here'})
    
     const getPosts = () =>{
     axios({
@@ -34,6 +35,14 @@ export function ApplicationProvider({children}){
         )
         });
     }
+
+    const onChnageBio = (e) =>{
+       //console.log(4545, {...editProfile, bio: e.target.value})
+       setEditProfile({...editProfile, bio: e.target.value})
+    }
+    const onChangeUrl = (e) =>{
+        setEditProfile({...editProfile, url: e.target.value})
+     }
    
     useEffect(()=>{setTimeout(() => {getPosts()}, 1000)},[])
 
@@ -41,7 +50,7 @@ export function ApplicationProvider({children}){
         <ApplicationContext.Provider value ={{posts: state.currentPosts, homePageDispatch, token: authState.token,
              loginStatus: authState.isLoggedIn, authDispatch, authenticatedUser: authState.authenticatedUser, 
              liked: state.liked, bookmarked: state.bookmarked, bookmarks: state.bookmarks, users: state.users, 
-            following: state.following, postText, setPostText}} > {children}</ApplicationContext.Provider>
+            following: state.following, postText, setPostText, editProfile, setEditProfile, onChnageBio, onChangeUrl, updatedUser: state.updatedUser}} > {children}</ApplicationContext.Provider>
     )
 
 }
