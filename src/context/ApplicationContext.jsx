@@ -18,6 +18,7 @@ export function ApplicationProvider({children}){
     const [ authState, authDispatch ] = useReducer(AuthReducer, authInitialState)
     const [ postText, setPostText ] = useState("")
     const [ editProfile, setEditProfile ] = useState({bio:'Your bio', url: 'website url here'})
+    const [selectedProfilePic, setSelectedProfilePic] = useState({image: ""})
    
     const getPosts = () =>{
     axios({
@@ -50,7 +51,8 @@ export function ApplicationProvider({children}){
         <ApplicationContext.Provider value ={{posts: state.currentPosts, homePageDispatch, token: authState.token,
              loginStatus: authState.isLoggedIn, authDispatch, authenticatedUser: authState.authenticatedUser, 
              liked: state.liked, bookmarked: state.bookmarked, bookmarks: state.bookmarks, users: state.users, 
-            following: state.following, postText, setPostText, editProfile, setEditProfile, onChnageBio, onChangeUrl, updatedUser: state.updatedUser}} > {children}</ApplicationContext.Provider>
+            following: state.following, postText, setPostText, editProfile, setEditProfile, onChnageBio, onChangeUrl, updatedUser: state.updatedUser,
+            selectedProfilePic, setSelectedProfilePic}} > {children}</ApplicationContext.Provider>
     )
 
 }
