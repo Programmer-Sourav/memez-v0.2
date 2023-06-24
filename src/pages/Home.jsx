@@ -26,23 +26,29 @@ import { toast } from "react-hot-toast"
 export default function Home(){
     const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked, users, following, postText, setPostText } = useContext(ApplicationContext)
     const [show, setShow ] = useState(false)
+    const [searchVal, setSearchVal ] = useState("")
     
    
    const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const navigate = useNavigate()
+   
     let updatedProducts = [...posts]
     
-    const goToPost = () =>{
-        navigate("/post")
+   const filteredPostOfUser = updatedProducts.filter((postItem)=>postItem.content.toLowerCase().includes(searchVal.toLowerCase()))
+
+   const organicUsers = () =>{
+    const updated = users.filter((user)=>user._id!==authenticatedUser._id)
+    return updated;
+ }
+
+   const filteredUsers = organicUsers().filter((userItem)=>userItem.username.toLowerCase().includes(searchVal.toLowerCase()))
+   
+
+    const onSearchHandler = (e) =>{
+     setSearchVal(e.target.value)
     }
 
-  
-
-    const organicUsers = () =>{
-       const updated = users.filter((user)=>user._id!==authenticatedUser._id)
-       return updated;
-    }
+    
     const likeThePost = (postId, token, homePageDispatch) =>{
           doLikeAPost(postId, token, homePageDispatch )
     }
@@ -234,7 +240,7 @@ export default function Home(){
           <i className="bi bi-sliders2-vertical"></i>
         </div>
         
-        {updatedProducts && updatedProducts.map(({_id, content, likes, username, createdAt, updatedAt})=>(
+        {filteredPostOfUser && filteredPostOfUser.map(({_id, content, likes, username, createdAt, updatedAt})=>(
 
           
         
@@ -288,14 +294,14 @@ export default function Home(){
           <button onClick={()=>{getMeTheTrending()}} style={{background: "orange", height:"40px", width:"128px", color: "white", margin:"8px"}}>Trending</button>
         <div className="white-bg mb-m pl-s border flex flex-row flex-center nowrap">
           <i className="bi bi-search"></i>
-          <input type="search" name="search-bar" className="search-bar border-none outline-transparent p-s width-16" placeholder="Search Posts, People, Anything"/>
+          <input type="search" name="search-bar" className="search-bar border-none outline-transparent p-s width-16" placeholder="Search Posts, People, Anything" onChange = {(e)=>{onSearchHandler(e)}}/>
         </div>
         <div className="white-bg">
           <div className="fw-bold flex flex-row flex-space-between flex-align-center border-bottom p-s">
             <div>Who to Follow?</div>
             <div className="primary-color">Show More</div>
           </div>
-          {organicUsers().map((user)=>(
+          {filteredUsers.map((user)=>(
           <div className="flex p-s flex-space-between flex-align-center">
             <div className="grey-bg br-full width-xl height-xl"></div>
             <div className="flex flex-column">
