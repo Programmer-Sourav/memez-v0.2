@@ -19,6 +19,15 @@ export function ApplicationProvider({children}){
     const [ postText, setPostText ] = useState("")
     const [ editProfile, setEditProfile ] = useState({bio:'Your bio', url: 'website url here'})
     const [selectedProfilePic, setSelectedProfilePic] = useState({image: ""})
+    const imagedata = [{id: 1, image: require("../avatars/avatar2.png"), selected: false}, 
+    {id: 2, image: require("../avatars/avatar1.png"), selected: false}, 
+    {id: 3, image: require("../avatars/avatar3.png"), selected: false},
+    {id: 4, image: require("../avatars/avatar4.png"), selected: false},
+    {id: 5, image: require("../avatars/avatar5.png"), selected: false},
+    {id: 6, image: require("../avatars/avatar6.png"), selected: false}]
+    const [images, updateImages ] = useState(imagedata)   
+    const findUrl = images.find((imageItem)=>imageItem.id===5)   //default selection
+   const [profileImage, setProfileImage] = useState({image:findUrl.image})  
    
     const getPosts = () =>{
     axios({
@@ -52,7 +61,7 @@ export function ApplicationProvider({children}){
              loginStatus: authState.isLoggedIn, authDispatch, authenticatedUser: authState.authenticatedUser, 
              liked: state.liked, bookmarked: state.bookmarked, bookmarks: state.bookmarks, users: state.users, 
             following: state.following, postText, setPostText, editProfile, setEditProfile, onChnageBio, onChangeUrl, updatedUser: state.updatedUser,
-            selectedProfilePic, setSelectedProfilePic}} > {children}</ApplicationContext.Provider>
+            selectedProfilePic, setSelectedProfilePic, updateImages, profileImage, setProfileImage, images, imagedata}} > {children}</ApplicationContext.Provider>
     )
 
 }
