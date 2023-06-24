@@ -2,17 +2,25 @@ import { useContext } from "react"
 import { ApplicationContext } from "../context/ApplicationContext"
 import { EditModal } from "../components/EditModal"
 import { ChakraProvider } from "@chakra-ui/react"
+import { useEffect } from "react"
 
 export default function MyProfile() {
     
-    const { posts, homePageDispatch, authenticatedUser, editProfile, updatedUser} = useContext(ApplicationContext)
+    const { posts, homePageDispatch, authenticatedUser, editProfile, updatedUser, profileImage, setProfileImage, images, updateImages, onChnageBio, onChangeUrl, imagedata} = useContext(ApplicationContext)
+
     
+    const getData = () =>{
+      const findUrl = images.find((imageItem)=>imageItem.id===5) 
+      setProfileImage({...profileImage, image: findUrl.image})
+    }
+    
+    useEffect(()=>{getData()},[])
     
     return (
         <div> 
         <main class="p-s">
         <div class="flex flex-column flex-center">
-          <div class="lynx-gray-bg width-7 height-7 br-full"></div>
+          <div class="lynx-gray-bg width-7 height-7 br-full"><img src={profileImage.image} alt="dummyavatar"></img></div>
           <h3 class="pt-s">@{authenticatedUser.username}</h3>
           <p class="grey-color txt-s">@{authenticatedUser.firstName}</p>
           <button class="border lynx-white-bg p-xs m-xs fw-semibold width-8">
