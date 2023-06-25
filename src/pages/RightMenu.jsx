@@ -2,7 +2,6 @@
 
 export default function RightMenu(){
     return(
-        <div className="container"> 
         <aside className="mt-xl mr-xxl sidebar2">
         <div className="white-bg mb-m pl-s border flex flex-row flex-center nowrap">
           <i className="bi bi-search"></i>
@@ -71,6 +70,5 @@ export default function RightMenu(){
           </div>
         </div>
       </aside>
-        </div>
     )
 }

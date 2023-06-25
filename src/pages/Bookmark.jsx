@@ -7,6 +7,8 @@ import { ApplicationContext } from "../context/ApplicationContext";
 import { doDownloadBookMark } from "../remote-apis/api-calls";
 
 
+
+
 export default function Bookmark(){
 
     const { bookmarked, bookmarks, token, homePageDispatch } = useContext(ApplicationContext)
@@ -17,16 +19,17 @@ export default function Bookmark(){
     },[])
     
     return(
+        <body>
         <div className="container">
-            <div className="left-side">
+            <Navigation/>
             <LeftMenu/>
-            </div>
-            <div className="main">
+            
+         
                 < BookmarkView bookmarks= {bookmarks} />
-            </div>
-            <div className="right-side">
+         
                 <RightMenu/>
-            </div>
+        
         </div>
+        </body>
     )
 }

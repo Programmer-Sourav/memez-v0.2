@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import "../stylesheets/style.css"
+//import "../stylesheets/style.css"
 import { ApplicationContext } from "../context/ApplicationContext"
 import { ACCESSOR_TYPES } from "@babel/types"
 import { ACTION_TYPES } from "../reducer/ActionType"

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import "../stylesheets/base.css"
+// import "../stylesheets/base.css"
 //import Modal from "../components/Modal";
 import {
   Modal,
@@ -24,7 +24,6 @@ export default function LeftMenu(){
 
 
     return(
-      <div className="container">
         <aside className="p-s pt-xl pl-xxl ml-m sidebar1">
         <div className="flex flex-column flex-space-between sidebar">
           <div>
@@ -55,6 +54,7 @@ export default function LeftMenu(){
             <button className="mt-m p-s primary-bg white-color border-none outline-transparent new-post-btn" onClick={onOpen}>
               Create New Post
             </button>
+            </div>
       <ChakraProvider>   
       <Modal isOpen={isOpen} onClose={onClose}>
       {console.log("isOpen", isOpen)}
@@ -103,7 +103,7 @@ export default function LeftMenu(){
         </ModalOverlay>
       </Modal>
       </ChakraProvider>   
-           </div>
+           
            <div className="flex flex-space-between flex-align-center">
             <div className="flex">
               <div className="grey-bg br-full width-xl height-xl"></div>
@@ -116,6 +116,5 @@ export default function LeftMenu(){
           </div>
         </div>
       </aside>
-      </div>
     )
 }

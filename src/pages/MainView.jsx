@@ -43,7 +43,6 @@ import {  ChakraProvider } from "@chakra-ui/react";
 
     
     return(
-        <div> 
         <main className="mt-xl">
         <div className="white-bg mr-xxl p-xs mt-s">
           <div className="flex flex-row nowrap p-xs">
@@ -115,7 +114,6 @@ import {  ChakraProvider } from "@chakra-ui/react";
         ))}
       </main>
 
-        </div>
     )
   }
   
