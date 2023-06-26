@@ -23,12 +23,8 @@ export default function Bookmark(){
         <div className="container">
             <Navigation/>
             <LeftMenu/>
-            
-         
-                < BookmarkView bookmarks= {bookmarks} />
-         
-                <RightMenu/>
-        
+            < BookmarkView bookmarks= {bookmarks} />
+            <RightMenu/>  
         </div>
         </body>
     )

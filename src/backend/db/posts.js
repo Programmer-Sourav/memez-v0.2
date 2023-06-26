@@ -44,7 +44,7 @@ export const posts = [
     },
     username: "shubhamsoni",
     createdAt: formatDate(),
-    updatedAt: "12-06-2023",
+    updatedAt: "06/12/2023",
   },
   {
     _id: uuid(),
@@ -70,7 +70,7 @@ export const posts = [
     },
     username: "Sukanta",
     createdAt: formatDate(),
-    updatedAt: "10-06-2023",
+    updatedAt: "06/10/2023",
   },
   {
     _id: uuid(),
@@ -83,7 +83,7 @@ export const posts = [
     },
     username: "Sahurukh",
     createdAt: formatDate(),
-    updatedAt: "16-06-2023",
+    updatedAt: "06/16/2023",
   },
   {
     _id: uuid(),
@@ -96,6 +96,6 @@ export const posts = [
     },
     username: "Sujoy",
     createdAt: formatDate(),
-    updatedAt: "10-06-2023",
+    updatedAt: "06/11/2023",
   },
 ];

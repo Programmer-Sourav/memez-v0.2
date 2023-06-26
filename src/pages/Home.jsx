@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState, forwardRef } from "react"
 //import "../stylesheets/style.css"
 import { ApplicationContext } from "../context/ApplicationContext"
 import { ACCESSOR_TYPES } from "@babel/types"
@@ -8,6 +8,12 @@ import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/me
 // import Modal from "../components/Modal"
 import { useNavigate } from "react-router"
 import { Link } from "react-router-dom"
+
+import React from "react";
+import Uploady from "@rpldy/uploady";
+import UploadButton from "@rpldy/upload-button";
+import UploadPreview from "@rpldy/upload-preview";
+
 import {
   Modal,
   ModalOverlay,
@@ -22,11 +28,15 @@ import {
 } from "@chakra-ui/react";
 import {  ChakraProvider } from "@chakra-ui/react";
 import { toast } from "react-hot-toast"
+import { asUploadButton } from "@rpldy/upload-button";
 
 export default function Home(){
     const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked, users, following, postText, setPostText } = useContext(ApplicationContext)
     const [show, setShow ] = useState(false)
     const [searchVal, setSearchVal ] = useState("")
+    const [ uploadImage, setUploadImage ] = useState(false)
+    const [ postContent, setPostContent] = useState("")
+    const [ sortVal, setSortVal ] = useState("")
     
    
    const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,7 +44,12 @@ export default function Home(){
    
     let updatedProducts = [...posts]
     
-   const filteredPostOfUser = updatedProducts.filter((postItem)=>postItem.content.toLowerCase().includes(searchVal.toLowerCase()))
+   let filteredPostOfUser = updatedProducts.filter((postItem)=>postItem.content.toLowerCase().includes(searchVal.toLowerCase()))
+
+   if(sortVal==="latest")
+   filteredPostOfUser =  updatedProducts.sort((p1, p2)=>new Date(p2.updatedAt)>new Date(p1.updatedAt))
+   if(sortVal==="trending")
+   filteredPostOfUser = updatedProducts.sort((p1, p2)=>p2.likes.likeCount>p1.likes.likeCount)
 
    const organicUsers = () =>{
     const updated = users.filter((user)=>user._id!==authenticatedUser._id)
@@ -84,22 +99,19 @@ export default function Home(){
       doStartUnFollowing(followingId, token, homePageDispatch)
     }
 
+    const DivUploadButton = asUploadButton(forwardRef(
+      (props, ref) =>
+          <div {...props} style={{ cursor: "pointer" }}>
+              <i className="bi bi-card-image" ></i>
+          </div>
+  ));
+
     const getMeTheLatest = () =>{
-     const updated = updatedProducts.sort((p1, p2)=>new Date(p1.updatedAt).toDateString()>new Date(p2.updatedAt).toDateString())
-     homePageDispatch(
-      {type: ACTION_TYPES.INITIALIZE,
-       payload: updated
-      }
-      )
+     setSortVal("latest")
     }
 
     const getMeTheTrending = () =>{
-     const updated = updatedProducts.sort((p1, p2)=>p2.likes.likeCount>p1.likes.likeCount)
-     homePageDispatch(
-      {type: ACTION_TYPES.INITIALIZE,
-       payload: updated
-      }
-      )
+     setSortVal("trending")
     }
 
     const deleteThisPostFromFeed = (postId, username) =>{
@@ -111,6 +123,22 @@ export default function Home(){
       const result = posts.filter((postItem)=>postItem._id!==postId)
       homePageDispatch({type: ACTION_TYPES.INITIALIZE, payload: result})
       } 
+    }
+    const filterBySize = (file) => {
+      //filter out images larger than 5MB
+      //return file.size <= 5242880;
+      if(file.size <= 5242880){
+        setPostContent("image")
+      }
+      else{
+        toast.error("Oops! Can't upload images larger than 5 MB")
+      }
+    };
+    
+
+    const uploadAnImage = (value) =>{
+      if(value==="upload-image")
+      setUploadImage(true)
     }
 
     useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
@@ -224,9 +252,18 @@ export default function Home(){
               <textarea name="make_post" id="make_my_post" value={postText} cols="50" rows="6" className="w-full lynx-white-bg p-s outline-transparent border-none"
                style={{resize : 'none'}} placeholder="Write something interesting..." 
                onChange={(e)=>{setPostText(e.target.value)}}></textarea>
+               
               <div className="flex flex-space-between pt-s">
                 <div className="flex " style={{gap : '1rem'}}>
-                  <i className="bi bi-card-image"></i>
+                  {/* <i className="bi bi-card-image" ></i> */}
+                   <Uploady
+      destination={{ url: "/api/posts" }}
+      fileFilter={filterBySize}
+      accept="image/*"
+    >
+      <DivUploadButton />   
+      {/* <UploadPreview/> */}
+    </Uploady>
                   <i className="bi bi-filetype-gif"></i>
                   <i className="bi bi-emoji-smile"></i>
                 </div>
@@ -253,7 +290,9 @@ export default function Home(){
                   <p className="fw-semibold">{username}</p>
                   <p className="grey-color pl-xs">
                     @{username} <span className="pl-xs">•</span>
-                    <span className="pl-xs">1 min</span>
+                    {console.log(3334, new Date().toLocaleDateString(), new Date(updatedAt).toLocaleDateString(), Math.ceil(Math.abs(new Date()-new Date(updatedAt))/(1000 * 60 * 60 * 24)))}
+                    {console.log(555, new Date()-new Date(updatedAt))}
+                    <span className="pl-xs">{Math.ceil(Math.abs(new Date()-new Date(updatedAt))/(1000 * 60 * 60 * 24))===1? "Today" : Math.ceil(Math.abs(new Date()-new Date(updatedAt))/(1000 * 60 * 60 * 24))+" days ago"} </span>
                   </p>
                 </div>
                 <Menu>
