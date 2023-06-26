@@ -10,7 +10,7 @@ import { useNavigate } from "react-router"
 import { Link } from "react-router-dom"
 
 import React from "react";
-import Uploady, {useItemStartListener, useItemFinishListener} from "@rpldy/uploady";
+import Uploady, {useItemStartListener, useItemFinishListener, useItemErrorListener} from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button";
 import UploadPreview from "@rpldy/upload-preview";
 
@@ -31,6 +31,7 @@ import { toast } from "react-hot-toast"
 import { asUploadButton } from "@rpldy/upload-button";
 
 const MyUploadButton = () =>{
+  const [ postContent, setPostContent] = useState("")
   /**code provided by uploady.org */
   console.log("Inside MyUpload")
   useItemStartListener(item => {
@@ -39,6 +40,11 @@ const MyUploadButton = () =>{
 });
 
   useItemFinishListener(item=>{
+    console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
+    setPostContent(item.uploadResponse.data.secure_url)
+  })
+
+  useItemErrorListener(item=>{
     console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
   })
 
@@ -49,7 +55,7 @@ export default function Home(){
     const [show, setShow ] = useState(false)
     const [searchVal, setSearchVal ] = useState("")
     const [ uploadImage, setUploadImage ] = useState(false)
-    const [ postContent, setPostContent] = useState("")
+    
     const [ sortVal, setSortVal ] = useState("")
     
    
@@ -140,16 +146,17 @@ export default function Home(){
       homePageDispatch({type: ACTION_TYPES.INITIALIZE, payload: result})
       } 
     }
-    const filterBySize = (file) => {
-      //filter out images larger than 5MB
-      //return file.size <= 5242880;
-      if(file.size <= 5242880){
-        setPostContent("image")
-      }
-      else{
-        toast.error("Oops! Can't upload images larger than 5 MB")
-      }
-    };
+    // const filterBySize = (file) => {
+    //   console.log(3344, postContent)
+    //   //filter out images larger than 5MB
+    //   //return file.size <= 5242880;
+    //   if(file.size <= 5242880){
+    //     setPostContent("image")
+    //   }
+    //   else{
+    //     toast.error("Oops! Can't upload images larger than 5 MB")
+    //   }
+    // };
     
 
     const uploadAnImage = (value) =>{
@@ -276,8 +283,8 @@ export default function Home(){
                   {/* <i className="bi bi-card-image" ></i> */}
                    <Uploady
       destination={{ url: "https://api.cloudinary.com/v1_1/ds0k2xmd6/image/upload",
-          params:{upload_preset: "default-preset"} }}
-      fileFilter={filterBySize}
+          params:{upload_preset: "neogprojectpreset"} }}
+      // fileFilter={filterBySize}
       accept="image/*"
     >
       <MyUploadButton/>
