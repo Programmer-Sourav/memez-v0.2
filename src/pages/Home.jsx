@@ -151,6 +151,7 @@ export default function Home(){
       console.log("Inside MyUpload")
       useItemStartListener(item => {
         console.log("Myupload...")
+        
         console.log(`item ${item.id} uploading now. file name=${item.file.name}`)
     });
     
