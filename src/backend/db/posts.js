@@ -98,4 +98,32 @@ export const posts = [
     createdAt: formatDate(),
     updatedAt: "06/11/2023",
   },
+  {
+    _id: uuid(),
+    content:
+      "Hopefully, it is going to be a good movie to watch specially with everyone's partner!!!...Who are in?",
+    postContent: "https://www.newsbugz.com/wp-content/uploads/2022/08/Satyaprem-Ki-Katha-Movie-1.jpg",  
+    likes: {
+      likeCount: 15,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    username: "Sujoy",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+  },
+  {
+    _id: uuid(),
+    content:
+      "What a song!!!!",
+    postContent: "https://www.youtube.com/shorts/rZ9rr1krkLU",  
+    likes: {
+      likeCount: 15,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    username: "Sujoy",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+  },
 ];

@@ -30,38 +30,20 @@ import {  ChakraProvider } from "@chakra-ui/react";
 import { toast } from "react-hot-toast"
 import { asUploadButton } from "@rpldy/upload-button";
 
-const MyUploadButton = () =>{
-  const [ postContent, setPostContent] = useState("")
-  /**code provided by uploady.org */
-  console.log("Inside MyUpload")
-  useItemStartListener(item => {
-    console.log("Myupload...")
-    console.log(`item ${item.id} uploading now. file name=${item.file.name}`)
-});
 
-  useItemFinishListener(item=>{
-    console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
-    setPostContent(item.uploadResponse.data.secure_url)
-  })
-
-  useItemErrorListener(item=>{
-    console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
-  })
-
-}
 
 export default function Home(){
     const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked, users, following, postText, setPostText } = useContext(ApplicationContext)
     const [show, setShow ] = useState(false)
     const [searchVal, setSearchVal ] = useState("")
     const [ uploadImage, setUploadImage ] = useState(false)
-    
+    const [ postContent, setPostContent] = useState("no-url")
     const [ sortVal, setSortVal ] = useState("")
     
    
    const { isOpen, onOpen, onClose } = useDisclosure();
 
-   
+    console.log(12345, token)
     let updatedProducts = [...posts]
     
    let filteredPostOfUser = updatedProducts.filter((postItem)=>postItem.content.toLowerCase().includes(searchVal.toLowerCase()))
@@ -164,8 +146,34 @@ export default function Home(){
       setUploadImage(true)
     }
 
-   
-
+    const MyUploadButton = () =>{
+      /**code provided by uploady.org */
+      console.log("Inside MyUpload")
+      useItemStartListener(item => {
+        console.log("Myupload...")
+        console.log(`item ${item.id} uploading now. file name=${item.file.name}`)
+    });
+    
+      
+      useItemFinishListener(item=>{
+        console.log("Inside Finish")
+        setPostContent("")
+        console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
+        setPostContent(item.uploadResponse.data.secure_url)
+      })
+    
+      useItemErrorListener(item=>{
+        console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
+      })
+    
+    }
+    
+    const getExtention = (filename) =>{
+      console.log(filename)
+    const extension = filename.substring(filename.lastIndexOf('.') + 1, filename.length)
+    console.log(123456, extension)
+    return extension
+    }
     useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
 
     return(
@@ -236,7 +244,7 @@ export default function Home(){
                   margin: "4px"
                 }}
                
-              onClick={()=>{doCreateAPost(postText, token, homePageDispatch, setPostText(""))}}
+              onClick={()=>{doCreateAPost(postText, postContent,  token,  homePageDispatch, setPostText(""), setPostContent(""))}}
                 
               >
                 {" "}
@@ -294,10 +302,18 @@ export default function Home(){
       {/* <UploadPreview/> */}
     
     </Uploady>
-                  <i className="bi bi-filetype-gif"></i>
+    <Uploady
+      destination={{ url: "https://api.cloudinary.com/v1_1/ds0k2xmd6/video/upload",
+          params:{upload_preset: "neogprojectpreset"} }}
+      // fileFilter={filterBySize}
+      accept="video/*">
+      <MyUploadButton/>
+      <UploadButton>  <i className="bi bi-filetype-gif"></i></UploadButton>
+    </Uploady>
+                 
                   <i className="bi bi-emoji-smile"></i>
                 </div>
-                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{doCreateAPost(postText, token, homePageDispatch, setPostText(""))}}>Post</button>
+                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{doCreateAPost(postText, postContent,token, homePageDispatch, setPostText(""))}}>Post</button>
               </div>
             </div>
           </div>
@@ -307,7 +323,7 @@ export default function Home(){
           <i className="bi bi-sliders2-vertical"></i>
         </div>
         
-        {filteredPostOfUser && filteredPostOfUser.map(({_id, content, likes, username, createdAt, updatedAt})=>(
+        {filteredPostOfUser && filteredPostOfUser.map(({_id, content, postContent,  likes, username, createdAt, updatedAt})=>(
 
           
         
@@ -338,6 +354,8 @@ export default function Home(){
               <p className="pr-s pt-xs">
                 {content}
               </p>
+              {console.log(34567,)}
+              {postContent !== undefined && postContent!=="no-url" ?(getExtention(postContent)==="jpg"||"jpeg"||"png" ? <img src={postContent}  alt="postimage"/>: <video src={postContent} alt="postvideo"/>):""}
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
               
                  {loginStatus && checkIfPostIsLiked(_id) ?

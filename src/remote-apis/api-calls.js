@@ -57,21 +57,28 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
           });
         }
 
-           export const doCreateAPost = async (postText, token, homePageDispatch) =>{
-
+           export const doCreateAPost = async (postText, postContent,  token,  homePageDispatch) =>{
+            // let contentToSend; 
+            // if(postTe!==null){
+            //    contentToSend = postText + postContent
+            // }
+            // else{
+            //   contentToSend = postText
+            // }
+            console.log(3334,  postText, postContent,  token)
             try{
               
                 const res = await axios.post("/api/posts",
             
                       
-                    { postData: { content: postText } },
+                    { postData: { content: postText, postContent} },
                     {headers: {
                       authorization: token,
                     }}
                 )
                
                 const { posts } = res.data 
-                
+                console.log(5556, posts)
                 homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: posts})
             }
             catch(e){
