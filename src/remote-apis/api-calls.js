@@ -172,7 +172,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
         
        
         const { bookmarks } = await res.json();
-       // console.log(556, bookmarks)
+        console.log(5567, bookmarks)
         homePageDispatch({type: ACTION_TYPES.BOOKMARK, payload: bookmarks})
        
         

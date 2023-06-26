@@ -10,7 +10,7 @@ import { useNavigate } from "react-router"
 import { Link } from "react-router-dom"
 
 import React from "react";
-import Uploady from "@rpldy/uploady";
+import Uploady, {useItemStartListener, useItemFinishListener} from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button";
 import UploadPreview from "@rpldy/upload-preview";
 
@@ -30,6 +30,20 @@ import {  ChakraProvider } from "@chakra-ui/react";
 import { toast } from "react-hot-toast"
 import { asUploadButton } from "@rpldy/upload-button";
 
+const MyUploadButton = () =>{
+  /**code provided by uploady.org */
+  console.log("Inside MyUpload")
+  useItemStartListener(item => {
+    console.log("Myupload...")
+    console.log(`item ${item.id} uploading now. file name=${item.file.name}`)
+});
+
+  useItemFinishListener(item=>{
+    console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
+  })
+
+}
+
 export default function Home(){
     const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked, users, following, postText, setPostText } = useContext(ApplicationContext)
     const [show, setShow ] = useState(false)
@@ -45,6 +59,7 @@ export default function Home(){
     let updatedProducts = [...posts]
     
    let filteredPostOfUser = updatedProducts.filter((postItem)=>postItem.content.toLowerCase().includes(searchVal.toLowerCase()))
+   
 
    if(sortVal==="latest")
    filteredPostOfUser =  updatedProducts.sort((p1, p2)=>new Date(p2.updatedAt)>new Date(p1.updatedAt))
@@ -99,13 +114,14 @@ export default function Home(){
       doStartUnFollowing(followingId, token, homePageDispatch)
     }
 
-    const DivUploadButton = asUploadButton(forwardRef(
-      (props, ref) =>
-          <div {...props} style={{ cursor: "pointer" }}>
-              <i className="bi bi-card-image" ></i>
-          </div>
-  ));
+    // const DivUploadButton = asUploadButton(forwardRef(
+    //   (props, ref) =>
+    //       <div {...props} style={{ cursor: "pointer" }}>
+    //           <i className="bi bi-card-image" ></i>
+    //       </div>
+    //  ));
 
+    
     const getMeTheLatest = () =>{
      setSortVal("latest")
     }
@@ -140,6 +156,8 @@ export default function Home(){
       if(value==="upload-image")
       setUploadImage(true)
     }
+
+   
 
     useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
 
@@ -257,12 +275,17 @@ export default function Home(){
                 <div className="flex " style={{gap : '1rem'}}>
                   {/* <i className="bi bi-card-image" ></i> */}
                    <Uploady
-      destination={{ url: "/api/posts" }}
+      destination={{ url: "https://api.cloudinary.com/v1_1/ds0k2xmd6/image/upload",
+          params:{upload_preset: "default-preset"} }}
       fileFilter={filterBySize}
       accept="image/*"
     >
-      <DivUploadButton />   
+      <MyUploadButton/>
+      <UploadButton> <i className="bi bi-card-image" ></i></UploadButton>
+      
+      {/* <DivUploadButton />    */}
       {/* <UploadPreview/> */}
+    
     </Uploady>
                   <i className="bi bi-filetype-gif"></i>
                   <i className="bi bi-emoji-smile"></i>
@@ -290,8 +313,7 @@ export default function Home(){
                   <p className="fw-semibold">{username}</p>
                   <p className="grey-color pl-xs">
                     @{username} <span className="pl-xs">•</span>
-                    {console.log(3334, new Date().toLocaleDateString(), new Date(updatedAt).toLocaleDateString(), Math.ceil(Math.abs(new Date()-new Date(updatedAt))/(1000 * 60 * 60 * 24)))}
-                    {console.log(555, new Date()-new Date(updatedAt))}
+                 
                     <span className="pl-xs">{Math.ceil(Math.abs(new Date()-new Date(updatedAt))/(1000 * 60 * 60 * 24))===1? "Today" : Math.ceil(Math.abs(new Date()-new Date(updatedAt))/(1000 * 60 * 60 * 24))+" days ago"} </span>
                   </p>
                 </div>
