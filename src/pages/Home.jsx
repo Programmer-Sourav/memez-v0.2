@@ -190,16 +190,16 @@ export default function Home(){
         <div className="flex flex-column flex-space-between sidebar">
           <div>
             <div className="pt-s black-color fw-semibold">
-              <a href="">
+              <Link to="/home">
                 <i className="bi bi-house"></i> &nbsp;
                 <span className="fw-bold">Home</span>
-              </a>
+                </Link>
             </div>
             <div className="pt-s black-color fw-semibold">
-              <a href="../explore/explore.html">
+            <Link to="/explore">
                 <i className="bi bi-rocket"></i> &nbsp;
                 <span>Explore</span>
-              </a>
+              </Link>
             </div>
             <div className="pt-s black-color fw-semibold">
               <Link to="/bookmark">
@@ -392,10 +392,10 @@ export default function Home(){
           <div className="flex p-s flex-space-between flex-align-center">
             <div className="grey-bg br-full width-xl height-xl"></div>
             <div className="flex flex-column">
-              <a href="../profile/profile1.html">
+              <Link to={`/profileuserone/${user._id}`}>
                 <div className="fw-bold">{user.firstName}</div>
                 <div className="fw-light grey-color">@{user.username}</div>
-              </a>
+                </Link>
             </div>
             <div className="primary-color fw-bold">
              { following.find((userItem)=>userItem._id===user._id) ? <button onClick={()=>{startUnFollowing(user._id, token)}} style={{color:"white", background: "green", border: "none", padding: "4px"}}>

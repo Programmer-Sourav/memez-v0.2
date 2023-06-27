@@ -29,8 +29,9 @@ function App() {
     <div className="App">
        {<Toaster position="bottom-right" reverseOrder={true} />}
        <Routes>
-          <Route path="/" element= {<Login/>}/>
-          <Route path='/login' element= {<Login/>}/>
+          <Route path="/" element= {<Landing/>}/>
+          <Route path='/landing' element= {<Landing/>}/>
+          <Route path='/login'   element= {<Login/>}/>
           <Route path="/signup" element= {<Signup/>}/>
           <Route path="/home" element={<RequiresAuth><Home/></RequiresAuth>}/>
           {/* <Route path='/post' element= {<PostPage/>}/> */}
@@ -41,7 +42,7 @@ function App() {
           <Route path='/right' element= {<RightMenu/>}/>
           <Route path='/bookmark' element={<Bookmark/>}/>
           <Route path='/myprofile' element={<ProfilePage/>}/>
-          <Route path='/profileuserone' element={<ProfilePageOne/>}/>
+          <Route path='/profileuserone/:id' element={<ProfilePageOne/>}/>
           <Route path='/post' element={<PostContainer/>}/>
           <Route path='/landing' element={<Landing/>}/>
           <Route path='/explore' element={<Explore/>}/>

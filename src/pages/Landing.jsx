@@ -1,4 +1,16 @@
+import { useNavigate } from "react-router"
+
 export default function Landing(){
+     const navigate = useNavigate()
+
+    const goToRegister = () =>{
+        navigate("/signup")
+    }
+    const goToLogin = () =>{
+        navigate("/login")
+    }
+
+
     return(
     <body>
     <div class="flex flex-row flex-center h-full w-full " style={{gap: "10rem"}}>
@@ -16,8 +28,8 @@ export default function Landing(){
           </h2>
         </div>
         <div>
-            <button class="primary-bg w-full p-s secondary-color border-none outline-none txt-s">Join Now</button>
-            <p class="primary-color txt-s txt-center mt-xs">Already have an account?</p>
+            <button class="primary-bg w-full p-s secondary-color border-none outline-none txt-s" onClick={()=>{goToRegister()}}>Join Now</button>
+            <p class="primary-color txt-s txt-center mt-xs" onClick={()=>{goToLogin()}}>Already have an account?</p>
         </div>
       </div>
       <div class="grey-bg" style={{height: "70vh",width: "30rem"}}></div>
