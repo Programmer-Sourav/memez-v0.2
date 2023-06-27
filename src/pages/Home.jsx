@@ -356,7 +356,7 @@ export default function Home(){
                 {content}
               </p>
               {console.log(34567,)}
-              {postContent !== undefined && postContent!=="no-url" ?(getExtention(postContent)==="jpg"||"jpeg"||"png" ? <img src={postContent}  alt="postimage"/>: <video src={postContent} alt="postvideo"/>):""}
+              {postContent !== undefined && postContent!=="no-url" ? <img src={postContent}  alt="postimage"/>: <video src={postContent} alt="postvideo"/>}
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
               
                  {loginStatus && checkIfPostIsLiked(_id) ?

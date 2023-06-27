@@ -89,7 +89,7 @@ export const posts = [
   {
     _id: uuid(),
     content:
-      "Wated to Adipurush. But, the reviews demoralized me.",
+      "Wanted to watch Adipurush. But, the reviews demoralized me.",
     likes: {
       likeCount: 5,
       likedBy: [],
@@ -102,7 +102,7 @@ export const posts = [
   {
     _id: uuid(),
     content:
-      "Hopefully, it is going to be a good movie to watch specially with everyone's partner!!!...Who are in?",
+      "Hopefully, it is going to be a good movie to watch specially with everyone's partner!!!...Who all are in?",
     postContent: "https://www.newsbugz.com/wp-content/uploads/2022/08/Satyaprem-Ki-Katha-Movie-1.jpg",  
     likes: {
       likeCount: 15,
@@ -116,10 +116,10 @@ export const posts = [
   {
     _id: uuid(),
     content:
-      "What a song!!!!",
-    postContent: "https://www.youtube.com/shorts/rZ9rr1krkLU",  
+      "Dream Car!!!!",
+    postContent: "https://res.cloudinary.com/ds0k2xmd6/video/upload/v1687849791/jqa6ftk1grec6guoqzov.mp4",  
     likes: {
-      likeCount: 15,
+      likeCount: 21,
       likedBy: [],
       dislikedBy: [],
     },

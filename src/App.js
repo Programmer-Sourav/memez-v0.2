@@ -16,6 +16,12 @@ import RightMenu from './pages/RightMenu';
 import Bookmark from './pages/Bookmark';
 import {  ChakraProvider } from "@chakra-ui/react";
 import MyProfile from './pages/MyProfile';
+import ProfilePage from './pages/PoriflePage';
+import ProfilePageOne from './pages/ProfilePageOne';
+import Post from './pages/Post';
+import PostContainer from './pages/PostContainer';
+import Landing from './pages/Landing';
+import Explore from './pages/Explore/Explore';
 
 function App() {
   
@@ -34,9 +40,13 @@ function App() {
           <Route path='/main' element={<MainView/>}/>
           <Route path='/right' element= {<RightMenu/>}/>
           <Route path='/bookmark' element={<Bookmark/>}/>
-          <Route path='/myprofile' element={<MyProfile/>}/>
+          <Route path='/myprofile' element={<ProfilePage/>}/>
+          <Route path='/profileuserone' element={<ProfilePageOne/>}/>
+          <Route path='/post' element={<PostContainer/>}/>
+          <Route path='/landing' element={<Landing/>}/>
+          <Route path='/explore' element={<Explore/>}/>
         </Routes>
-        {/* <ChakraProvider><LeftMenu/></ChakraProvider> */}
+        
     </div>
   );
 }
