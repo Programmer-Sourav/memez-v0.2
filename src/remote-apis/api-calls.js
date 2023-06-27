@@ -164,7 +164,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
    }
 
    export const doSaveBookmark = async (postId, token, homePageDispatch) =>{
-    
+    console.log(3334455, postId, token)
     try{
       
         const res = await fetch(`/api/users/bookmark/${postId}`,{
