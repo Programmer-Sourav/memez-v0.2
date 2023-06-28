@@ -6,7 +6,7 @@ import { ACTION_TYPES } from "../reducer/ActionType"
 import { doCreateAPost, doDeleteThePost, doDisLikeAPost, doDownlodUsers, doLikeAPost, doRemoveBookmark, doSaveBookmark, doStartFollowing, doStartUnFollowing } from "../remote-apis/api-calls"
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/menu"
 // import Modal from "../components/Modal"
-import { useNavigate } from "react-router"
+import { Navigate, useNavigate } from "react-router"
 import { Link } from "react-router-dom"
 
 import React from "react";
@@ -38,14 +38,16 @@ export default function Home(){
     const [searchVal, setSearchVal ] = useState("")
     const [ uploadImage, setUploadImage ] = useState(false)
     const [ postContent, setPostContent] = useState("no-url")
+    const [ resourceType, setResourceType ] = useState("")
     const [ sortVal, setSortVal ] = useState("")
     
    
    const { isOpen, onOpen, onClose } = useDisclosure();
 
-    console.log(12345, token)
     let updatedProducts = [...posts]
     
+    const navigate = useNavigate()
+
    let filteredPostOfUser = updatedProducts.filter((postItem)=>postItem.content.toLowerCase().includes(searchVal.toLowerCase()))
    
 
@@ -161,6 +163,7 @@ export default function Home(){
         setPostContent("")
         console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
         setPostContent(item.uploadResponse.data.secure_url)
+        setResourceType(item.uploadResponse.data.resource_type)
       })
     
       useItemErrorListener(item=>{
@@ -168,13 +171,31 @@ export default function Home(){
       })
     
     }
+
+    function displayImage() {
+      <img src={postContent}  alt="postimage"/>
+    }
     
+    function displayVideo() {
+      <video src={postContent} alt="postImage"/>
+    }
     const getExtention = (filename) =>{
       console.log(filename)
     const extension = filename.substring(filename.lastIndexOf('.') + 1, filename.length)
     console.log(123456, extension)
     return extension
     }
+
+    const goToProfileTwo = (firstName) =>{
+      navigate(`/profileusertwo/${firstName}`)
+      console.log("profileTwo")
+    }
+
+    const goToProfileOne = (firstName) =>{
+      navigate(`/profileuserone/${firstName}`)
+    }
+
+
     useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
 
     return(
@@ -355,8 +376,7 @@ export default function Home(){
               <p className="pr-s pt-xs">
                 {content}
               </p>
-              {console.log(34567,)}
-              {postContent !== undefined && postContent!=="no-url" ? <img src={postContent}  alt="postimage"/>: <video src={postContent} alt="postvideo"/>}
+                {resourceType && resourceType==="image" ? <img src={postContent} alt="postimage"/> : <video src={postContent} alt="postVideo"/>}
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
               
                  {loginStatus && checkIfPostIsLiked(_id) ?
@@ -392,15 +412,15 @@ export default function Home(){
           <div className="flex p-s flex-space-between flex-align-center">
             <div className="grey-bg br-full width-xl height-xl"></div>
             <div className="flex flex-column">
-              <Link to={`/profileuserone/${user._id}`}>
+              <Link to={`/profileuserone/${user.firstName}`}>
                 <div className="fw-bold">{user.firstName}</div>
                 <div className="fw-light grey-color">@{user.username}</div>
                 </Link>
             </div>
             <div className="primary-color fw-bold">
-             { following.find((userItem)=>userItem._id===user._id) ? <button onClick={()=>{startUnFollowing(user._id, token)}} style={{color:"white", background: "green", border: "none", padding: "4px"}}>
+             { following.find((userItem)=>userItem._id===user._id) ? <button onClick={()=>{goToProfileTwo(user.firstName)}} style={{color:"white", background: "green", border: "none", padding: "4px"}}>
                 Following <i className="bi bi-check-lg"></i>
-              </button> : <button onClick={()=>{startFollowing(user._id, token)}} style={{color:"white", background: "orange", border: "none", padding: "4px"}}>
+              </button> : <button onClick={()=>{goToProfileOne(user.firstName)}} style={{color:"white", background: "orange", border: "none", padding: "4px"}}>
                 Follow <i className="bi bi-plus-lg"></i>
               </button>}
             </div>

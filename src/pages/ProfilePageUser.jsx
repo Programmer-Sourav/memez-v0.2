@@ -1,13 +1,37 @@
 import { useContext } from "react"
 import { ApplicationContext } from "../context/ApplicationContext"
+import { doStartFollowing, doStartUnFollowing } from "../remote-apis/api-calls"
+import { ACTION_TYPES } from "../reducer/ActionType"
+import { useParams } from "react-router-dom"
 
-export default function ProfilePageUser({profileData}){
+export default function ProfilePageUser(){
 
-    const {profileImage, posts} = useContext(ApplicationContext)
+    const {profileImage, posts, following, token, authenticatedUser, homePageDispatch, users} = useContext(ApplicationContext)
     
+
+
+    const {firstName} = useParams()
+   
+    
+    function findTheUserDetailsForThisProfile(){
+      const userFound = users.find((userItem)=>userItem.firstName===firstName)
+      return userFound
+    }
+ 
+    const profileData = findTheUserDetailsForThisProfile()
+    
+
     const getThePosts= () =>{
         const postByUser = posts.filter((postItem)=>postItem.username===profileData.username)
         return postByUser
+    }
+    
+    const startFollowing = (followingId, token) =>{
+      doStartFollowing(followingId, token, authenticatedUser, homePageDispatch)
+    }
+
+    const startUnFollowing = (followingId, token) =>{
+      doStartUnFollowing(followingId, token, homePageDispatch)
     }
 
     const userPosts = getThePosts();
@@ -21,10 +45,13 @@ export default function ProfilePageUser({profileData}){
           
         }}></img></div>
           <h3 class="pt-s">{profileData.firstName}</h3>
-          <p class="grey-color txt-s">@{profileData.ussername}</p>
-          <button class="border-none primary-bg white-color p-xs m-xs fw-semibold width-10">
-            <a href="./profile2.html"> Follow </a>
-          </button>
+          <p class="grey-color txt-s">@{profileData.username}</p>
+          { following.find((userItem)=>userItem._id===profileData._id) ?<button class="border-none primary-bg white-color p-xs m-xs fw-semibold width-10" onClick={()=>{startUnFollowing(profileData._id, token)}} style={{color:"white", background: "green", border: "none", padding: "4px"}}>
+             Following
+          </button> : 
+          <button class="border-none primary-bg white-color p-xs m-xs fw-semibold width-10" onClick={()=>{startFollowing(profileData._id, token)}} style={{color:"white", background: "green", border: "none", padding: "4px"}}>
+          Follow
+       </button>}
           <p class="m-xs p-xs">
             {profileData.bio}
           </p>
