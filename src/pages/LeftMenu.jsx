@@ -20,7 +20,7 @@ import { ApplicationContext } from "../context/ApplicationContext";
 export default function LeftMenu(){
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [postText, setPostText] = useState("This is just a default text");
-  const { token, homePageDispatch } = useContext(ApplicationContext)
+  const { token, homePageDispatch, authenticatedUser } = useContext(ApplicationContext)
 
 
     return(
@@ -108,8 +108,8 @@ export default function LeftMenu(){
             <div className="flex">
               <div className="grey-bg br-full width-xl height-xl"></div>
               <div className="flex flex-column ml-xs">
-                <div className="fw-bold">Tanay Pratap</div>
-                <div className="fw-light grey-color">@tanaypratap</div>
+                <div className="fw-bold">{authenticatedUser.username}</div>
+                <div className="fw-light grey-color">@{authenticatedUser.username}</div>
               </div>
             </div>
             <div className="grey-color fw-bold">...</div>

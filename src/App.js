@@ -22,6 +22,7 @@ import Post from './pages/Post';
 import PostContainer from './pages/PostContainer';
 import Landing from './pages/Landing';
 import Explore from './pages/Explore/Explore';
+import ProfilePageTwo from './pages/ProfilePageTwo';
 
 function App() {
   
@@ -42,7 +43,8 @@ function App() {
           <Route path='/right' element= {<RightMenu/>}/>
           <Route path='/bookmark' element={<Bookmark/>}/>
           <Route path='/myprofile' element={<ProfilePage/>}/>
-          <Route path='/profileuserone/:id' element={<ProfilePageOne/>}/>
+          <Route path='/profileuserone/:firstName' element={<ProfilePageOne/>}/>
+          <Route path='/profileusertwo/:firstName' element={<ProfilePageTwo/>}/>
           <Route path='/post' element={<PostContainer/>}/>
           <Route path='/landing' element={<Landing/>}/>
           <Route path='/explore' element={<Explore/>}/>
