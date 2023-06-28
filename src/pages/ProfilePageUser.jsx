@@ -9,7 +9,7 @@ export default function ProfilePageUser(){
     const {profileImage, posts, following, token, authenticatedUser, homePageDispatch, users} = useContext(ApplicationContext)
     
 
-
+   
     const {firstName} = useParams()
    
     
@@ -27,7 +27,7 @@ export default function ProfilePageUser(){
     }
     
     const startFollowing = (followingId, token) =>{
-      doStartFollowing(followingId, token, authenticatedUser, homePageDispatch)
+      doStartFollowing(followingId, token, authenticatedUser, users, homePageDispatch)
     }
 
     const startUnFollowing = (followingId, token) =>{

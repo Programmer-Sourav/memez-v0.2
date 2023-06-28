@@ -12,6 +12,8 @@ export const users = [
     lastName: "Balika",
     username: "adarshbalika",
     password: "adarshBalika123",
+    bio: "Going to School!",
+    avatar: "https://www.dolldivine.com/rinmaru/rinmaru-anime-avatar-creator-logo.jpg",
     createdAt: formatDate(),
     updatedAt: formatDate(),
   },

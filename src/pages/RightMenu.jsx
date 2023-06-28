@@ -5,13 +5,16 @@ import { Link } from "react-router-dom"
 
 export default function RightMenu(){
 
-  const { users , authenticatedUser, following} = useContext(ApplicationContext)
+  const { users , authenticatedUser, following, toFollow} = useContext(ApplicationContext)
+  //const [ allUsers, setAllUsers ] = useState(users)
 
   const organicUsers = () =>{
-   
-    const updated = users.filter((user)=>user._id!==authenticatedUser._id)
+    //console.log(user._id!==authenticatedUser._id)
+    const updated =  toFollow.length>0 ? toFollow.filter((userItem)=>userItem._id!==authenticatedUser._id) : users.filter((userItem)=>userItem._id!==authenticatedUser._id)
+    console.log(3456, updated)
     return updated;
  }
+ 
     return(
         <aside className="mt-xl mr-xxl sidebar2">
         <div className="white-bg mb-m pl-s border flex flex-row flex-center nowrap">
