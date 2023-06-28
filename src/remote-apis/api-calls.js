@@ -271,7 +271,7 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
     
     }
     
-    export const doStartFollowing = async (userId, token, authenticatedUser, homePageDispatch) =>{
+    export const doStartFollowing = async (userId, token, authenticatedUser, users, homePageDispatch) =>{
       try{
         
           const res = await fetch(`/api/users/follow/${userId}`,{
@@ -284,6 +284,9 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
           const { user } = await res.json();
           authenticatedUser = user
           console.log(5555, user, authenticatedUser)
+         const toFollow = users.filter((userItem)=>(userItem._id!== userId))
+         console.log(44444, users,toFollow)
+         homePageDispatch({type: ACTION_TYPES.TO_FOLLOW, payload:  toFollow}) 
          homePageDispatch({type: ACTION_TYPES.FOLLOW_USER, payload: user.following})
          homePageDispatch({type: ACTION_TYPES.UPDATE_AUTHENTICATED_USER, payload: authenticatedUser})
       }

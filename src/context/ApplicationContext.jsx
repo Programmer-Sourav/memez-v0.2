@@ -61,7 +61,7 @@ export function ApplicationProvider({children}){
              loginStatus: authState.isLoggedIn, authDispatch, authenticatedUser: authState.authenticatedUser, 
              liked: state.liked, bookmarked: state.bookmarked, bookmarks: state.bookmarks, users: state.users, 
             following: state.following, postText, setPostText, editProfile, setEditProfile, onChnageBio, onChangeUrl, updatedUser: state.updatedUser,
-            selectedProfilePic, setSelectedProfilePic, updateImages, profileImage, setProfileImage, images, imagedata}} > {children}</ApplicationContext.Provider>
+            selectedProfilePic, setSelectedProfilePic, updateImages, profileImage, setProfileImage, images, imagedata, toFollow: state.toFollow}} > {children}</ApplicationContext.Provider>
     )
 
 }

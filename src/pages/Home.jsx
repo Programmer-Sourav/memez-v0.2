@@ -13,6 +13,7 @@ import React from "react";
 import Uploady, {useItemStartListener, useItemFinishListener, useItemErrorListener} from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button";
 import UploadPreview from "@rpldy/upload-preview";
+import { users } from "../backend/db/users"
 
 import {
   Modal,
@@ -33,7 +34,7 @@ import { asUploadButton } from "@rpldy/upload-button";
 
 
 export default function Home(){
-    const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked, users, following, postText, setPostText } = useContext(ApplicationContext)
+    const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked,  following, postText, setPostText } = useContext(ApplicationContext)
     const [show, setShow ] = useState(false)
     const [searchVal, setSearchVal ] = useState("")
     const [ uploadImage, setUploadImage ] = useState(false)
@@ -44,9 +45,19 @@ export default function Home(){
    
    const { isOpen, onOpen, onClose } = useDisclosure();
 
-    let updatedProducts = [...posts]
+    //let updatedProducts = [...posts]
     
     const navigate = useNavigate()
+
+    /**For home page, only posts by users who I am folowing should be visible */
+ 
+    let updatedProducts = [...posts].filter((postItem)=>
+    following.find((followingItem)=>
+    followingItem.username===postItem.username) || authenticatedUser.username === postItem.username )
+    console.log("Posts", updatedProducts)
+   
+    const [ allUsers, setAllUsers ] = useState(users)
+    
 
    let filteredPostOfUser = updatedProducts.filter((postItem)=>postItem.content.toLowerCase().includes(searchVal.toLowerCase()))
    
@@ -97,7 +108,7 @@ export default function Home(){
     }
 
     const startFollowing = (followingId, token) =>{
-      doStartFollowing(followingId, token, authenticatedUser, homePageDispatch)
+      doStartFollowing(followingId, token, authenticatedUser, users, homePageDispatch)
     }
 
     const startUnFollowing = (followingId, token) =>{
@@ -194,7 +205,18 @@ export default function Home(){
     const goToProfileOne = (firstName) =>{
       navigate(`/profileuserone/${firstName}`)
     }
-
+   
+    
+    const currentUserAvatar = () =>{
+     const user =  allUsers.find((userItem)=>userItem._id===authenticatedUser._id)
+     const url = user.avatar
+     return url
+    }
+   
+    const userAvatar = (username) =>{
+      const user = allUsers.find((userItem)=>userItem.username===username)
+      return user.avatar
+    }
 
     useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
 
@@ -289,7 +311,7 @@ export default function Home(){
           
           <div className="flex flex-space-between flex-align-center">
             <div className="flex">
-              <div className="grey-bg br-full width-xl height-xl"></div>
+              <div className="grey-bg br-full width-xl height-xl">{<img src={currentUserAvatar()} alt="downloads" style={{borderRadius: "50%"}}/> }</div>
               <div className="flex flex-column ml-xs">
                 <div className="fw-bold">{authenticatedUser.username}</div>
                 <div className="fw-light grey-color">@{authenticatedUser.username}</div>
@@ -302,7 +324,7 @@ export default function Home(){
       <main className="mt-xl">
         <div className="white-bg mr-xxl p-xs mt-s">
           <div className="flex flex-row nowrap p-xs">
-            <div className="grey-bg br-full width-xl height-xl p-xs mr-xs" style={{aspectRatio : '1'}}></div>
+            <div className="grey-bg br-full width-xl height-xl p-xs mr-xs" style={{aspectRatio : '1'}}><img src={currentUserAvatar()} alt="avatar" style={{borderRadius: "50%"}}/></div>
             <div className="w-full">
               <textarea name="make_post" id="make_my_post" value={postText} cols="50" rows="6" className="w-full lynx-white-bg p-s outline-transparent border-none"
                style={{resize : 'none'}} placeholder="Write something interesting..." 
@@ -349,9 +371,9 @@ export default function Home(){
 
           
         
-        <div className="white-bg mr-xxl p-xs mt-s" key={_id}>
+        <div className="white-bg mr-xxl p-xs mt-s" key={_id}> 
           <div className="flex flex-row nowrap p-xs">
-            <div className="grey-bg br-full width-xl height-xl p-xs mr-xs" style={{aspectRatio : '1'}}></div>
+            <div className="grey-bg br-full width-xl height-xl p-xs mr-xs" style={{aspectRatio : '1'}}><img src={userAvatar(username)} alt="dummy" style={{borderRadius: "90%"}}/></div>
             <div>
               <div className="flex flex-row flex-align-center flex-space-between">
                 <div className="flex flex-row">
@@ -410,7 +432,7 @@ export default function Home(){
           </div>
           {filteredUsers.map((user)=>(
           <div className="flex p-s flex-space-between flex-align-center">
-            <div className="grey-bg br-full width-xl height-xl"></div>
+            <div className="grey-bg br-full width-xl height-xl">{<img src={user.avatar} alt="avatar-downloaded" style={{borderRadius: "50%"}}/>}</div>
             <div className="flex flex-column">
               <Link to={`/profileuserone/${user.firstName}`}>
                 <div className="fw-bold">{user.firstName}</div>

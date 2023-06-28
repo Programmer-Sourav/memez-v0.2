@@ -59,6 +59,7 @@ export const posts = [
     username: "Aniruddha",
     createdAt: formatDate(),
     updatedAt: formatDate(),
+    category: "ForYou"
   },
   {
     _id: uuid(),
@@ -85,6 +86,7 @@ export const posts = [
     username: "Sahurukh",
     createdAt: formatDate(),
     updatedAt: "06/16/2023",
+    
   },
   {
     _id: uuid(),

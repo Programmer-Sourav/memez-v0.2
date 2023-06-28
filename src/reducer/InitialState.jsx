@@ -7,5 +7,6 @@ export const initialState = {
     bookmarks: [], 
     users: [], 
     following: [],
-    updatedUser: ""
+    updatedUser: "", 
+    toFollow: []
 }
