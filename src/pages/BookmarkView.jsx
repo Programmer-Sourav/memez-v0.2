@@ -9,17 +9,13 @@ import { useNavigate } from "react-router"
 
 import {  ChakraProvider } from "@chakra-ui/react";
 import { OpenModal } from "../components/OpenModal"
+import InfinteScroll from "../components/InfiniteScroll"
 
 
   export default function BookmarkView({bookmarks}){
 
-    const {  homePageDispatch, token, loginStatus, authenticatedUser, postText, setPostText } = useContext(ApplicationContext)
-    console.log("post ", postText)
-    // const [ editText, setEditText ] = useState(postText) 
-    // const [show, setShow ] = useState(false)
-
-
-  console.log(4545, bookmarks.length)  
+    const {  homePageDispatch, token, loginStatus, authenticatedUser, postText, setPostText, items, setItems } = useContext(ApplicationContext)
+  
 
   const checkIfPostIsBookmarked = (postId) =>{ 
     const isBookMarked = bookmarks.filter((currentPost) => currentPost._id === postId).length>0
@@ -35,9 +31,12 @@ import { OpenModal } from "../components/OpenModal"
     console.log(123, result)
     homePageDispatch({type: ACTION_TYPES.BOOKMARK, payload: result})
   }
+
+ 
     
     return(
         <div> 
+           <InfinteScroll providedData={bookmarks}/>
         <main className="mt-xl">
         <div className="flex flex-space-between mr-xxl flex-align-center pt-s">
           <h4 className="">Your Bookmarks</h4>

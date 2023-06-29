@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 // import "../stylesheets/base.css"
 //import Modal from "../components/Modal";
 import {
@@ -28,28 +29,28 @@ export default function LeftMenu(){
         <div className="flex flex-column flex-space-between sidebar">
           <div>
             <div className="pt-s black-color fw-semibold">
-              <a href="">
+              <Link to="/home">
                 <i className="bi bi-house"></i> &nbsp;
                 <span className="fw-bold">Home</span>
-              </a>
+              </Link>
             </div>
             <div className="pt-s black-color fw-semibold">
-              <a href="../explore/explore.html">
+              <Link to ="/explore">
                 <i className="bi bi-rocket"></i> &nbsp;
                 <span>Explore</span>
-              </a>
+              </Link>
             </div>
             <div className="pt-s black-color fw-semibold">
-              <a href="../bookmarks/bookmark.html">
+              <Link to ="../bookmark">
                 <i className="bi bi-bookmark"></i> &nbsp;
                 <span>Bookmark</span>
-              </a>
+              </Link>
             </div>
             <div className="pt-s black-color fw-semibold">
-              <a href="../profile/profile.html">
+              <Link to="../myprofile">
                 <i className="bi bi-person"></i> &nbsp;
                 <span>Profile</span>
-              </a>
+              </Link>
             </div>
             <button className="mt-m p-s primary-bg white-color border-none outline-transparent new-post-btn" onClick={onOpen}>
               Create New Post
@@ -106,7 +107,7 @@ export default function LeftMenu(){
            
            <div className="flex flex-space-between flex-align-center">
             <div className="flex">
-              <div className="grey-bg br-full width-xl height-xl"></div>
+              <div className="grey-bg br-full width-xl height-xl">{<img src={authenticatedUser.avatar} alt="" style={{borderRadius:"50%"}}/>}</div>
               <div className="flex flex-column ml-xs">
                 <div className="fw-bold">{authenticatedUser.username}</div>
                 <div className="fw-light grey-color">@{authenticatedUser.username}</div>

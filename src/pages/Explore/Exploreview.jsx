@@ -1,18 +1,26 @@
 import { useContext } from "react"
 import { ApplicationContext } from "../../context/ApplicationContext"
 import { useState } from "react"
+import { users } from "../../backend/db/users"
 
 export default function ExploreView(){
 
   const { users, authenticatedUser, posts } = useContext(ApplicationContext)
   const [ tabValue, setTabValue ] = useState("")
+  const [allUser, setAllUser ] = useState(users)
 
 
   const handleTabs = (value) =>{
      setTabValue(value)
   }
    
-
+ const userAvatar = (username) =>{
+  const user = allUser.find((userItem)=>userItem.username===username)
+  let avatarUrl;
+  if(user!==undefined)
+  avatarUrl = user.avatar
+  return avatarUrl
+ }
    return(
     <main class="mt-xl">
         <h3 class="pt-s">Explore</h3>
@@ -36,7 +44,7 @@ export default function ExploreView(){
         {posts.map((postItem)=>(
         <div class="white-bg mr-xxl p-xs mt-s">
           <div class="flex flex-row nowrap p-xs">
-            <div class="grey-bg br-full width-xl height-xl p-xs mr-xs"></div>
+            <div class="grey-bg br-full width-xl height-xl p-xs mr-xs"><img src={userAvatar(postItem.username)} alt="" style={{borderRadius: "50%"}}/></div>
             <div>
               <div class="flex flex-row flex-align-center flex-space-between">
                 <div class="flex flex-row">
