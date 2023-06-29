@@ -19,6 +19,11 @@ export function ApplicationProvider({children}){
     const [ postText, setPostText ] = useState("")
     const [ editProfile, setEditProfile ] = useState({bio:'Your bio', url: 'website url here'})
     const [selectedProfilePic, setSelectedProfilePic] = useState({image: ""})
+
+    const [ items, setItems ] =  useState([])
+  
+
+
     const imagedata = [{id: 1, image: require("../avatars/avatar2.png"), selected: false}, 
     {id: 2, image: require("../avatars/avatar1.png"), selected: false}, 
     {id: 3, image: require("../avatars/avatar3.png"), selected: false},
@@ -56,12 +61,19 @@ export function ApplicationProvider({children}){
    
     useEffect(()=>{setTimeout(() => {getPosts()}, 1000)},[])
 
+    const setData = (newItems) =>{
+        console.log("SET ", newItems)
+       setItems([...items, ...newItems])
+    }
+
+    
+
     return(
         <ApplicationContext.Provider value ={{posts: state.currentPosts, homePageDispatch, token: authState.token,
              loginStatus: authState.isLoggedIn, authDispatch, authenticatedUser: authState.authenticatedUser, 
              liked: state.liked, bookmarked: state.bookmarked, bookmarks: state.bookmarks, users: state.users, 
             following: state.following, postText, setPostText, editProfile, setEditProfile, onChnageBio, onChangeUrl, updatedUser: state.updatedUser,
-            selectedProfilePic, setSelectedProfilePic, updateImages, profileImage, setProfileImage, images, imagedata, toFollow: state.toFollow}} > {children}</ApplicationContext.Provider>
+            selectedProfilePic, setSelectedProfilePic, updateImages, profileImage, setProfileImage, images, imagedata, toFollow: state.toFollow, items, setItems, setData}} > {children}</ApplicationContext.Provider>
     )
 
 }

@@ -20,7 +20,7 @@ export default function MyProfile() {
         <div> 
         <main class="p-s">
         <div class="flex flex-column flex-center">
-          <div class="lynx-gray-bg width-7 height-7 br-full"><img src={profileImage.image} alt="dummyavatar"></img></div>
+          <div class="lynx-gray-bg width-7 height-7 br-full"><img src={profileImage.image} alt="dummyavatar" style={{borderRadius: "50%"}}></img></div>
           <h3 class="pt-s">@{authenticatedUser.username}</h3>
           <p class="grey-color txt-s">@{authenticatedUser.firstName}</p>
           <button class="border lynx-white-bg p-xs m-xs fw-semibold width-8">

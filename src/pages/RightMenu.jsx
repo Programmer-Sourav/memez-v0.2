@@ -10,6 +10,10 @@ export default function RightMenu(){
 
   const organicUsers = () =>{
     //console.log(user._id!==authenticatedUser._id)
+    //both the following and users are array
+    // users.filter((userItem)=>
+    //      following.find((followingItem)=>
+    //      followingItem._id!==userItem._id) ||  authenticatedUser._id !== userItem._id )
     const updated =  toFollow.length>0 ? toFollow.filter((userItem)=>userItem._id!==authenticatedUser._id) : users.filter((userItem)=>userItem._id!==authenticatedUser._id)
     console.log(3456, updated)
     return updated;
@@ -29,7 +33,7 @@ export default function RightMenu(){
           </div>
           {organicUsers().map((userItem)=>(
           <div className="flex p-s flex-space-between flex-align-center">
-            <div className="grey-bg br-full width-xl height-xl"></div>
+            <div className="grey-bg br-full width-xl height-xl"><img src={userItem.avatar} alt="dummy" style={{borderRadius: "50%"}}/></div>
             <div className="flex flex-column">
             
               <Link to={`/profileuserone/${userItem.firstName}`}>
@@ -38,9 +42,9 @@ export default function RightMenu(){
               </Link>
             </div>
             <div className="primary-color fw-bold">
-              <a href="../profile/profile2.html">
+              <Link to={`/profileusertwo/${userItem.firstName}`}>
                 Follow <i className="bi bi-plus-lg"></i>
-              </a>
+              </Link>
             </div>
           </div>
           ))}

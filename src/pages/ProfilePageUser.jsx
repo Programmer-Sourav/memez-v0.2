@@ -11,7 +11,7 @@ export default function ProfilePageUser(){
 
    
     const {firstName} = useParams()
-   
+    console.log(334, users)
     
     function findTheUserDetailsForThisProfile(){
       const userFound = users.find((userItem)=>userItem.firstName===firstName)
@@ -25,8 +25,10 @@ export default function ProfilePageUser(){
         const postByUser = posts.filter((postItem)=>postItem.username===profileData.username)
         return postByUser
     }
+  
     
     const startFollowing = (followingId, token) =>{
+     
       doStartFollowing(followingId, token, authenticatedUser, users, homePageDispatch)
     }
 
@@ -35,7 +37,7 @@ export default function ProfilePageUser(){
     }
 
     const userPosts = getThePosts();
-    console.log("userpost ", userPosts)
+    
     return(
       
         <main class="p-s">

@@ -25,12 +25,23 @@ import {
   ModalCloseButton,
   useDisclosure,
   Button,
-  border
+  border,
+  Popover,
+  PopoverTrigger,
+  Portal,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverFooter,
+  background
 } from "@chakra-ui/react";
 import {  ChakraProvider } from "@chakra-ui/react";
 import { toast } from "react-hot-toast"
 import { asUploadButton } from "@rpldy/upload-button";
-
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 
 export default function Home(){
@@ -217,6 +228,9 @@ export default function Home(){
       const user = allUsers.find((userItem)=>userItem.username===username)
       return user.avatar
     }
+    const  setEmojiContent = (receivedVal) =>{
+     setPostText(postText+receivedVal.native)
+    }
 
     useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
 
@@ -340,7 +354,7 @@ export default function Home(){
       accept="image/*"
     >
       <MyUploadButton/>
-      <UploadButton> <i className="bi bi-card-image" ></i></UploadButton>
+     <span><UploadButton> <i className="bi bi-card-image" ></i></UploadButton></span>
       
       {/* <DivUploadButton />    */}
       {/* <UploadPreview/> */}
@@ -352,10 +366,26 @@ export default function Home(){
       // fileFilter={filterBySize}
       accept="video/*">
       <MyUploadButton/>
-      <UploadButton>  <i className="bi bi-filetype-gif"></i></UploadButton>
+      <span><UploadButton> <i className="bi bi-filetype-gif"></i></UploadButton></span>
     </Uploady>
+
+  <Popover>
+  <PopoverTrigger>
+   <span><Button><i className="bi bi-emoji-smile"></i></Button></span>
+  </PopoverTrigger>
+  <Portal>
+    <PopoverContent>
+      <PopoverArrow />
+      <PopoverHeader >Select Emoji </PopoverHeader>
+      <PopoverCloseButton />
+      <PopoverBody>
+      <Picker data={data} onEmojiSelect={(e)=>{setEmojiContent(e)}} ></Picker>
+      </PopoverBody>
+    </PopoverContent>
+  </Portal>
+</Popover>
                  
-                  <i className="bi bi-emoji-smile"></i>
+    {/* <i className="bi bi-emoji-smile"><Picker data={data} onEmojiSelect={console.log} ></Picker></i> */}
                 </div>
                 <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{doCreateAPost(postText, postContent,token, homePageDispatch, setPostText(""))}}>Post</button>
               </div>
@@ -403,7 +433,7 @@ export default function Home(){
               
                  {loginStatus && checkIfPostIsLiked(_id) ?
                  <i className="bi bi-heart-fill" style={{color: "red"}} onClick={()=>disLikeThePost(_id, token, homePageDispatch)}></i>:
-                <i className="bi bi-heart" onClick={()=>likeThePost(_id, token, homePageDispatch)}></i> 
+                 <i className="bi bi-heart" onClick={()=>likeThePost(_id, token, homePageDispatch)}></i> 
                  }{likes.likeCount}
                 <i className="bi bi-chat-left"></i>
                 <i className="bi bi-share"></i>
