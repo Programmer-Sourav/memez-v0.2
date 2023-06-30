@@ -12,8 +12,11 @@ export default function ExploreView(){
 
   const handleTabs = (value) =>{
      setTabValue(value)
+     console.log("Clicked"+ value)
   }
    
+  const updatedPost = posts.filter((eachItem)=>eachItem.category===tabValue) 
+
  const userAvatar = (username) =>{
   const user = allUser.find((userItem)=>userItem.username===username)
   let avatarUrl;
@@ -41,7 +44,7 @@ export default function ExploreView(){
             News
           </div>
         </div>
-        {posts.map((postItem)=>(
+        {updatedPost.map((postItem)=>(
         <div class="white-bg mr-xxl p-xs mt-s">
           <div class="flex flex-row nowrap p-xs">
             <div class="grey-bg br-full width-xl height-xl p-xs mr-xs"><img src={userAvatar(postItem.username)} alt="" style={{borderRadius: "50%"}}/></div>

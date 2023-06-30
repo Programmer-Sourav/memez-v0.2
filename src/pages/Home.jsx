@@ -50,6 +50,7 @@ export default function Home(){
     const [searchVal, setSearchVal ] = useState("")
     const [ uploadImage, setUploadImage ] = useState(false)
     const [ postContent, setPostContent] = useState("no-url")
+    const [ videoContent, setVideoContent] = useState("")
     const [ resourceType, setResourceType ] = useState("")
     const [ sortVal, setSortVal ] = useState("")
     
@@ -184,7 +185,10 @@ export default function Home(){
         console.log("Inside Finish")
         setPostContent("")
         console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
+        if(item.uploadResponse.data.resource_type==="image")
         setPostContent(item.uploadResponse.data.secure_url)
+        if(item.uploadResponse.data.resource_type==="video")
+        setVideoContent(item.uploadResponse.data.secure_url)
         setResourceType(item.uploadResponse.data.resource_type)
       })
     
@@ -387,7 +391,7 @@ export default function Home(){
                  
     {/* <i className="bi bi-emoji-smile"><Picker data={data} onEmojiSelect={console.log} ></Picker></i> */}
                 </div>
-                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{doCreateAPost(postText, postContent,token, homePageDispatch, setPostText(""))}}>Post</button>
+                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{resourceType==="image" ? doCreateAPost(postText, postContent,token, homePageDispatch, setPostText("")) : doCreateAPost(postText, videoContent,token, homePageDispatch, setPostText(""))}}>Post</button>
               </div>
             </div>
           </div>
@@ -428,7 +432,8 @@ export default function Home(){
               <p className="pr-s pt-xs">
                 {content}
               </p>
-                {resourceType && resourceType==="image" ? <img src={postContent} alt="postimage"/> : <video src={postContent} alt="postVideo"/>}
+                {console.log(345, resourceType)}
+                {resourceType && resourceType==="image" ? <img src={postContent} alt="postimage"/> : <video src={videoContent} alt="postVideo"/>}
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
               
                  {loginStatus && checkIfPostIsLiked(_id) ?
