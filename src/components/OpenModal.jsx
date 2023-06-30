@@ -21,7 +21,8 @@ function OpenModal({data}){
   const { isOpen, onClose, onOpen } = useDisclosure();
   const {postText, setPostText, token, homePageDispatch} = useContext(ApplicationContext);
   
-  
+  console.log(5566, data.content)
+  console.log(6677, data._id)
   const [ postEdit, setPostEdit ] = useState(data.content)
 return(
 <>
@@ -34,13 +35,13 @@ return(
 
             <ModalBody>
               
-              <input
-                type="text"
+              <textarea rows="6" cols="50"
                 value={postEdit}
                 style={{
                   border: "1px solid black",
                   height: "128px",
-                  width: "392px"
+                  width: "392px", 
+                  alignContent:"top"
                 }}
                 onChange={(e) => {
                   setPostEdit(e.target.value);
@@ -51,7 +52,9 @@ return(
                   background: "green",
                   padding: "4px",
                   color: "white",
-                  margin: "4px"
+                  margin: "4px",
+                  float: "right",
+                  borderRadius: "8px"
                 }}
                
               onClick={()=>{doEditAPost(data._id, postEdit, token, homePageDispatch, setPostText(""))}} >
@@ -61,10 +64,8 @@ return(
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="blue"  mr={3} onClick={onClose}>
-                Close
-              </Button>
-              <Button variant="ghost">Secondary Action</Button>
+            
+              
             </ModalFooter>
           </ModalContent>
         {/* </ModalOverlay> */}

@@ -36,14 +36,14 @@ import InfinteScroll from "../components/InfiniteScroll"
     
     return(
         <div> 
-           <InfinteScroll providedData={bookmarks}/>
+           {/* <InfinteScroll providedData={bookmarks}/> */}
         <main className="mt-xl">
         <div className="flex flex-space-between mr-xxl flex-align-center pt-s">
           <h4 className="">Your Bookmarks</h4>
           <i className="bi bi-sliders2-vertical"></i>
         </div>
         {console.log("Items123", items, items.length)}
-        {items.length>0 && items.map((bookMark)=>(
+        {bookmarks.length>0 && bookmarks.map((bookMark)=>(
         
         <div className="white-bg mr-xxl p-xs mt-s" key={bookMark._id}>
           <div className="flex flex-row nowrap p-xs">
