@@ -62,10 +62,12 @@ export function ApplicationProvider({children}){
     useEffect(()=>{setTimeout(() => {getPosts()}, 1000)},[])
 
     const setData = (newItems) =>{
-        console.log("SET ", newItems)
-       setItems([...items, ...newItems])
+        console.log("SET ", newItems, newItems.length)
+        console.log("Before setItems")
+       setItems([...newItems])
+       console.log("Below setItems", setItems.length)
     }
-
+   console.log("AppContext", items)
     
 
     return(

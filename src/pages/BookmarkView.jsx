@@ -42,8 +42,8 @@ import InfinteScroll from "../components/InfiniteScroll"
           <h4 className="">Your Bookmarks</h4>
           <i className="bi bi-sliders2-vertical"></i>
         </div>
-        
-        {bookmarks && bookmarks.map((bookMark)=>(
+        {console.log("Items123", items, items.length)}
+        {items.length>0 && items.map((bookMark)=>(
         
         <div className="white-bg mr-xxl p-xs mt-s" key={bookMark._id}>
           <div className="flex flex-row nowrap p-xs">

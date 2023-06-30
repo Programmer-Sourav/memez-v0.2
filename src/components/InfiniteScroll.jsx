@@ -8,23 +8,22 @@ export default function InfinteScroll({providedData}){
     const [ hasMore, setHasMore ] = useState(false)
     const [ page, setPage ] = useState(1)
 
-    useEffect(()=>{fetchData(page)}, [page])
+  //   useEffect(() => {
+  //     fetchData(providedData);
+  //   }, []);
 
-    const fetchData = (page) =>{
-        
-        const newItems = []; 
+   
+  //   const fetchData = (providedData) => {
+  //     if(page===100){
+  //       setHasMore(false)
+  //     }
+  // //   setItems([...items, ...newItems])
+  // console.log("Fetch", providedData, page)
+  // setData([...providedData])
+  //   };
 
-        for(let i = 0; i<providedData.length; i++) {
-            newItems.push(providedData[i])
-            console.log(4455, newItems)
-        }
-
-        if(page===100){
-          setHasMore(false)
-        }
-    //   setItems([...items, ...newItems])
-    setData(newItems)
-    }
+  console.log("Fetch", providedData, page)
+  setData([...providedData])
 
     const onScroll = () =>{
 

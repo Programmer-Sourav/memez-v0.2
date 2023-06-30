@@ -46,6 +46,7 @@ export const posts = [
     username: "shubhamsoni",
     createdAt: formatDate(),
     updatedAt: "06/12/2023",
+    category: "ForYou"
   },
   {
     _id: uuid(),
