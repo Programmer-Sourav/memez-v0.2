@@ -57,7 +57,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
           });
         }
 
-           export const doCreateAPost = async (postText, postContent,  token,  homePageDispatch) =>{
+           export const doCreateAPost = async (postText, postContentRes, token,  homePageDispatch) =>{
             // let contentToSend; 
             // if(postTe!==null){
             //    contentToSend = postText + postContent
@@ -65,20 +65,26 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
             // else{
             //   contentToSend = postText
             // }
-            console.log(3334,  postText, postContent,  token)
+            console.log("Sep124", postContentRes)
+            const sepArray = postContentRes.split("-");
+            const postContent = sepArray[0]
+            const resourceType = sepArray[1]
+            console.log("Sep123", postContentRes, postContent, resourceType)
+            console.log(3334,  postText, postContent, resourceType,  token)
             try{
               
                 const res = await axios.post("/api/posts",
             
                       
-                    { postData: { content: postText, postContent} },
+                    { postData: { content: postText, postContent, resourceType} },
                     {headers: {
                       authorization: token,
                     }}
                 )
-               
+                console.log(5557, res)
                 const { posts } = res.data 
                 console.log(5556, posts)
+                toast.success("Successfully Posted!")
                 homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: posts})
             }
             catch(e){
@@ -101,7 +107,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
               )
              
               const { posts } = res.data 
-              
+              toast.success("Successfully Updated!")
               homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: posts})
           }
           catch(e){

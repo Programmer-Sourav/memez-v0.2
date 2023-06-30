@@ -8,14 +8,38 @@ export default function ExploreView(){
   const { users, authenticatedUser, posts } = useContext(ApplicationContext)
   const [ tabValue, setTabValue ] = useState("")
   const [allUser, setAllUser ] = useState(users)
+  const [selectedTab, setSelectedTab] = useState({});
 
 
-  const handleTabs = (value) =>{
+  const handleTabs = (e, value, tabname) =>{
      setTabValue(value)
-     console.log("Clicked"+ value)
+     setSelectedTab(tabname)
   }
-   
-  const updatedPost = posts.filter((eachItem)=>eachItem.category===tabValue) 
+  
+  
+  let updatedPost = [...posts];
+
+  if(tabValue==="trending")
+  updatedPost = [...posts].sort((p1, p2)=>p2.likes.likeCount>p1.likes.likeCount)
+
+  if(tabValue==="technology")
+  updatedPost = [...posts].reduce(
+    (acc, postItem) => (postItem.category === tabValue ? [...acc, postItem] : acc),
+    []
+  );
+
+  if(tabValue==="sports")
+  updatedPost = [...posts].reduce(
+    (acc, postItem) => (postItem.category === tabValue ? [...acc, postItem] : acc),
+    []
+  );
+
+  if(tabValue==="news")
+  updatedPost = [...posts].reduce(
+    (acc, postItem) => (postItem.category === tabValue ? [...acc, postItem] : acc),
+    []
+  );
+  
 
  const userAvatar = (username) =>{
   const user = allUser.find((userItem)=>userItem.username===username)
@@ -25,22 +49,22 @@ export default function ExploreView(){
   return avatarUrl
  }
    return(
-    <main class="mt-xl">
+    <main class="mt-xl" style={{height: "100%"}}>
         <h3 class="pt-s">Explore</h3>
         <div class="flex flex-row nowrap">
-          <div class="border p-xs mt-xs mb-xs mr-s width-7 txt-center fw-semibold" onClick={()=>{handleTabs("ForYou")}}>
+          <div class= {selectedTab==="For You" ? "border p-xs mt-xs mb-xs mr-s width-7 txt-center black-semibold" : "border p-xs mt-xs mb-xs mr-s ml-s width-7 txt-center grey-color" }  onClick={(e)=>{handleTabs(e, "ForYou", "For You")}}>
             For You
           </div>
-          <div class="border p-xs mt-xs mb-xs mr-s ml-s width-7 txt-center grey-color" onClick={()=>{handleTabs("trending")}}>
+          <div class= {selectedTab==="Trending" ? "border p-xs mt-xs mb-xs mr-s width-7 txt-center black-semibold" : "border p-xs mt-xs mb-xs mr-s ml-s width-7 txt-center grey-color" } onClick={(e)=>{handleTabs(e, "trending", "Trending")}}>
             Trending
           </div>
-          <div class="border p-xs mt-xs mb-xs mr-s ml-s width-7 txt-center grey-color">
+          <div class= {selectedTab==="Technology" ? "border p-xs mt-xs mb-xs mr-s width-7 txt-center black-semibold" : "border p-xs mt-xs mb-xs mr-s ml-s width-7 txt-center grey-color"} onClick={(e)=>handleTabs(e, "technology", "Technology")}>
             Technology
           </div>
-          <div class="border p-xs mt-xs mb-xs mr-s ml-s width-7 txt-center grey-color">
+          <div class= {selectedTab==="Sports" ? "border p-xs mt-xs mb-xs mr-s width-7 txt-center black-semibold"  :"border p-xs mt-xs mb-xs mr-s ml-s width-7 txt-center grey-color"} onClick={(e)=>handleTabs(e, "sports", "Sports")}>
             Sports
           </div>
-          <div class="border p-xs mt-xs mb-xs mr-s ml-s width-7 txt-center grey-color">
+          <div class= {selectedTab==="News" ? "border p-xs mt-xs mb-xs mr-s width-7 txt-center black-semibold" : "border p-xs mt-xs mb-xs mr-s ml-s width-7 txt-center grey-color"} onClick={(e)=>handleTabs(e, "news", "News")}>
             News
           </div>
         </div>

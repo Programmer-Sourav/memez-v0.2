@@ -3,27 +3,31 @@ import { ApplicationContext } from "../context/ApplicationContext";
 
 export default function InfinteScroll({providedData}){
     console.log("Data ", providedData)
+    const { bookmarks } = useContext(ApplicationContext)
+
     const { items, setItems, setData } = useContext(ApplicationContext)
 
     const [ hasMore, setHasMore ] = useState(false)
     const [ page, setPage ] = useState(1)
 
-  //   useEffect(() => {
-  //     fetchData(providedData);
-  //   }, []);
+    useEffect(() => {
+      fetchData();
+    }, []);
 
    
-  //   const fetchData = (providedData) => {
-  //     if(page===100){
-  //       setHasMore(false)
-  //     }
-  // //   setItems([...items, ...newItems])
-  // console.log("Fetch", providedData, page)
-  // setData([...providedData])
-  //   };
-
+    const fetchData = () => {
+      if(page===100){
+        setHasMore(false)
+      }
+  //   setItems([...items, ...newItems])
   console.log("Fetch", providedData, page)
-  setData([...providedData])
+  setItems([...items, ...bookmarks])
+    };
+    console.log(121212, items)
+
+
+//   console.log("Fetch", providedData, page)
+//   setData([...providedData])
 
     const onScroll = () =>{
 
@@ -41,15 +45,15 @@ export default function InfinteScroll({providedData}){
         return () => window.removeEventListener('scroll', onScroll)
        }, [items])
 
-       return (
-        <div>
-          {items.map((item, index) => (
-            <div key={index}>
-              {item}
+      //  return (
+      //   <div>
+      //     {items.map((item, index) => (
+      //       <div key={index}>
+      //         {item}
             
-            </div>
-          ))}
+      //       </div>
+      //     ))}
         
-        </div>
-      )
+      //   </div>
+      // )
 }

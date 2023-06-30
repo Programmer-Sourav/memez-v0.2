@@ -42,6 +42,7 @@ import { toast } from "react-hot-toast"
 import { asUploadButton } from "@rpldy/upload-button";
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+import { OpenModal } from "../components/OpenModal"
 
 
 export default function Home(){
@@ -50,7 +51,6 @@ export default function Home(){
     const [searchVal, setSearchVal ] = useState("")
     const [ uploadImage, setUploadImage ] = useState(false)
     const [ postContent, setPostContent] = useState("no-url")
-    const [ videoContent, setVideoContent] = useState("")
     const [ resourceType, setResourceType ] = useState("")
     const [ sortVal, setSortVal ] = useState("")
     
@@ -180,16 +180,14 @@ export default function Home(){
         console.log(`item ${item.id} uploading now. file name=${item.file.name}`)
     });
     
-      
+    
       useItemFinishListener(item=>{
         console.log("Inside Finish")
-        setPostContent("")
+        //setPostContent("")
         console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
-        if(item.uploadResponse.data.resource_type==="image")
-        setPostContent(item.uploadResponse.data.secure_url)
-        if(item.uploadResponse.data.resource_type==="video")
-        setVideoContent(item.uploadResponse.data.secure_url)
         setResourceType(item.uploadResponse.data.resource_type)
+        setPostContent(item.uploadResponse.data.secure_url)
+        console.log("123URL ", resourceType, item.uploadResponse.data.resource_type, postContent, item.uploadResponse.data.secure_url)
       })
     
       useItemErrorListener(item=>{
@@ -237,7 +235,8 @@ export default function Home(){
     }
 
     useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
-
+    const postRes = resourceType+":"+postContent
+    console.log("124URL", postContent-resourceType, postRes)
     return(
         <div className="container">
             <nav className="white-bg">
@@ -286,8 +285,7 @@ export default function Home(){
 
             <ModalBody>
               
-              <input
-                type="text"
+              <textarea rows="6" column="50"
                 value={postText}
                 style={{
                   border: "1px solid black",
@@ -301,24 +299,25 @@ export default function Home(){
               <button
                 style={{
                   background: "green",
-                  padding: "4px",
+                  paddingLeft: "32px",
+                  paddingRight: "32px",
+                  height: "40px",
                   color: "white",
-                  margin: "4px"
+                  margin: "8px",
+                  float: "right",
+                  borderRadius: "8px"
                 }}
                
-              onClick={()=>{doCreateAPost(postText, postContent,  token,  homePageDispatch, setPostText(""), setPostContent(""))}}
+              onClick={()=>{doCreateAPost(postText, postRes, token,  homePageDispatch, setPostText(""))}}
                 
               >
                 {" "}
-                Post{" "}
+                Post!{" "}
               </button>
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="blue"  mr={3} onClick={onClose}>
-                Close
-              </Button>
-              <Button variant="ghost">Secondary Action</Button>
+          
             </ModalFooter>
           </ModalContent>
         </ModalOverlay>
@@ -391,7 +390,7 @@ export default function Home(){
                  
     {/* <i className="bi bi-emoji-smile"><Picker data={data} onEmojiSelect={console.log} ></Picker></i> */}
                 </div>
-                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{resourceType==="image" ? doCreateAPost(postText, postContent,token, homePageDispatch, setPostText("")) : doCreateAPost(postText, videoContent,token, homePageDispatch, setPostText(""))}}>Post</button>
+                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{doCreateAPost(postText, postContent,token, homePageDispatch, setPostText(""))}}>Post</button>
               </div>
             </div>
           </div>
@@ -400,11 +399,8 @@ export default function Home(){
           <h3 className="">Latest Posts</h3>
           <i className="bi bi-sliders2-vertical"></i>
         </div>
-        
-        {filteredPostOfUser && filteredPostOfUser.map(({_id, content, postContent,  likes, username, createdAt, updatedAt})=>(
-
-          
-        
+        {filteredPostOfUser && filteredPostOfUser.map(({_id, content, postContent, resourceType, likes, username, createdAt, updatedAt})=>(
+       
         <div className="white-bg mr-xxl p-xs mt-s" key={_id}> 
           <div className="flex flex-row nowrap p-xs">
             <div className="grey-bg br-full width-xl height-xl p-xs mr-xs" style={{aspectRatio : '1'}}><img src={userAvatar(username)} alt="dummy" style={{borderRadius: "90%"}}/></div>
@@ -423,7 +419,7 @@ export default function Home(){
                 <p>∙∙∙</p>
                 </MenuButton>
                 <MenuList>
-                <MenuItem height="24px" border="none" textStyle="bold" padding="4px">Edit Post</MenuItem>
+                <ChakraProvider><OpenModal data={{_id, content}}/></ChakraProvider> 
                 <MenuDivider/>
                 <MenuItem height="24px" border="none" textStyle="bold" padding="4px" onClick={()=>deleteThisPostFromFeed(_id, username)}>Delete Post</MenuItem>
                 </MenuList>
@@ -431,9 +427,9 @@ export default function Home(){
               </div>
               <p className="pr-s pt-xs">
                 {content}
+                {console.log(777888, resourceType)}
+                 {resourceType && resourceType==="image" ? <img src={postContent} alt="postimage"/> : <video src={postContent} alt="postVideo"/>}
               </p>
-                {console.log(345, resourceType)}
-                {resourceType && resourceType==="image" ? <img src={postContent} alt="postimage"/> : <video src={videoContent} alt="postVideo"/>}
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
               
                  {loginStatus && checkIfPostIsLiked(_id) ?

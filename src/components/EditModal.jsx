@@ -68,7 +68,7 @@ return(
       <ul style={{display:"inline-block",margin: "4px", borderRadius: "50%" }}>
       <li>
       <input type="checkbox" checked= {imageItem.selected} onChange = {(e)=>{onChangeHandler(e, imageItem.id)}}/>
-      <img src = {imageItem.image} height="52px" width="52px" alt="download"/>  
+      <img src = {imageItem.image} style={{height:"52px", width:"52px", borderRadius:"50%", display:"block"}} alt="download"/>  
       </li>
       </ul>
     ))}

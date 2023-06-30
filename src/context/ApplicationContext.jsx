@@ -67,7 +67,6 @@ export function ApplicationProvider({children}){
        setItems([...newItems])
        console.log("Below setItems", setItems.length)
     }
-   console.log("AppContext", items)
     
 
     return(

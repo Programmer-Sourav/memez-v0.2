@@ -105,8 +105,9 @@ export const posts = [
   {
     _id: uuid(),
     content:
-      "Hopefully, it is going to be a good movie to watch specially with everyone's partner!!!...Who all are in?",
-    postContent: "https://www.newsbugz.com/wp-content/uploads/2022/08/Satyaprem-Ki-Katha-Movie-1.jpg",  
+      "Hey Folks, Here is a demo of the image upload in my application...",
+    postContent: "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/07/be/ec/eb.jpg",  
+    resourceType: "image",
     likes: {
       likeCount: 15,
       likedBy: [],
@@ -120,7 +121,8 @@ export const posts = [
     _id: uuid(),
     content:
       "Dream Car!!!!",
-    postContent: "https://res.cloudinary.com/ds0k2xmd6/video/upload/v1687849791/jqa6ftk1grec6guoqzov.mp4",  
+    postContent: "https://res.cloudinary.com/ds0k2xmd6/video/upload/v1687849791/jqa6ftk1grec6guoqzov.mp4", 
+    resourceType: "video", 
     likes: {
       likeCount: 21,
       likedBy: [],
@@ -129,5 +131,125 @@ export const posts = [
     username: "Sujoy",
     createdAt: formatDate(),
     updatedAt: formatDate(),
+  },
+  {
+    _id: uuid(),
+    content:
+      "Open AI under fire... A massive 150 page lawsuit has been filed against chat-gpt maker.",
+    postContent: "https://images.indianexpress.com/2023/06/OpenAI-Lawsuit.jpg?w=640",  
+    likes: {
+      likeCount: 25,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    username: "Technical XYZ",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    category: "technology"
+  },
+  {
+    _id: uuid(),
+    content:
+      "Flying cars arriving soon: US government approves worlds 1st road-to-sky car",
+    postContent: "https://images.indianexpress.com/2023/06/Alef-Flying-Car.jpg?w=640",  
+    likes: {
+      likeCount: 21,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    username: "Technical XYZ",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    category: "technology"
+  },
+  {
+    _id: uuid(),
+    content:
+      "Former all-rounder Ajit Agarkar set to become chief selector as BCCI likely to hike annual salary",
+    postContent: "https://images.indianexpress.com/2023/06/Agarkar.jpg?w=640",  
+    likes: {
+      likeCount: 20,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    username: "ABCNews",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    category: "sports"
+  },
+  {
+    _id: uuid(),
+    content:
+      "Mumbai continues to witness moderate to heavy rainfalls on Friday affecting the traffic movement in the city. ",
+    postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/ANI-20230626114-0_1687839839237_1688090397257.jpg",  
+    likes: {
+      likeCount: 15,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    username: "Foxnews",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    category: "news"
+  },
+  {
+    _id: uuid(),
+    content:
+      "The aviation regulator Directorate General of Civil Aviation (DGCA) will conduct an special audit of crisis-hit Go First's facilities in Delhi and Mumbai from July 4 to 6, reported PTI.",
+    postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/ANI-20230511097-0_1684720636278_1688135004613.jpg",  
+    likes: {
+      likeCount: 26,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    username: "ABC news",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    category: "news"
+  },
+  {
+    _id: uuid(),
+    content:
+      "The aviation regulator Directorate General of Civil Aviation (DGCA) will conduct an special audit of crisis-hit Go First's facilities in Delhi and Mumbai from July 4 to 6, reported PTI.",
+    postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/ANI-20230511097-0_1684720636278_1688135004613.jpg",  
+    likes: {
+      likeCount: 26,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    username: "FOX news",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    category: "news"
+  },
+  {
+    _id: uuid(),
+    content:
+      "Rain is likely to continue in northern parts of India for next 3 days",
+    postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/ANI-20230511097-0_1684720636278_1688135004613.jpg",  
+    likes: {
+      likeCount: 26,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    username: "ABC news",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    category: "news"
+  },
+  {
+    _id: uuid(),
+    content:
+      "A magnitude 6.5 earthquake struck Java in Indonesia on Friday.",
+    postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/earthquake-tsunami_1653633400672_1688132290326.jpg",  
+    likes: {
+      likeCount: 21,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    username: "ABC news",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    category: "news"
   },
 ];
