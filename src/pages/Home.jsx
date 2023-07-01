@@ -50,7 +50,7 @@ export default function Home(){
     const [show, setShow ] = useState(false)
     const [searchVal, setSearchVal ] = useState("")
     const [ uploadImage, setUploadImage ] = useState(false)
-    const [ postContent, setPostContent] = useState("no-url")
+    const [ postContent, setPostContent] = useState("")
     const [ resourceType, setResourceType ] = useState("")
     const [ sortVal, setSortVal ] = useState("")
     
@@ -187,7 +187,7 @@ export default function Home(){
         console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
         setResourceType(item.uploadResponse.data.resource_type)
         setPostContent(item.uploadResponse.data.secure_url)
-        console.log("123URL ", resourceType, item.uploadResponse.data.resource_type, postContent, item.uploadResponse.data.secure_url)
+       
       })
     
       useItemErrorListener(item=>{
@@ -234,15 +234,21 @@ export default function Home(){
    
     const userAvatar = (username) =>{
       const user = allUsers.find((userItem)=>userItem.username===username)
-      return user.avatar
+      let url
+      if(user){
+      url = user.avatar
+      }
+      else{
+        url = `https://ui-avatars.com/api/?name=${authenticatedUser.username}&background=ff6b6b&caps=3&bold=true`
+      }
+      return url
     }
     const  setEmojiContent = (receivedVal) =>{
      setPostText(postText+receivedVal.native)
     }
 
     useEffect(()=>{doDownlodUsers(token, homePageDispatch)},[])
-    const postRes = resourceType+":"+postContent
-    console.log("124URL", postContent-resourceType, postRes)
+    
     return(
         <div className="container">
             <nav className="white-bg">
@@ -314,7 +320,7 @@ export default function Home(){
                   borderRadius: "8px"
                 }}
                
-              onClick={()=>{doCreateAPost(postText, postRes, token,  homePageDispatch, setPostText(""))}}
+              onClick={()=>{doCreateAPost(postText, postContent, token,  homePageDispatch, setPostContent(""), setPostText(""))}}
                 
               >
                 {" "}
@@ -434,7 +440,9 @@ export default function Home(){
               <p className="pr-s pt-xs">
                 {content}
                 {console.log(777888, resourceType)}
-                {postContent ? (resourceType && resourceType==="image" ? <img src={postContent} alt="postimage"/> : <video src={postContent} alt="postVideo"/>) : ""}
+                {postContent ? (resourceType && resourceType==="image" ? <img src={postContent} alt="postimage"/> : <video width="750" height="380" controls >
+      <source src={postContent} />
+</video>) : ""}
               </p>
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
               
