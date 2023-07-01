@@ -3,6 +3,10 @@ export const initialState = {
     search: "",
     liked: [], 
     bookmarked: [],
-    createAPost: ""
-
+    createAPost: "", 
+    bookmarks: [], 
+    users: [], 
+    following: [],
+    updatedUser: "", 
+    toFollow: []
 }
