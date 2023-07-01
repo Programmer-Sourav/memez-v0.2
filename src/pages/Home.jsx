@@ -224,7 +224,13 @@ export default function Home(){
     
     const currentUserAvatar = () =>{
      const user =  allUsers.find((userItem)=>userItem._id===authenticatedUser._id)
-     const url = user.avatar
+     let url
+     if(user){
+     url = user.avatar
+     }
+     else{
+       url = `https://ui-avatars.com/api/?name=${authenticatedUser.username}&background=ff6b6b&caps=3&bold=true`
+     }
      return url
     }
    

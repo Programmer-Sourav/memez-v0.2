@@ -32,13 +32,13 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
 
   
 
-    export const doSignUpCall = (userEmail, userPassword, userFirstName, userLastName, authDispatch) =>{
+    export const doSignUpCall = (userFirstName, userName, userEmail, userPassword,  authDispatch) =>{
       
         axios.post('/api/auth/signup', { 
-            username: userEmail,
+            username: userName,
             password: userPassword,
             firstName: userFirstName,
-            lastName: userLastName
+            userEmail: userEmail
           })
           .then(function (response) {
             const {createdUser, encodedToken} = response.data
