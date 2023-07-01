@@ -41,13 +41,13 @@ function App() {
           <Route path='/navigation' element={<Navigation/>}/>
           <Route path='/main' element={<MainView/>}/>
           <Route path='/right' element= {<RightMenu/>}/>
-          <Route path='/bookmark' element={<Bookmark/>}/>
-          <Route path='/myprofile' element={<ProfilePage/>}/>
-          <Route path='/profileuserone/:firstName' element={<ProfilePageOne/>}/>
-          <Route path='/profileusertwo/:firstName' element={<ProfilePageTwo/>}/>
+          <Route path='/bookmark' element={<RequiresAuth><Bookmark/></RequiresAuth>}/>
+          <Route path='/myprofile' element={<RequiresAuth><ProfilePage/></RequiresAuth>}/>
+          <Route path='/profileuserone/:firstName' element={<RequiresAuth><ProfilePageOne/></RequiresAuth>}/>
+          <Route path='/profileusertwo/:firstName' element={<RequiresAuth><ProfilePageTwo/></RequiresAuth>}/>
           <Route path='/post' element={<PostContainer/>}/>
           <Route path='/landing' element={<Landing/>}/>
-          <Route path='/explore' element={<Explore/>}/>
+          <Route path='/explore' element={<RequiresAuth><Explore/></RequiresAuth>}/>
         </Routes>
         
     </div>

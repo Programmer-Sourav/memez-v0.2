@@ -24,7 +24,9 @@ export default function Signup(){
     const [ userEmail, setUserEmail ] = useState("")
     const [ userPassword, setUserPassword ] = useState("")
     const [ userFirstName, setUserFirstName] = useState("")
-    const [userLastName, setUserLastName ] = useState("")
+
+    const [userName, setUserName ] = useState("")
+
 
 return(
   <body>
@@ -40,7 +42,7 @@ return(
         </div>
         <div class="flex flex-column">
           <label for="username">Username</label>
-          <input type="text" name="username" class="p-xs txt-s lynx-white-color br-s mb-s " style={{border: "1px solid grey", color:"#000000"}} placeholder="tanaypratap" onChange={(event)=>{setUserLastName(event.target.value)}}/>
+          <input type="text" name="username" class="p-xs txt-s lynx-white-color br-s mb-s " style={{border: "1px solid grey", color:"#000000"}} placeholder="tanaypratap" onChange={(event)=>{setUserName(event.target.value)}}/>
         </div>
         <div class="flex flex-column">
           <label for="email">Email Address</label>
@@ -61,7 +63,7 @@ return(
           </div>
          
         </div>
-        <button class="w-full primary-bg white-color p-s outline-transparent border-none pt-xs pb-xs txt-s" onClick={()=>{doSignUpCall(userEmail, userPassword, userFirstName, userLastName , authDispatch)}}>
+        <button class="w-full primary-bg white-color p-s outline-transparent border-none pt-xs pb-xs txt-s" onClick={()=>{doSignUpCall(userFirstName, userName, userEmail, userPassword,  authDispatch)}}>
           Create New Account
         </button>
         <a href="#" class="txt-center w-full mt-m" style={{display: "block"}}>Already have an account &gt;</a>
