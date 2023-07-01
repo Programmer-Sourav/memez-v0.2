@@ -2,50 +2,51 @@ import axios from "axios";
 import { AUTH_ACTION_TYPE } from "../auth/ActionType";
 import { toast } from "react-hot-toast";
 import { ACTION_TYPES } from "../reducer/ActionType";
+import { position } from "@chakra-ui/styled-system";
+import { useContext } from "react";
+import { ApplicationContext } from "../context/ApplicationContext";
 
 
 
 export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
-    console.log(userEmail)
-    console.log(userPassword)
-
+   
     axios.post('/api/auth/login', {
         username: userEmail,
         password: userPassword
       })
       .then(function (response) {
-        const { encodedToken} = response.data
+        const {foundUser, encodedToken} = response.data
+       
             localStorage.setItem("encodedToken", encodedToken)
             if(localStorage.getItem("encodedToken")){
-                authDispatch({type: AUTH_ACTION_TYPE.ACTION_SIGN_IN, payload: {token: localStorage.getItem("encodedToken"), isLoggedIn: true}})
+                authDispatch({type: AUTH_ACTION_TYPE.ACTION_SIGN_IN, payload: {token: localStorage.getItem("encodedToken"), isLoggedIn: true, authenticatedUser: foundUser}})
                 toast.success("Successfully Logged In")
             }
       })
       .catch(function (error) {
         authDispatch({type: AUTH_ACTION_TYPE.FAILED_ATTEMPT, payload: {isLoggedIn: false}})
         toast.error("Error Signing In")
-        console.log(error);
+        
       });
     }
 
   
 
     export const doSignUpCall = (userEmail, userPassword, userFirstName, userLastName, authDispatch) =>{
-        console.log(userEmail)
-        console.log(userPassword)
-        
+      
         axios.post('/api/auth/signup', { 
-            firstName: userFirstName,
-            lastName: userLastName,
             username: userEmail,
             password: userPassword,
+            firstName: userFirstName,
+            lastName: userLastName
           })
           .then(function (response) {
-            const { encodedToken} = response.data
-            localStorage.setItem("encodedToken", encodedToken)
+            const {createdUser, encodedToken} = response.data
 
+            localStorage.setItem("encodedToken", encodedToken)
+            
             if(localStorage.getItem("encodedToken")){
-                authDispatch({type: AUTH_ACTION_TYPE.ACTION_SIGN_UP, payload: {token: localStorage.getItem("encodedToken"), isLoggedIn: true}})
+                authDispatch({type: AUTH_ACTION_TYPE.ACTION_SIGN_UP, payload: {token: localStorage.getItem("encodedToken"), isLoggedIn: true, authenticatedUser: createdUser}})
                 toast.success("Successfully Registered.")
             }
           })
@@ -56,14 +57,43 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
           });
         }
 
-           export const doCreateAPost = async (postText, token, homePageDispatch) =>{
-
+           export const doCreateAPost = async (postText, postContent, token,  homePageDispatch) =>{
+            // let contentToSend; 
+            // if(postTe!==null){
+            //    contentToSend = postText + postContent
+            // }
+            // else{
+            //   contentToSend = postText
+            // }
+            const videoExtensions = ['.mpg', '.mp2', '.mpeg', '.mpe', '.mpv', '.mp4'] 
+            const imageExtensions = ['.gif', '.jpg', '.jpeg', '.png'] 
+            console.log(7890, postContent)
+            let resourceType, status
+            
+            const isImage = (v) => {
+              imageExtensions.map((e) => {
+                status = v.includes(e);
+              })
+              return status
+            };
+            const isVideo = (v) => {
+              videoExtensions.map((e) => {
+                status = v.includes(e);
+              })
+            
+              return status
+            };
+            if(isImage(postContent)===true)
+               resourceType = "image"
+            if(isVideo(postContent)===true)
+               resourceType = "video"   
+            
             try{
               
                 const res = await axios.post("/api/posts",
             
                       
-                    { postData: { content: postText } },
+                    { postData: { content: postText, postContent, resourceType} },
                     {headers: {
                       authorization: token,
                     }}
@@ -79,6 +109,255 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
         
         }
 
+        export const doEditAPost  = async (postId, postText, token, homePageDispatch) =>{
+        
+          try{
+            
+              const res = await axios.post(`/api/posts/edit/${postId}`,
+          
+                    
+                  { postData: { content: postText } },
+                  {headers: {
+                    authorization: token,
+                  }}
+              )
+             
+              const { posts } = res.data 
+              toast.success("Successfully Updated!")
+              homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: posts})
+          }
+          catch(e){
+          console.error(e)
+          }
+      
+      }
 
+      export const doLikeAPost = async (postId, token, homePageDispatch) =>{
+       
+        try{
+          
+            const res = await fetch(`/api/posts/like/${postId}`,{
+                method: 'POST',
+                
+                headers: {
+                      authorization: token,
+                    },
+                  
+               
+            })
+            
+           
+            const { posts } = await res.json();
+            
+            homePageDispatch({type: ACTION_TYPES.LIKE_A_POST, payload: posts})
+           
+            
+        }
+        catch(e){
+        toast.error("Oops! Some Error Occured")
+        }
+    
+    }
+    export const doDisLikeAPost = async (postId, token, homePageDispatch) =>{
+      
+       try{
+         
+           const res = await fetch(`/api/posts/dislike/${postId}`,{
+               method: 'POST',
+               
+               headers: {
+                     authorization: token,
+                   },
+                 
+              
+           })
+           
+          
+           const { posts } = await res.json();
+           
+           homePageDispatch({type: ACTION_TYPES.DISLIKE_A_POST, payload: posts})
+          
+           
+       }
+       catch(e){
+       console.error(e)
+       }
+   
+   }
 
+   export const doSaveBookmark = async (postId, token, homePageDispatch) =>{
+    console.log(3334455, postId, token)
+    try{
+      
+        const res = await fetch(`/api/users/bookmark/${postId}`,{
+            method: 'POST',
+            
+            headers: {
+                  authorization: token,
+                },
+              
+           
+        })
+        
+       
+        const { bookmarks } = await res.json();
+        console.log(5567, bookmarks)
+        homePageDispatch({type: ACTION_TYPES.BOOKMARK, payload: bookmarks})
+       
+        
+    }
+    catch(e){
+    console.error(e)
+    }
+
+}
+
+export const doRemoveBookmark = async (postId, token, homePageDispatch) =>{
+ 
+try{
+  
+    const res = await fetch(`/api/users/remove-bookmark/${postId}`,{
+        method: 'POST',
+        
+        headers: {
+              authorization: token,
+            },
+          
+       
+    })
+    
+   
+    const { bookmarks } = await res.json();
+    //console.log(556, bookmarks)
+    homePageDispatch({type: ACTION_TYPES.REMOVE_BOOKMARK, payload: bookmarks})
+   
+    
+}
+catch(e){
+console.error(e)
+}
+
+}
+
+export const doDownloadBookMark = async (token, homePageDispatch) =>{
+ 
+  try{
+    
+      const res = await fetch(`/api/users/bookmark`,{
+          method: 'GET',
+          
+          headers: {
+                authorization: token,
+              },
+            
+         
+      })
+      
+     
+      const { bookmarks } = await res.json();
+      
+      homePageDispatch({type: ACTION_TYPES.DOWNLOADED_BOOKMARK, payload: bookmarks})
+     
+      
+  }
+  catch(e){
+  console.error(e)
+  }
+  
+  }
+
+  export const doDownlodUsers = async (token, homePageDispatch) =>{
+ 
+    try{
+      
+        const res = await fetch(`/api/users`,{
+            method: 'GET',
+            
+            headers: {
+                  authorization: token,
+                },
+              
+           
+        })
+        
+       
+        const { users } = await res.json();
+        
+        homePageDispatch({type: ACTION_TYPES.USERS, payload: users})
+       
+        
+    }
+    catch(e){
+    console.error(e)
+    }
+    
+    }
+    
+    export const doStartFollowing = async (userId, token, authenticatedUser, users, homePageDispatch) =>{
+      try{
+        
+          const res = await fetch(`/api/users/follow/${userId}`,{
+              method: 'POST',
+              
+              headers: {
+                    authorization: token,
+                  },      
+          })
+          const { user } = await res.json();
+          authenticatedUser = user
+        
+         const toFollow = users.filter((userItem)=>(userItem._id!== userId))
+         
+         homePageDispatch({type: ACTION_TYPES.TO_FOLLOW, payload:  toFollow}) 
+         homePageDispatch({type: ACTION_TYPES.FOLLOW_USER, payload: user.following})
+         homePageDispatch({type: ACTION_TYPES.UPDATE_AUTHENTICATED_USER, payload: authenticatedUser})
+      }
+      catch(e){
+      console.error(e)
+      }
+   }
+
+   export const doStartUnFollowing = async (userId, token, homePageDispatch) =>{
+    try{
+      
+        const res = await fetch(`/api/users/unfollow/${userId}`,{
+            method: 'POST',
+            
+            headers: {
+                  authorization: token,
+                },
+              
+           
+        })
+        const { user, followUser } = await res.json();
+       
+       homePageDispatch({type: ACTION_TYPES.FOLLOW_USER, payload: user.following})
+       
+        
+    }
+    catch(e){
+    console.error(e)
+    }
+    
+    }
+
+    export const doDeleteThePost = async (postId, token, homePageDispatch) =>{
+    
+      try{
+        
+        const res = await fetch(`/api/posts/${postId}`,{
+            method: 'DELETE',
+            
+            headers: {
+                  authorization: token,
+                },      
+        })
+        const { posts } = await res.json();
+     
+    }
+    catch(e){
+    console.error(e)
+    }
+  
+  }
         
