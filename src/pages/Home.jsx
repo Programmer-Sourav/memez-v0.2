@@ -428,7 +428,7 @@ export default function Home(){
               <p className="pr-s pt-xs">
                 {content}
                 {console.log(777888, resourceType)}
-                 {resourceType && resourceType==="image" ? <img src={postContent} alt="postimage"/> : <video src={postContent} alt="postVideo"/>}
+                {postContent ? (resourceType && resourceType==="image" ? <img src={postContent} alt="postimage"/> : <video src={postContent} alt="postVideo"/>) : ""}
               </p>
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
               
