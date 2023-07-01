@@ -57,7 +57,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
           });
         }
 
-           export const doCreateAPost = async (postText, postContentRes, token,  homePageDispatch) =>{
+           export const doCreateAPost = async (postText, postContent, token,  homePageDispatch) =>{
             // let contentToSend; 
             // if(postTe!==null){
             //    contentToSend = postText + postContent
@@ -65,12 +65,29 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
             // else{
             //   contentToSend = postText
             // }
-            console.log("Sep124", postContentRes)
-            const sepArray = postContentRes.split("-");
-            const postContent = sepArray[0]
-            const resourceType = sepArray[1]
-            console.log("Sep123", postContentRes, postContent, resourceType)
-            console.log(3334,  postText, postContent, resourceType,  token)
+            const videoExtensions = ['.mpg', '.mp2', '.mpeg', '.mpe', '.mpv', '.mp4'] 
+            const imageExtensions = ['.gif', '.jpg', '.jpeg', '.png'] 
+            console.log(7890, postContent)
+            let resourceType, status
+            
+            const isImage = (v) => {
+              imageExtensions.map((e) => {
+                status = v.includes(e);
+              })
+              return status
+            };
+            const isVideo = (v) => {
+              videoExtensions.map((e) => {
+                status = v.includes(e);
+              })
+            
+              return status
+            };
+            if(isImage(postContent)===true)
+               resourceType = "image"
+            if(isVideo(postContent)===true)
+               resourceType = "video"   
+            
             try{
               
                 const res = await axios.post("/api/posts",
@@ -81,10 +98,9 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
                       authorization: token,
                     }}
                 )
-                console.log(5557, res)
+               
                 const { posts } = res.data 
-                console.log(5556, posts)
-                toast.success("Successfully Posted!")
+                
                 homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: posts})
             }
             catch(e){
