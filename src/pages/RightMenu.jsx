@@ -6,16 +6,13 @@ import { Link } from "react-router-dom"
 export default function RightMenu(){
 
   const { users , authenticatedUser, following, toFollow} = useContext(ApplicationContext)
-  //const [ allUsers, setAllUsers ] = useState(users)
-
+ 
   const organicUsers = () =>{
-    //console.log(user._id!==authenticatedUser._id)
     //both the following and users are array
-    // users.filter((userItem)=>
-    //      following.find((followingItem)=>
-    //      followingItem._id!==userItem._id) ||  authenticatedUser._id !== userItem._id )
-    const updated =  toFollow.length>0 ? toFollow.filter((userItem)=>userItem._id!==authenticatedUser._id) : users.filter((userItem)=>userItem._id!==authenticatedUser._id)
-    console.log(3456, updated)
+    const updated = 
+    users.filter((userItem)=>
+         !following.find((followingItem)=>
+         followingItem._id===userItem._id) && authenticatedUser._id !== userItem._id )
     return updated;
  }
  
