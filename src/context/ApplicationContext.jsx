@@ -21,7 +21,7 @@ export function ApplicationProvider({children}){
     const [selectedProfilePic, setSelectedProfilePic] = useState({image: ""})
 
     const [ items, setItems ] =  useState([])
-  
+    console.log("123bm", state.bookmarks, items)
 
 
     const imagedata = [{id: 1, image: require("../avatars/avatar2.png"), selected: false}, 
