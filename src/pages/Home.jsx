@@ -413,7 +413,7 @@ export default function Home(){
         </div>
         {filteredPostOfUser && filteredPostOfUser.map(({_id, content, postContent, resourceType, likes, username, createdAt, updatedAt})=>(
        
-        <div className="white-bg mr-xxl p-xs mt-s" key={_id} onClick={()=>{navigate(`/openpost/${_id}`)}}> 
+        <div className="white-bg mr-xxl p-xs mt-s" key={_id}> 
           <div className="flex flex-row nowrap p-xs">
             <div className="grey-bg br-full width-xl height-xl p-xs mr-xs" style={{aspectRatio : '1'}}><img src={userAvatar(username)} alt="dummy" style={{borderRadius: "90%"}}/></div>
             <div>
@@ -437,7 +437,7 @@ export default function Home(){
                 </MenuList>
                 </Menu>
               </div>
-              <p className="pr-s pt-xs">
+              <p className="pr-s pt-xs" onClick={()=>{navigate(`/openpost/${_id}`)}}>
                 {content}
                 {postContent ? (resourceType && resourceType==="image" ? <img src={postContent} alt="postimage"/> : <video width="750" height="380" controls >
       <source src={postContent} />
