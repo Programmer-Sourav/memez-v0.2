@@ -23,6 +23,7 @@ import PostContainer from './pages/PostContainer';
 import Landing from './pages/Landing';
 import Explore from './pages/Explore/Explore';
 import ProfilePageTwo from './pages/ProfilePageTwo';
+import PostDescription from './pages/PostDescription';
 
 function App() {
   
@@ -48,6 +49,7 @@ function App() {
           <Route path='/post' element={<PostContainer/>}/>
           <Route path='/landing' element={<Landing/>}/>
           <Route path='/explore' element={<RequiresAuth><Explore/></RequiresAuth>}/>
+          <Route path='/openpost/:_id' element={<PostDescription/>}/>
         </Routes>
         
     </div>
