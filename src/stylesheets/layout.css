@@ -18,11 +18,17 @@
   .sidebar1 {
     grid-area: aside1;
     width: max-content;
+    position: fixed;
+    top: 64px;
   }
   
   .sidebar2 {
     grid-area: aside2;
     height: max-content;
+    position: absolute;
+    right: 0;
+    top: 64px;
+    margin-bottom: 128px;
   }
   
   main {
