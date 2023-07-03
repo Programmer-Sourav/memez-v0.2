@@ -65,29 +65,22 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
             // else{
             //   contentToSend = postText
             // }
-            const videoExtensions = ['.mpg', '.mp2', '.mpeg', '.mpe', '.mpv', '.mp4'] 
-            const imageExtensions = ['.gif', '.jpg', '.jpeg', '.png'] 
-            console.log(7890, postContent)
+            console.log(3334455, postContent)
             let resourceType, status
             
-            const isImage = (v) => {
-              imageExtensions.map((e) => {
-                status = v.includes(e);
-              })
-              return status
-            };
-            const isVideo = (v) => {
-              videoExtensions.map((e) => {
-                status = v.includes(e);
-              })
+            const isVideo = (postContent) => {
+              return (postContent.match(/\.(mpg|mp2|mpeg|mpe|mpv|mp4)$/) != null);
+            }
+
+            function isImage(postContent) {
+              return (postContent.match(/\.(jpg|jpeg|gif|png)$/) != null);
+            }
             
-              return status
-            };
-            if(isImage(postContent)===true)
+            if(isImage(postContent))
                resourceType = "image"
-            if(isVideo(postContent)===true)
+            if(isVideo(postContent))
                resourceType = "video"   
-            
+              
             try{
               
                 const res = await axios.post("/api/posts",

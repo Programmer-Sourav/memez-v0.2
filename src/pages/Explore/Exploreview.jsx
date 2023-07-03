@@ -3,6 +3,7 @@ import { ApplicationContext } from "../../context/ApplicationContext"
 import { useState } from "react"
 import { users } from "../../backend/db/users"
 
+
 export default function ExploreView(){
 
   const { users, authenticatedUser, posts } = useContext(ApplicationContext)
@@ -16,26 +17,26 @@ export default function ExploreView(){
      setSelectedTab(tabname)
   }
   
-  
-  let updatedPost = [...posts];
+  const filteredPost = posts.filter((postItem)=>postItem.username!==authenticatedUser.username)
+  let updatedPost = [...filteredPost];
 
   if(tabValue==="trending")
-  updatedPost = [...posts].sort((p1, p2)=>p2.likes.likeCount>p1.likes.likeCount)
+  updatedPost = [...filteredPost].sort((p1, p2)=>p2.likes.likeCount>p1.likes.likeCount)
 
   if(tabValue==="technology")
-  updatedPost = [...posts].reduce(
+  updatedPost = [...filteredPost].reduce(
     (acc, postItem) => (postItem.category === tabValue ? [...acc, postItem] : acc),
     []
   );
 
   if(tabValue==="sports")
-  updatedPost = [...posts].reduce(
+  updatedPost = [...filteredPost].reduce(
     (acc, postItem) => (postItem.category === tabValue ? [...acc, postItem] : acc),
     []
   );
 
   if(tabValue==="news")
-  updatedPost = [...posts].reduce(
+  updatedPost = [...filteredPost].reduce(
     (acc, postItem) => (postItem.category === tabValue ? [...acc, postItem] : acc),
     []
   );
@@ -85,6 +86,9 @@ export default function ExploreView(){
               </div>
               <p class="pr-s pt-xs">
                 {postItem.content} 
+                {postItem.postContent ? (postItem.resourceType && postItem.resourceType==="image" ? <img src={postItem.postContent} alt="postimage"/> : <video width="750" height="380" controls >
+      <source src={postItem.postContent} />
+</video>) : ""}
               </p>
               <div class="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
                 <i class="bi bi-heart"></i>

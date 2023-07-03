@@ -19,13 +19,13 @@ export default function Bookmark(){
     },[])
     
     return(
-        <body>
+        
         <div className="container">
             <Navigation/>
             <LeftMenu/>
             < BookmarkView bookmarks= {bookmarks} />
             <RightMenu/>  
         </div>
-        </body>
+        
     )
 }

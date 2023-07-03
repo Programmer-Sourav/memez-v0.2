@@ -91,6 +91,9 @@ export default function ProfilePageUser(){
               </div>
               <p class="pr-s">
               {postItem.content}
+              {postItem.postContent ? (postItem.resourceType && postItem.resourceType==="image" ? <img src={postItem.postContent} alt="postimage"/> : <video width="750" height="380" controls >
+      <source src={postItem.postContent} />
+</video>) : ""}
               </p>
               <div class="flex flex-row nowrap flex-space-between pt-s pr-s flex-align-center">
                 <i class="bi bi-heart"></i>

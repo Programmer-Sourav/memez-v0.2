@@ -136,7 +136,8 @@ export const posts = [
     _id: uuid(),
     content:
       "Open AI under fire... A massive 150 page lawsuit has been filed against chat-gpt maker.",
-    postContent: "https://images.indianexpress.com/2023/06/OpenAI-Lawsuit.jpg?w=640",  
+    postContent: "https://images.indianexpress.com/2023/06/OpenAI-Lawsuit.jpg", 
+    resourceType: "image", 
     likes: {
       likeCount: 25,
       likedBy: [],
@@ -151,7 +152,8 @@ export const posts = [
     _id: uuid(),
     content:
       "Flying cars arriving soon: US government approves worlds 1st road-to-sky car",
-    postContent: "https://images.indianexpress.com/2023/06/Alef-Flying-Car.jpg?w=640",  
+    postContent: "https://images.indianexpress.com/2023/06/Alef-Flying-Car.jpg",  
+    resourceType: "image",
     likes: {
       likeCount: 21,
       likedBy: [],
@@ -166,7 +168,8 @@ export const posts = [
     _id: uuid(),
     content:
       "Former all-rounder Ajit Agarkar set to become chief selector as BCCI likely to hike annual salary",
-    postContent: "https://images.indianexpress.com/2023/06/Agarkar.jpg?w=640",  
+    postContent: "https://images.indianexpress.com/2023/06/Agarkar.jpg",  
+    resourceType: "image",
     likes: {
       likeCount: 20,
       likedBy: [],
@@ -181,7 +184,8 @@ export const posts = [
     _id: uuid(),
     content:
       "Mumbai continues to witness moderate to heavy rainfalls on Friday affecting the traffic movement in the city. ",
-    postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/ANI-20230626114-0_1687839839237_1688090397257.jpg",  
+    postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/ANI-20230626114-0_1687839839237_1688090397257.jpg", 
+    resourceType: "image", 
     likes: {
       likeCount: 15,
       likedBy: [],
@@ -196,7 +200,8 @@ export const posts = [
     _id: uuid(),
     content:
       "The aviation regulator Directorate General of Civil Aviation (DGCA) will conduct an special audit of crisis-hit Go First's facilities in Delhi and Mumbai from July 4 to 6, reported PTI.",
-    postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/ANI-20230511097-0_1684720636278_1688135004613.jpg",  
+    postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/ANI-20230511097-0_1684720636278_1688135004613.jpg", 
+    resourceType: "image", 
     likes: {
       likeCount: 26,
       likedBy: [],
@@ -212,6 +217,7 @@ export const posts = [
     content:
       "The aviation regulator Directorate General of Civil Aviation (DGCA) will conduct an special audit of crisis-hit Go First's facilities in Delhi and Mumbai from July 4 to 6, reported PTI.",
     postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/ANI-20230511097-0_1684720636278_1688135004613.jpg",  
+    resourceType: "image",
     likes: {
       likeCount: 26,
       likedBy: [],
@@ -227,6 +233,7 @@ export const posts = [
     content:
       "Rain is likely to continue in northern parts of India for next 3 days",
     postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/ANI-20230511097-0_1684720636278_1688135004613.jpg",  
+    resourceType: "image",
     likes: {
       likeCount: 26,
       likedBy: [],
@@ -242,6 +249,7 @@ export const posts = [
     content:
       "A magnitude 6.5 earthquake struck Java in Indonesia on Friday.",
     postContent: "https://www.livemint.com/lm-img/img/2023/06/30/600x338/earthquake-tsunami_1653633400672_1688132290326.jpg",  
+    resourceType: "image",
     likes: {
       likeCount: 21,
       likedBy: [],

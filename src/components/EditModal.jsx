@@ -23,7 +23,7 @@ function EditModal({data}){
   
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { editProfile, profileImage, setProfileImage, images, updateImages, onChnageBio, onChangeUrl, imagedata} = useContext(ApplicationContext);
-
+  const [file, setFile] = useState();
   
      
       
@@ -42,6 +42,13 @@ const saveSelected = () =>{
   const findUrl = images.find((imageItem)=>imageItem.selected===true)
   setProfileImage({...profileImage, image: findUrl.image})
 }
+
+    function handleChange(e) {
+        console.log(e.target.files);
+        setFile(URL.createObjectURL(e.target.files[0]));
+        setProfileImage({...profileImage, image: file})
+    }
+ 
  
 
 return(
@@ -62,7 +69,9 @@ return(
           background: "red",
           display: "block"
         }}></img>
-       <button onClick={()=>saveSelected()} disabled={!checkBoxStatus} style={{background:"orange", color:"white"}}>Change</button> <br/> 
+       <button onClick={()=>saveSelected()} disabled={!checkBoxStatus} style={{background:"orange", color:"white", padding:"4px"}}>Change</button> 
+       <input type="file" onChange={handleChange} style={{margin: "8px"}}/><br/> 
+       
       
        {  images.map((imageItem)=>(
       <ul style={{display:"inline-block",margin: "4px", borderRadius: "50%" }}>

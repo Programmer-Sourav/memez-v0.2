@@ -43,14 +43,17 @@ import { asUploadButton } from "@rpldy/upload-button";
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import { OpenModal } from "../components/OpenModal"
+import { Circle } from "rc-progress";
+import { useItemProgressListener } from "@rpldy/uploady";
+
 
 
 export default function Home(){
-    const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked,  following, postText, setPostText } = useContext(ApplicationContext)
+    const { posts, homePageDispatch, token, loginStatus, authenticatedUser, bookmarked,  following, postText, setPostText, postContent, setPostContent } = useContext(ApplicationContext)
     const [show, setShow ] = useState(false)
     const [searchVal, setSearchVal ] = useState("")
     const [ uploadImage, setUploadImage ] = useState(false)
-    const [ postContent, setPostContent] = useState("")
+    
     const [ resourceType, setResourceType ] = useState("")
     const [ sortVal, setSortVal ] = useState("")
     
@@ -187,6 +190,7 @@ export default function Home(){
         console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
         setResourceType(item.uploadResponse.data.resource_type)
         setPostContent(item.uploadResponse.data.secure_url)
+        
        
       })
     
@@ -195,6 +199,15 @@ export default function Home(){
       })
     
     }
+
+    const UploadProgress = () => { 
+      const [progress, setProgess] = useState(0);
+      const progressData = useItemProgressListener();   if (progressData && progressData.completed > progress) { 
+        setProgess(() => progressData.completed);
+      }   return progressData && <Circle style={{ height: "60px" }}              
+                                     strokeWidth={10}
+                                     strokeColor={progress === 100 ? "#00a626" : "#2db7f5"}
+                                     percent={progress} />;};
 
     function displayImage() {
       <img src={postContent}  alt="postimage"/>
@@ -373,7 +386,7 @@ export default function Home(){
       
       {/* <DivUploadButton />    */}
       {/* <UploadPreview/> */}
-    
+    <UploadProgress />
     </Uploady>
     <Uploady
       destination={{ url: "https://api.cloudinary.com/v1_1/ds0k2xmd6/video/upload",
@@ -382,6 +395,7 @@ export default function Home(){
       accept="video/*">
       <MyUploadButton/>
       <span><UploadButton> <i className="bi bi-filetype-gif"></i></UploadButton></span>
+      <UploadProgress />
     </Uploady>
 
   <Popover>
