@@ -20,8 +20,8 @@ import { ApplicationContext } from "../context/ApplicationContext";
 
 export default function LeftMenu(){
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [postText, setPostText] = useState("This is just a default text");
-  const { token, homePageDispatch, authenticatedUser } = useContext(ApplicationContext)
+  const [postText, setPostText] = useState("");
+  const { token, homePageDispatch, authenticatedUser, postContent, setPostContent } = useContext(ApplicationContext)
 
 
     return(
@@ -56,18 +56,16 @@ export default function LeftMenu(){
               Create New Post
             </button>
             </div>
-      <ChakraProvider>   
+            <ChakraProvider>   
       <Modal isOpen={isOpen} onClose={onClose}>
-      {console.log("isOpen", isOpen)}
         <ModalOverlay>
           <ModalContent>
-            <ModalHeader>Modal Title</ModalHeader>
+            <ModalHeader>Create A New Post</ModalHeader>
             <ModalCloseButton />
 
             <ModalBody>
               
-              <input
-                type="text"
+              <textarea rows="6" column="50"
                 value={postText}
                 style={{
                   border: "1px solid black",
@@ -81,24 +79,22 @@ export default function LeftMenu(){
               <button
                 style={{
                   background: "green",
-                  padding: "4px",
+                  paddingLeft: "32px",
+                  paddingRight: "32px",
+                  height: "40px",
                   color: "white",
-                  margin: "4px"
+                  margin: "8px",
+                  float: "right",
+                  borderRadius: "8px"
                 }}
                
-                  onClick={()=>{doCreateAPost(postText, token, homePageDispatch, setPostText(""))}}
-              
-              >
+              onClick={()=>{doCreateAPost(postText, postContent, token,  homePageDispatch, setPostContent(""), setPostText(""), onClose())}}
+               >
                 {" "}
-                Post{" "}
+                Post!{" "}
               </button>
             </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="blue"  mr={3} onClick={onClose}>
-                Close
-              </Button>
-              <Button variant="ghost">Secondary Action</Button>
+           <ModalFooter>
             </ModalFooter>
           </ModalContent>
         </ModalOverlay>

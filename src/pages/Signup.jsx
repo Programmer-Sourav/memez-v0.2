@@ -12,6 +12,8 @@ export default function Signup(){
 
     const { token, loginStatus, authDispatch } = useContext(ApplicationContext)
     const [checkboxStatus, setCheckboxStatus] = useState(false)
+    const [showButton, setShowEyeButton ] = useState(false)
+
     const navigate = useNavigate()
 
     if(token.length>0 && loginStatus){
@@ -27,6 +29,7 @@ export default function Signup(){
     const [ userFirstName, setUserFirstName] = useState("")
     const [ confirmPassword, setConfirmPassword ] = useState("")
     const [ userName, setUserName ] = useState("")
+  
 
 const doSignUp = (userFirstName, userName, userEmail, userPassword, confirmPassword, authDispatch) =>{
   if (userPassword !== confirmPassword) {
@@ -47,11 +50,16 @@ const onChangeHandler = (e) =>{
    }
 }
 
+const showEyeButton = (e) =>{
+  setShowEyeButton(showButton=>! showButton)
+}
+
+
 return(
   <body>
     <div class="flex flex-column flex-center h-full w-full">
       <h2 class="fw-black  mb-m">
-        <span class="primary-color">My</span> Website
+        <span class="primary-color">Tweet</span>Book!
       </h2>
       <div class="white-bg br-m p-xxl pt-l pb-l" style={{width: "30rem"}}>
         <h3 class="txt-center mb-s txt-l">Signup</h3>
@@ -68,9 +76,8 @@ return(
           <input type="text" name="email" class="p-xs txt-s lynx-white-color br-s mb-s " style={{border: "1px solid grey", color:"#000000"}} placeholder="tanay@neog.camp" onChange={(event)=>{setUserEmail(event.target.value)}}/>
         </div>
         <div class="flex flex-column">
-          <label for="password">Password</label>
-          <input type="password" name="password" class="p-xs txt-s lynx-white-color br-s flex mb-s items-center " style={{border: "1px solid grey", color:"#000000"}} placeholder="************"  onChange={(event)=>{setUserPassword(event.target.value)}} />
-					<i class="fa fa-eye" aria-hidden="true"></i>
+          <label for="password">Password</label> <button onClick={(e)=>{showEyeButton(e)}}>Show</button>
+          <input type= {showButton ? "text" : "password"} name="password" class="p-xs txt-s lynx-white-color br-s flex mb-s items-center " style={{border: "1px solid grey", color:"#000000"}} placeholder="************"  onChange={(event)=>{setUserPassword(event.target.value)}} />
         </div>
         <div class="flex flex-column">
           <label for="password">Confirm Password</label>

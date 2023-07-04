@@ -8,7 +8,7 @@ import { useNavigate } from "react-router"
 
 export default function MyProfile() {
     
-    const { posts, homePageDispatch, authenticatedUser, editProfile, updatedUser, profileImage, setProfileImage, images, updateImages, onChnageBio, onChangeUrl, imagedata, users, authDispatch} = useContext(ApplicationContext)
+    const { posts, homePageDispatch, authenticatedUser, editProfile, updatedUser, profileImage, setProfileImage, images, updateImages, onChnageBio, onChangeUrl, imagedata, users, authDispatch, following} = useContext(ApplicationContext)
 
     const navigate = useNavigate()
 
@@ -18,7 +18,6 @@ export default function MyProfile() {
     }
     const userAvatar = (username) =>{
       const user = users.find((user)=>user.username===username)
-      console.log("User ", user.avatar)
       return user.avatar
     }
     

@@ -1,23 +1,22 @@
 import { useContext } from "react"
 import { ApplicationContext } from "../context/ApplicationContext"
-import { doStartFollowing, doStartUnFollowing } from "../remote-apis/api-calls"
-import { ACTION_TYPES } from "../reducer/ActionType"
+import { doStartFollowing, doStartUnFollowing , doLikeAPost, doDisLikeAPost} from "../remote-apis/api-calls"
 import { useParams } from "react-router-dom"
 
 export default function ProfilePageUser(){
 
-    const {profileImage, posts, following, token, authenticatedUser, homePageDispatch, users} = useContext(ApplicationContext)
+    const {loginStatus, posts, following, token, authenticatedUser, homePageDispatch, users} = useContext(ApplicationContext)
     
 
    
     const {firstName} = useParams()
-    console.log(334, users)
+    
     
     function findTheUserDetailsForThisProfile(){
       const userFound = users.find((userItem)=>userItem.firstName===firstName)
       return userFound
     }
- 
+
     const profileData = findTheUserDetailsForThisProfile()
     
 
@@ -36,6 +35,21 @@ export default function ProfilePageUser(){
       doStartUnFollowing(followingId, token, homePageDispatch)
     }
 
+    const likeThePost = (postId, token, homePageDispatch) =>{
+      doLikeAPost(postId, token, homePageDispatch )
+    }
+    
+    const disLikeThePost = (postId, token, homePageDispatch) =>{
+    doDisLikeAPost(postId, token, homePageDispatch )
+    }
+    
+    const checkIfPostIsLiked = (postId) =>{ 
+    const particularPost = posts.find((postItem)=>postItem._id===postId) 
+    const likedItem = particularPost.likes.likedBy.filter((user) => user._id === authenticatedUser._id).length>0
+    return likedItem
+    }
+ 
+    
     const userPosts = getThePosts();
     
     return(
@@ -68,7 +82,7 @@ export default function ProfilePageUser(){
               <p class="fw-semibold">Posts</p>
             </div>
             <div class="flex flex-column flex-center m-s ml-m mr-m">
-              <p class="fw-black">37.3K</p>
+              <p class="fw-black">0</p>
               <p class="fw-semibold">Followers</p>
             </div>
           </div>
@@ -84,7 +98,7 @@ export default function ProfilePageUser(){
                   <p class="fw-semibold"></p>
                   <p class="grey-color pl-xs">
                     @{profileData.username} <span class="pl-xs">•</span>
-                    <span class="pl-xs">1 min</span>
+                    <span class="pl-xs">{Math.ceil(Math.abs(new Date()-new Date(profileData.updatedAt))/(1000 * 60 * 60 * 24))===1? "Today" : Math.ceil(Math.abs(new Date()-new Date(profileData.updatedAt))/(1000 * 60 * 60 * 24))+" days ago"}</span>
                     </p>
                 </div>
                 <p>∙∙∙</p>
@@ -96,7 +110,10 @@ export default function ProfilePageUser(){
 </video>) : ""}
               </p>
               <div class="flex flex-row nowrap flex-space-between pt-s pr-s flex-align-center">
-                <i class="bi bi-heart"></i>
+              {loginStatus && checkIfPostIsLiked(postItem._id) ?
+                 <i className="bi bi-heart-fill" style={{color: "red"}} onClick={()=>disLikeThePost(postItem._id, token, homePageDispatch)}></i>:
+                 <i className="bi bi-heart" onClick={()=>likeThePost(postItem._id, token, homePageDispatch)}></i> 
+                 }{postItem.likes.likeCount}
                 <i class="bi bi-chat-left"></i>
                 <i class="bi bi-share"></i>
                 <i class="bi bi-sliders"></i>
@@ -106,7 +123,6 @@ export default function ProfilePageUser(){
           </div>
         ))}
         </div>
-       
       </main>
       )
 
