@@ -21,8 +21,6 @@ function OpenModal({data}){
   const { isOpen, onClose, onOpen } = useDisclosure();
   const {postText, setPostText, token, homePageDispatch} = useContext(ApplicationContext);
   
-  console.log(5566, data.content)
-  console.log(6677, data._id)
   const [ postEdit, setPostEdit ] = useState(data.content)
 return(
 <>
@@ -57,7 +55,7 @@ return(
                   borderRadius: "8px"
                 }}
                
-              onClick={()=>{doEditAPost(data._id, postEdit, token, homePageDispatch, setPostText(""))}} >
+              onClick={()=>{doEditAPost(data._id, postEdit, token, homePageDispatch, setPostText(""), onClose())}} >
                 {" "}
                 Update{" "}
               </button>

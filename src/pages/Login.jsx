@@ -50,7 +50,7 @@ return(
         <button class="w-full primary-bg white-color p-s outline-transparent border-none pt-xs pb-xs txt-s" onClick={()=>{doLoginCall(userEmail, userPassword, authDispatch)}}>
           Login
         </button>
-        <Link to="/signup" style={{display: "block"}} class="txt-center w-full mt-m">Create New Account &gt;</Link>
+        <Link to="/signup" class="txt-center w-full mt-m" style={{display: "block"}}>Create New Account &gt;</Link>
       </div>
     </div>
   

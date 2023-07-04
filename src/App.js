@@ -8,7 +8,6 @@ import Signup from "./pages/Signup"
 import MockMan from "mockman-js"
 import { Toaster } from "react-hot-toast";
 import { RequiresAuth } from './auth/RequiresAuth';
-import PostPage from './pages/PostPage';
 import Navigation from './pages/Navigation';
 import LeftMenu from './pages/LeftMenu';
 import MainView from './pages/MainView';

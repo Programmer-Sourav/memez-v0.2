@@ -5,6 +5,7 @@ import { useContext, useState } from "react"
 import { ApplicationContext } from "../context/ApplicationContext"
 import { useNavigate } from "react-router"
 import { toast } from "react-hot-toast"
+import { Link } from "react-router-dom"
 
 
 export default function Signup(){
@@ -85,7 +86,7 @@ return(
         <button class="w-full primary-bg white-color p-s outline-transparent border-none pt-xs pb-xs txt-s" onClick={()=>{doSignUp(userFirstName, userName, userEmail, userPassword, confirmPassword, authDispatch)}}>
           Create New Account
         </button>
-        <a href="#" class="txt-center w-full mt-m" style={{display: "block"}}>Already have an account &gt;</a>
+        <Link to="/login" class="txt-center w-full mt-m" style={{display: "block"}}>Already have an account &gt;</Link>
       </div>
     </div>
   
