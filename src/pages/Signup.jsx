@@ -10,7 +10,7 @@ import { toast } from "react-hot-toast"
 export default function Signup(){
 
     const { token, loginStatus, authDispatch } = useContext(ApplicationContext)
-
+    const [checkboxStatus, setCheckboxStatus] = useState(false)
     const navigate = useNavigate()
 
     if(token.length>0 && loginStatus){
@@ -24,9 +24,27 @@ export default function Signup(){
     const [ userEmail, setUserEmail ] = useState("")
     const [ userPassword, setUserPassword ] = useState("")
     const [ userFirstName, setUserFirstName] = useState("")
+    const [ confirmPassword, setConfirmPassword ] = useState("")
+    const [ userName, setUserName ] = useState("")
 
-    const [userName, setUserName ] = useState("")
+const doSignUp = (userFirstName, userName, userEmail, userPassword, confirmPassword, authDispatch) =>{
+  if (userPassword !== confirmPassword) {
+    toast.error("Password doesn't match!")
+} 
+else{
+  if(checkboxStatus){
+  doSignUpCall(userFirstName, userName, userEmail, userPassword, authDispatch)
+  }
+  else
+  toast.error("Please select Terms And Conditions to continue")
+}
+}    
 
+const onChangeHandler = (e) =>{
+   if(e.target.checked){
+   setCheckboxStatus(checkboxStatus=>!checkboxStatus)
+   }
+}
 
 return(
   <body>
@@ -50,20 +68,21 @@ return(
         </div>
         <div class="flex flex-column">
           <label for="password">Password</label>
-          <input type="password" name="password" class="p-xs txt-s lynx-white-color br-s flex mb-s items-center " style={{border: "1px solid grey", color:"#000000"}} placeholder="************"  onChange={(event)=>{setUserPassword(event.target.value)}}/>
+          <input type="password" name="password" class="p-xs txt-s lynx-white-color br-s flex mb-s items-center " style={{border: "1px solid grey", color:"#000000"}} placeholder="************"  onChange={(event)=>{setUserPassword(event.target.value)}} />
+					<i class="fa fa-eye" aria-hidden="true"></i>
         </div>
         <div class="flex flex-column">
           <label for="password">Confirm Password</label>
-          <input type="password" name="password" class="p-xs txt-s lynx-white-color br-s flex items-center " style={{border: "1px solid grey", color:"#000000"}} placeholder="************"/>
+          <input type="password" name="password" class="p-xs txt-s lynx-white-color br-s flex items-center " style={{border: "1px solid grey", color:"#000000"}} placeholder="************" onChange={(event)=>{setConfirmPassword(event.target.value)}}/>
         </div>
         <div class="flex flex-align-center flex-space-between mt-m mb-m">
           <div class="txt-s flex flex-align-center">
-            <input class="p-s txt-cursor" type="checkbox" name="rmbr-me" id=""/>
+            <input class="p-s txt-cursor" type="checkbox" name="rmbr-me" id="tc" value={checkboxStatus} onChange={(e)=>{onChangeHandler(e)}}/>
             <label class="pl-xs txt-cursor" for="rmbr-me">I accept all Terms &amp; Conditions</label>
           </div>
          
         </div>
-        <button class="w-full primary-bg white-color p-s outline-transparent border-none pt-xs pb-xs txt-s" onClick={()=>{doSignUpCall(userFirstName, userName, userEmail, userPassword,  authDispatch)}}>
+        <button class="w-full primary-bg white-color p-s outline-transparent border-none pt-xs pb-xs txt-s" onClick={()=>{doSignUp(userFirstName, userName, userEmail, userPassword, confirmPassword, authDispatch)}}>
           Create New Account
         </button>
         <a href="#" class="txt-center w-full mt-m" style={{display: "block"}}>Already have an account &gt;</a>

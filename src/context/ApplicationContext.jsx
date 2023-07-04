@@ -22,7 +22,7 @@ export function ApplicationProvider({children}){
 
     const [ items, setItems ] =  useState([])
     const [ postContent, setPostContent] = useState("")
-    console.log("123bm", state.bookmarks, items)
+   
 
 
     const imagedata = [{id: 1, image: require("../avatars/avatar2.png"), selected: false}, 
