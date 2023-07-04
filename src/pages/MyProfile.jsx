@@ -28,7 +28,6 @@ export default function MyProfile() {
     useEffect(()=>{getData()},[])
     
     return (
-        <div> 
         <main class="p-s">
         <div class="flex flex-column flex-center">
           <div class="lynx-gray-bg width-7 height-7 br-full"><img src={profileImage.image} alt="dummyavatar" style={{borderRadius: "50%"}}></img></div>
@@ -92,6 +91,5 @@ export default function MyProfile() {
            ))}
         </div>
       </main>
-    </div>
     )
 }

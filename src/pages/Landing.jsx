@@ -15,7 +15,7 @@ export default function Landing(){
     <body>
     <div class="flex flex-row flex-center h-full w-full " style={{gap: "10rem"}}>
       <div class="flex flex-column flex-space-between " style={{height: "70vh", width: "25rem"}}>
-        <h2 class="fw-black txt-xl"><span class="primary-color">My</span> Website</h2>
+        <h2 class="fw-black txt-xl"><span class="primary-color">Tweet</span>Social!</h2>
         <div class="flex flex-column " style={{gap: "1.2rem"}}>
           <h2 class="txt-xs">
             <span class="txt-l grey-color">FOLLOW</span> PEOPLE AROUND THE GLOBE

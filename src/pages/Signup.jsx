@@ -59,7 +59,7 @@ return(
   <body>
     <div class="flex flex-column flex-center h-full w-full">
       <h2 class="fw-black  mb-m">
-        <span class="primary-color">Tweet</span>Book!
+        <span class="primary-color">Tweet</span>Social!
       </h2>
       <div class="white-bg br-m p-xxl pt-l pb-l" style={{width: "30rem"}}>
         <h3 class="txt-center mb-s txt-l">Signup</h3>

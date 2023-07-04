@@ -28,7 +28,7 @@ return(
 <body>
     <div class="flex flex-column flex-center h-full w-full">
       <h2 class="fw-black txt-xl mb-m">
-        <span class="primary-color">Tweet</span>Book!
+        <span class="primary-color">Tweet</span>Social!
       </h2>
       <div class="white-bg br-m p-xxl pt-xl pb-xl" style={{width: "30rem"}}>
         <h3 class="txt-center mb-m txt-l">Login</h3>
