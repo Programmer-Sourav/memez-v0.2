@@ -24,6 +24,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
             }
       })
       .catch(function (error) {
+        console.log(12345, error)
         authDispatch({type: AUTH_ACTION_TYPE.FAILED_ATTEMPT, payload: {isLoggedIn: false}})
         toast.error("Error Signing In")
         
@@ -31,7 +32,6 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
     }
 
   
-
     export const doSignUpCall = (userFirstName, userName, userEmail, userPassword,  authDispatch) =>{
       
         axios.post('/api/auth/signup', { 
@@ -298,7 +298,7 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
           })
           const { user } = await res.json();
           authenticatedUser = user
-        
+         console.log("Fol", user)
          const toFollow = users.filter((userItem)=>(userItem._id!== userId))
          
          homePageDispatch({type: ACTION_TYPES.TO_FOLLOW, payload:  toFollow}) 

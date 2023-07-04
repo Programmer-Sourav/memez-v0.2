@@ -267,7 +267,7 @@ export default function Home(){
             <nav className="white-bg">
         <div className="p-s pl-xxl txt-m ml-m">
           <a href="../../index.html">
-            <span className="primary-color">My</span>Website
+            <span className="primary-color">Tweet</span>Book!
           </a>
         </div>
       </nav>
@@ -305,7 +305,7 @@ export default function Home(){
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay>
           <ModalContent>
-            <ModalHeader>Modal Title</ModalHeader>
+            <ModalHeader>Create A New Post</ModalHeader>
             <ModalCloseButton />
 
             <ModalBody>
@@ -333,7 +333,7 @@ export default function Home(){
                   borderRadius: "8px"
                 }}
                
-              onClick={()=>{doCreateAPost(postText, postContent, token,  homePageDispatch, setPostContent(""), setPostText(""))}}
+              onClick={()=>{doCreateAPost(postText, postContent, token,  homePageDispatch, setPostContent(""), setPostText(""), onClose())}}
                 
               >
                 {" "}
