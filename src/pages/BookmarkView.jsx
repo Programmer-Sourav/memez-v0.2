@@ -35,9 +35,8 @@ import InfinteScroll from "../components/InfiniteScroll"
  
     
     return(
-        <div> 
-           <InfinteScroll providedData={bookmarks}/>
         <main class="mt-xl">
+        <InfinteScroll providedData={bookmarks}/>
         <div class="flex flex-space-between mr-xxl flex-align-center pt-s">
           <h4 class="">Your Bookmarks</h4>
           <i class="bi bi-sliders2-vertical"></i>
@@ -85,8 +84,6 @@ import InfinteScroll from "../components/InfiniteScroll"
         </div>
         ))}
       </main>
-
-        </div>
     )
   }
   
