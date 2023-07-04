@@ -5,6 +5,7 @@ import { AUTH_ACTION_TYPE } from "../auth/ActionType"
 import toast, { Toaster } from "react-hot-toast";
 import { doLoginCall } from "../remote-apis/api-calls"
 import { useNavigate } from "react-router"
+import { Link } from "react-router-dom";
 
 export default function Login(){
     
@@ -49,7 +50,7 @@ return(
         <button class="w-full primary-bg white-color p-s outline-transparent border-none pt-xs pb-xs txt-s" onClick={()=>{doLoginCall(userEmail, userPassword, authDispatch)}}>
           Login
         </button>
-        <a href="#" class="txt-center w-full mt-m" style={{display: "block"}}>Create New Account &gt;</a>
+        <Link to="/signup" style={{display: "block"}} class="txt-center w-full mt-m">Create New Account &gt;</Link>
       </div>
     </div>
   
