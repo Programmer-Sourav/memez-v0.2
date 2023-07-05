@@ -461,11 +461,11 @@ export default function Home(){
 </video>) : ""}
               </p>
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
-              
+                 <p>
                  {loginStatus && checkIfPostIsLiked(_id) ?
-                 <i className="bi bi-heart-fill" style={{color: "red"}} onClick={()=>disLikeThePost(_id, token, homePageDispatch)}></i>:
-                 <i className="bi bi-heart" onClick={()=>likeThePost(_id, token, homePageDispatch)}></i> 
-                 }{likes.likeCount}
+                 <i className="bi bi-heart-fill" style={{color: "red", marginRight: "4px"}} onClick={()=>disLikeThePost(_id, token, homePageDispatch)}></i>:
+                 <i className="bi bi-heart" onClick={()=>likeThePost(_id, token, homePageDispatch)} style={{marginRight: "4px"}}></i> 
+                 }{likes.likeCount}</p>
                 <i className="bi bi-chat-left"></i>
                 <i className="bi bi-share"></i>
                 {/* <i className="bi bi-bookmark-fill" onClick={()=>saveBookMark(_id, token, homePageDispatch)}></i> */}
