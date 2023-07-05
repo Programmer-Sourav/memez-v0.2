@@ -2,11 +2,12 @@ import { useContext } from "react"
 import { ApplicationContext } from "../../context/ApplicationContext"
 import { useState } from "react"
 import { users } from "../../backend/db/users"
+import { doDisLikeAPost, doLikeAPost, doRemoveBookmark, doSaveBookmark } from "../../remote-apis/api-calls"
 
 
 export default function ExploreView(){
 
-  const { users, authenticatedUser, posts } = useContext(ApplicationContext)
+  const { users, authenticatedUser, posts, bookmarked, loginStatus, token, homePageDispatch } = useContext(ApplicationContext)
   const [ tabValue, setTabValue ] = useState("")
   const [allUser, setAllUser ] = useState(users)
   const [selectedTab, setSelectedTab] = useState({});
@@ -49,6 +50,35 @@ export default function ExploreView(){
   avatarUrl = user.avatar
   return avatarUrl
  }
+
+ const likeThePost = (postId, token, homePageDispatch) =>{
+  doLikeAPost(postId, token, homePageDispatch )
+}
+
+const disLikeThePost = (postId, token, homePageDispatch) =>{
+doDisLikeAPost(postId, token, homePageDispatch )
+}
+
+const checkIfPostIsLiked = (postId) =>{ 
+const particularPost = posts.find((postItem)=>postItem._id===postId) 
+const likedItem = particularPost.likes.likedBy.filter((user) => user._id === authenticatedUser._id).length>0
+return likedItem
+}
+
+const checkIfPostIsBookmarked = (postId) =>{ 
+const isBookMarked = bookmarked.filter((currentPost) => currentPost._id === postId).length>0
+return isBookMarked
+}
+
+const saveBookMark = (postId, token, homePageDispatch) =>{
+doSaveBookmark(postId, token, homePageDispatch)
+}
+
+const removeBookMark = (postId, token, homePageDispatch) =>{
+doRemoveBookmark(postId, token, homePageDispatch)
+}
+
+
    return(
     <main class="mt-xl" style={{height: "100%"}}>
         <h3 class="pt-s">Explore</h3>
@@ -70,7 +100,7 @@ export default function ExploreView(){
           </div>
         </div>
         {updatedPost.map((postItem)=>(
-        <div class="white-bg mr-xxl p-xs mt-s">
+        <div class="white-bg mr-xxl p-xs mt-s" key={postItem._id}>
           <div class="flex flex-row nowrap p-xs">
             <div class="grey-bg br-full width-xl height-xl p-xs mr-xs"><img src={userAvatar(postItem.username)} alt="" style={{borderRadius: "50%"}}/></div>
             <div>
@@ -91,10 +121,16 @@ export default function ExploreView(){
 </video>) : ""}
               </p>
               <div class="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
-                <i class="bi bi-heart"></i>
+              {loginStatus && checkIfPostIsLiked(postItem._id) ?
+                 <i className="bi bi-heart-fill" style={{color: "red"}} onClick={()=>disLikeThePost(postItem._id, token, homePageDispatch)}></i>:
+                 <i className="bi bi-heart" onClick={()=>likeThePost(postItem._id, token, homePageDispatch)}></i> 
+                 }{postItem.likes.likeCount}
                 <i class="bi bi-chat-left"></i>
                 <i class="bi bi-share"></i>
-                <i class="bi bi-bookmark"></i>
+                {loginStatus && checkIfPostIsBookmarked(postItem._id) ?
+                <i className="bi bi-bookmark-fill" style={{color: "orange"}} onClick={()=>removeBookMark(postItem._id, token, homePageDispatch)}></i>:
+                <i className="bi bi-bookmark" onClick={()=>saveBookMark(postItem._id, token, homePageDispatch)}></i> 
+                 }
               </div>
             </div>
           </div>

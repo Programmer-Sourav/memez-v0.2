@@ -32,7 +32,7 @@ export default function Landing(){
             <p class="primary-color txt-s txt-center mt-xs" onClick={()=>{goToLogin()}}>Already have an account?</p>
         </div>
       </div>
-      <div class="grey-bg" style={{height: "70vh",width: "30rem"}}></div>
+      <div class="grey-bg" style={{height: "60vh",width: "30rem"}}><img src={require("../../src/avatars/bird-fi.jpg")} alt="frontimage"/></div>
     </div>
   
 

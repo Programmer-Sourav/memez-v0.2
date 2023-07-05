@@ -8,11 +8,11 @@ import RightMenu from "./RightMenu"
 
 export default function ProfilePageTwo(){
 
-   const {firstName} = useParams()
+   const {_id} = useParams()
    const { users } = useContext(ApplicationContext)
 
    function findTheUserDetailsForThisProfile(){
-     const userFound = users.find((userItem)=>userItem._id===firstName)
+     const userFound = users.find((userItem)=>userItem._id===_id)
      return userFound
    }
 

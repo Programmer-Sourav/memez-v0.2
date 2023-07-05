@@ -28,7 +28,7 @@ import InfinteScroll from "../components/InfiniteScroll"
 
   const deleteThisPostFromFeed = (postId) =>{
     const result = bookmarks.filter((bookmarkItem)=>bookmarkItem._id!==postId)
-    console.log(123, result)
+  
     homePageDispatch({type: ACTION_TYPES.BOOKMARK, payload: result})
   }
 
@@ -41,7 +41,7 @@ import InfinteScroll from "../components/InfiniteScroll"
           <h4 class="">Your Bookmarks</h4>
           <i class="bi bi-sliders2-vertical"></i>
         </div>
-        {console.log("Items123", items, items.length)}
+      
         {items.length>0 && items.map((bookMark)=>(
         
         <div class="white-bg mr-xxl p-xs mt-s" key={bookMark._id}>

@@ -8,5 +8,8 @@ export const initialState = {
     users: [], 
     following: [],
     updatedUser: "", 
-    toFollow: []
+    toFollow: [], 
+    user: [],
+    postDetails: "", 
+    usersPost: []
 }

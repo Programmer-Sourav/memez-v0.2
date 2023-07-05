@@ -43,12 +43,12 @@ function App() {
           <Route path='/right' element= {<RightMenu/>}/>
           <Route path='/bookmark' element={<RequiresAuth><Bookmark/></RequiresAuth>}/>
           <Route path='/myprofile' element={<RequiresAuth><ProfilePage/></RequiresAuth>}/>
-          <Route path='/profileuserone/:firstName' element={<RequiresAuth><ProfilePageOne/></RequiresAuth>}/>
-          <Route path='/profileusertwo/:firstName' element={<RequiresAuth><ProfilePageTwo/></RequiresAuth>}/>
+          <Route path='/users/:_id' element={<RequiresAuth><ProfilePageOne/></RequiresAuth>}/>
+          <Route path='/users/:_id' element={<RequiresAuth><ProfilePageTwo/></RequiresAuth>}/>
           <Route path='/post' element={<PostContainer/>}/>
           <Route path='/landing' element={<Landing/>}/>
           <Route path='/explore' element={<RequiresAuth><Explore/></RequiresAuth>}/>
-          <Route path='/openpost/:_id' element={<PostDescription/>}/>
+          <Route path='/post/:_id' element={<PostDescription/>}/>
         </Routes>
         
     </div>

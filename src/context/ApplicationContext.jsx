@@ -63,10 +63,7 @@ export function ApplicationProvider({children}){
     useEffect(()=>{setTimeout(() => {getPosts()}, 1000)},[])
 
     const setData = (newItems) =>{
-        console.log("SET ", newItems, newItems.length)
-        console.log("Before setItems")
        setItems([...newItems])
-       console.log("Below setItems", setItems.length)
     }
     
 
@@ -75,7 +72,8 @@ export function ApplicationProvider({children}){
              loginStatus: authState.isLoggedIn, authDispatch, authenticatedUser: authState.authenticatedUser, 
              liked: state.liked, bookmarked: state.bookmarked, bookmarks: state.bookmarks, users: state.users, 
             following: state.following, postText, setPostText, editProfile, setEditProfile, onChnageBio, onChangeUrl, updatedUser: state.updatedUser,
-            selectedProfilePic, setSelectedProfilePic, updateImages, profileImage, setProfileImage, images, imagedata, toFollow: state.toFollow, items, setItems, setData, postContent, setPostContent}} > {children}</ApplicationContext.Provider>
+            selectedProfilePic, setSelectedProfilePic, updateImages, profileImage, setProfileImage, images, imagedata, toFollow: state.toFollow, items, setItems,
+            setData, postContent, setPostContent, userDetails: state.user, postDetails: state.postDetails, usersPost: state.usersPost}} > {children}</ApplicationContext.Provider>
     )
 
 }
