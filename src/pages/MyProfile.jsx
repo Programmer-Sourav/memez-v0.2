@@ -61,7 +61,7 @@ export default function MyProfile() {
         <div class="white-bg">
             { posts.filter((postItem)=>postItem.username===authenticatedUser.username)
             .map((postItem)=>(
-          <div class="flex flex-row nowrap p-xs">
+          <div class="flex flex-row nowrap p-xs" key={postItem._id}>
             <div class="grey-bg br-full width-xl height-xl p-xs mr-xs">{<img src={userAvatar(authenticatedUser.username)}  alt="dummy" style={{borderRadius: "90%"}}/>}</div>
             <div>
               <div class="flex flex-row flex-align-center flex-space-between">

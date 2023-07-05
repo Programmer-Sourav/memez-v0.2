@@ -24,7 +24,6 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
             }
       })
       .catch(function (error) {
-        console.log(12345, error)
         authDispatch({type: AUTH_ACTION_TYPE.FAILED_ATTEMPT, payload: {isLoggedIn: false}})
         toast.error("Error Signing In")
         
@@ -53,7 +52,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
           .catch(function (error) {
             authDispatch({type: AUTH_ACTION_TYPE.FAILED_ATTEMPT, payload: {isLoggedIn: false}})
             toast.error("Error during Sign up. Please try again.")
-            console.log(error);
+            
           });
         }
 
@@ -65,7 +64,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
             // else{
             //   contentToSend = postText
             // }
-            console.log(3334455, postContent)
+          
             let resourceType, status
             
             const isVideo = (postContent) => {
@@ -179,7 +178,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
    }
 
    export const doSaveBookmark = async (postId, token, homePageDispatch) =>{
-    console.log(3334455, postId, token)
+    
     try{
       
         const res = await fetch(`/api/users/bookmark/${postId}`,{
@@ -194,7 +193,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
         
        
         const { bookmarks } = await res.json();
-        console.log(5567, bookmarks)
+        
         homePageDispatch({type: ACTION_TYPES.BOOKMARK, payload: bookmarks})
        
         
@@ -221,7 +220,7 @@ try{
     
    
     const { bookmarks } = await res.json();
-    //console.log(556, bookmarks)
+   
     homePageDispatch({type: ACTION_TYPES.REMOVE_BOOKMARK, payload: bookmarks})
    
     
@@ -285,6 +284,33 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
     }
     
     }
+
+    export const doDownlodUserInfo = async (token, userId, homePageDispatch) =>{
+   
+      try{
+        
+          const res = await fetch(`/api/users/${userId}`,{
+              method: 'GET',
+              
+              headers: {
+                    authorization: token,
+                  },
+                
+             
+          })
+          
+         
+          const { user } = await res.json();
+          
+          homePageDispatch({type: ACTION_TYPES.USER_DETAILS, payload: user})
+         
+          
+      }
+      catch(e){
+      console.error(e)
+      }
+      
+      }
     
     export const doStartFollowing = async (userId, token, authenticatedUser, users, homePageDispatch) =>{
       try{
@@ -298,7 +324,7 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
           })
           const { user } = await res.json();
           authenticatedUser = user
-         console.log("Fol", user)
+         
          const toFollow = users.filter((userItem)=>(userItem._id!== userId))
          
          homePageDispatch({type: ACTION_TYPES.TO_FOLLOW, payload:  toFollow}) 
@@ -353,4 +379,54 @@ export const doDownloadBookMark = async (token, homePageDispatch) =>{
     }
   
   }
+
+  export const doDownloadPostDetails = async (postId, token, homePageDispatch) =>{
+    
+    try{
+      
+      const res = await fetch(`/api/posts/${postId}`,{
+          method: 'GET',
+          
+          headers: {
+                authorization: token,
+              },      
+      })
+      const { post } = await res.json();
+      
+      homePageDispatch({type: ACTION_TYPES.POST_DETAILS, payload: post})
+   
+  }
+  catch(e){
+  console.error(e)
+  }
+}
+
+  export const doDownlodPostsForUsername = async (username, token, homePageDispatch) =>{
+ 
+    try{
+      
+        const res = await fetch(`/api/posts/user/${username}`,{
+            method: 'GET',
+            
+            headers: {
+                  authorization: token,
+                },
+              
+           
+        })
+        
+       
+        const { posts } = await res.json();
+        
+        homePageDispatch({type: ACTION_TYPES.USERS_POST, payload: posts})
+       
+        
+    }
+    catch(e){
+    console.error(e)
+    }
+    
+    }
+
+
         

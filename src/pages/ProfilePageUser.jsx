@@ -1,24 +1,26 @@
 import { useContext } from "react"
 import { ApplicationContext } from "../context/ApplicationContext"
-import { doStartFollowing, doStartUnFollowing , doLikeAPost, doDisLikeAPost} from "../remote-apis/api-calls"
+import { doStartFollowing, doStartUnFollowing , doLikeAPost, doDisLikeAPost, doDownlodUserInfo, doDownlodPostsForUsername} from "../remote-apis/api-calls"
 import { useParams } from "react-router-dom"
+import { color } from "@chakra-ui/react"
+import { useEffect } from "react"
 
 export default function ProfilePageUser(){
 
-    const {loginStatus, posts, following, token, authenticatedUser, homePageDispatch, users} = useContext(ApplicationContext)
+    const {loginStatus, posts, following, token, authenticatedUser, homePageDispatch, users, userDetails, usersPost} = useContext(ApplicationContext)
     
 
    
-    const {firstName} = useParams()
+    const {_id} = useParams()
     
-    
-    function findTheUserDetailsForThisProfile(){
-      const userFound = users.find((userItem)=>userItem.firstName===firstName)
-      return userFound
-    }
+    const userId = _id;
 
-    const profileData = findTheUserDetailsForThisProfile()
-    
+    useEffect(()=>{doDownlodUserInfo(token, userId, homePageDispatch)},[_id])
+  
+   
+    const profileData = userDetails
+
+    useEffect(()=>{doDownlodPostsForUsername(profileData.username, token, homePageDispatch)},[profileData.username])
 
     const getThePosts= () =>{
         const postByUser = posts.filter((postItem)=>postItem.username===profileData.username)
@@ -48,9 +50,14 @@ export default function ProfilePageUser(){
     const likedItem = particularPost.likes.likedBy.filter((user) => user._id === authenticatedUser._id).length>0
     return likedItem
     }
+
+    const findTheCountOfFollowers = () =>{
+       const result = following.filter((eachUser)=>eachUser._id===userId)
+       return result.length
+    }
  
     
-    const userPosts = getThePosts();
+    //const userPosts = getThePosts();
     
     return(
       
@@ -78,18 +85,18 @@ export default function ProfilePageUser(){
               <p class="fw-semibold">Following</p>
             </div>
             <div class="flex flex-column flex-center m-s ml-m mr-m">
-              <p class="fw-black">{userPosts.length}</p>
+              <p class="fw-black">{usersPost.length}</p>
               <p class="fw-semibold">Posts</p>
             </div>
             <div class="flex flex-column flex-center m-s ml-m mr-m">
-              <p class="fw-black">0</p>
+              <p class="fw-black">{findTheCountOfFollowers()}</p>
               <p class="fw-semibold">Followers</p>
             </div>
           </div>
         </div>
         <h3 class="m-s">Your Posts</h3>
         <div class="white-bg">
-        {getThePosts().map((postItem)=>(
+        {usersPost.length===0 ? <h2 style={{color: "orange", background: "#FFF6EA"}}>This User has no post to show!</h2> :usersPost.map((postItem)=>(
           <div class="flex flex-row nowrap p-xs">
             <div class="grey-bg br-full width-xl height-xl p-xs mr-xs"></div>
             <div>

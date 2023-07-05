@@ -9,7 +9,7 @@ export default function InfinteScroll({providedData}){
     const [ page, setPage ] = useState(1)
    
    
-    console.log("Items444", items, providedData)
+
     useEffect(() => {
       fetchData(page, providedData);
     }, [providedData, page]);

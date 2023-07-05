@@ -69,7 +69,7 @@ export default function Home(){
     let updatedProducts = [...posts].filter((postItem)=>
     following.find((followingItem)=>
     followingItem.username===postItem.username) || authenticatedUser.username === postItem.username )
-    console.log("Posts", updatedProducts)
+   
    
     const [ allUsers, setAllUsers ] = useState(users)
     
@@ -176,16 +176,15 @@ export default function Home(){
 
     const MyUploadButton = () =>{
       /**code provided by uploady.org */
-      console.log("Inside MyUpload")
+   
       useItemStartListener(item => {
-        console.log("Myupload...")
         
         console.log(`item ${item.id} uploading now. file name=${item.file.name}`)
     });
     
     
       useItemFinishListener(item=>{
-        console.log("Inside Finish")
+        
         //setPostContent("")
         console.log(`item ${item.id} finshed uploading. response = `, item.uploadResponse)
         setResourceType(item.uploadResponse.data.resource_type)
@@ -217,19 +216,20 @@ export default function Home(){
       <video src={postContent} alt="postImage"/>
     }
     const getExtention = (filename) =>{
-      console.log(filename)
+      
     const extension = filename.substring(filename.lastIndexOf('.') + 1, filename.length)
-    console.log(123456, extension)
+    
     return extension
     }
 
-    const goToProfileTwo = (firstName) =>{
-      navigate(`/profileusertwo/${firstName}`)
-      console.log("profileTwo")
+    const goToProfileTwo = (_id) =>{
+      const userId = _id
+      navigate(`/users/${_id}`)
     }
 
-    const goToProfileOne = (firstName) =>{
-      navigate(`/profileuserone/${firstName}`)
+    const goToProfileOne = (_id) =>{
+      const userId = _id
+      navigate(`/users/${_id}`)
     }
    
     
@@ -451,10 +451,10 @@ export default function Home(){
                 </MenuList>
                 </Menu>
               </div>
-              <p className="pr-s pt-xs" onClick={()=>{navigate(`/openpost/${_id}`)}}>
+              <p className="pr-s pt-xs" onClick={()=>{navigate(`/post/${_id}`)}}>
                 {content}
-                {postContent ? (resourceType && resourceType==="image" ? <img src={postContent} alt="postimage"/> : <video width="750" height="380" controls >
-      <source src={postContent} />
+                {postContent ? (resourceType && resourceType==="image" ? <img src={postContent} height="128" width="100%"  alt="postimage"/> : <video width="100%" height="128" controls >
+      <source src={postContent} type="video/mp4" />
 </video>) : ""}
               </p>
               <div className="flex flex-row nowrap flex-space-between pb-xs pt-m pr-s flex-align-center">
@@ -489,18 +489,18 @@ export default function Home(){
             <div className="primary-color">Show More</div>
           </div>
           {filteredUsers.map((user)=>(
-          <div className="flex p-s flex-space-between flex-align-center">
+          <div className="flex p-s flex-space-between flex-align-center" key={user._id}>
             <div className="grey-bg br-full width-xl height-xl">{<img src={user.avatar} alt="avatar-downloaded" style={{borderRadius: "50%"}}/>}</div>
             <div className="flex flex-column">
-              <Link to={`/profileuserone/${user.firstName}`}>
+              <Link to={`/users/${user._id}`}>
                 <div className="fw-bold">{user.firstName}</div>
                 <div className="fw-light grey-color">@{user.username}</div>
                 </Link>
             </div>
             <div className="primary-color fw-bold">
-             { following.find((userItem)=>userItem._id===user._id) ? <button onClick={()=>{goToProfileTwo(user.firstName)}} style={{color:"white", background: "green", border: "none", padding: "4px"}}>
+             { following.find((userItem)=>userItem._id===user._id) ? <button onClick={()=>{goToProfileTwo(user._id)}} style={{color:"white", background: "green", border: "none", padding: "4px"}}>
                 Following <i className="bi bi-check-lg"></i>
-              </button> : <button onClick={()=>{goToProfileOne(user.firstName)}} style={{color:"white", background: "orange", border: "none", padding: "4px"}}>
+              </button> : <button onClick={()=>{goToProfileOne(user._id)}} style={{color:"white", background: "orange", border: "none", padding: "4px"}}>
                 Follow <i className="bi bi-plus-lg"></i>
               </button>}
             </div>

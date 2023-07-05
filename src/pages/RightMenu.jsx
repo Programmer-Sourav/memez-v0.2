@@ -38,14 +38,13 @@ export default function RightMenu(){
           <div className="flex p-s flex-space-between flex-align-center">
             <div className="grey-bg br-full width-xl height-xl"><img src={userItem.avatar} alt="dummy" style={{borderRadius: "50%"}}/></div>
             <div className="flex flex-column">
-            
-              <Link to={`/profileuserone/${userItem.firstName}`}>
+              <Link to={`/users/${userItem._id}`}>
                 <div className="fw-bold">{userItem.username}</div>
                 <div className="fw-light grey-color">@{userItem.username}</div>
               </Link>
             </div>
             <div className="primary-color fw-bold" style={{color:"white", background: "orange", border: "none", padding: "4px"}}>
-              <Link to={`/profileusertwo/${userItem.firstName}`}>
+              <Link to={`/users/${userItem._id}`}>
                 Follow <i className="bi bi-plus-lg"></i>
               </Link>
             </div>

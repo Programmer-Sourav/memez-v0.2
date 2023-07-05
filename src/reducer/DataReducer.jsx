@@ -34,6 +34,10 @@ export const DataReducer = (state, action) =>{
 
         return {...state, users: action.payload}
 
+        case ACTION_TYPES.USER_DETAILS: 
+
+        return {...state, user: action.payload}
+
         case ACTION_TYPES.FOLLOW_USER: 
 
         return {...state, following: action.payload}
@@ -45,6 +49,15 @@ export const DataReducer = (state, action) =>{
         case ACTION_TYPES.TO_FOLLOW: 
 
         return {...state, toFollow: action.payload}
+
+        case ACTION_TYPES.POST_DETAILS: 
+        
+        return {...state, postDetails: action.payload}
+
+        case ACTION_TYPES.USERS_POST: 
+        
+        return {...state, usersPost: action.payload}
+
         case ACTION_TYPES.SEARCH_ACTION: 
         return {}
 
