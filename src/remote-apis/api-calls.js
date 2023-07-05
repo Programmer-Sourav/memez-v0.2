@@ -93,7 +93,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
                
                 const { posts } = res.data 
                 
-                homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: posts})
+                homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: posts.reverse()})
             }
             catch(e){
             console.error(e)

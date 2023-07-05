@@ -201,12 +201,15 @@ export default function Home(){
 
     const UploadProgress = () => { 
       const [progress, setProgess] = useState(0);
+      if(progress===100)
+      toast.success("File Uploaded Successfully!")
       const progressData = useItemProgressListener();   if (progressData && progressData.completed > progress) { 
         setProgess(() => progressData.completed);
       }   return progressData && <Circle style={{ height: "60px" }}              
                                      strokeWidth={10}
                                      strokeColor={progress === 100 ? "#00a626" : "#2db7f5"}
-                                     percent={progress} />;};
+                                     percent={progress} />;
+                                   };
 
     function displayImage() {
       <img src={postContent}  alt="postimage"/>
