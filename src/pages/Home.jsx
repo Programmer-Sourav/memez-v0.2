@@ -419,7 +419,7 @@ export default function Home(){
                  
     {/* <i className="bi bi-emoji-smile"><Picker data={data} onEmojiSelect={console.log} ></Picker></i> */}
                 </div>
-                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{doCreateAPost(postText, postContent,token, homePageDispatch, setPostText(""))}}>Post</button>
+                <button className="primary-bg p-l pt-xs pb-xs secondary-color border-none outline-transparent" onClick={()=>{doCreateAPost(postText, postContent,token, homePageDispatch,setPostContent(""), setPostText(""))}}>Post</button>
               </div>
             </div>
           </div>

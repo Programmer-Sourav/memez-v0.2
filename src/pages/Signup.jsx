@@ -45,9 +45,9 @@ else{
 }    
 
 const onChangeHandler = (e) =>{
-   if(e.target.checked){
+ 
    setCheckboxStatus(checkboxStatus=>!checkboxStatus)
-   }
+   
 }
 
 const showEyeButton = (e) =>{
@@ -76,7 +76,7 @@ return(
           <input type="text" name="email" class="p-xs txt-s lynx-white-color br-s mb-s " style={{border: "1px solid grey", color:"#000000"}} placeholder="tanay@neog.camp" onChange={(event)=>{setUserEmail(event.target.value)}}/>
         </div>
         <div class="flex flex-column">
-          <label for="password">Password</label> <button onClick={(e)=>{showEyeButton(e)}}>Show</button>
+          <label for="password">Password</label> <span onClick={(e)=>{showEyeButton(e)}}>Show</span>
           <input type= {showButton ? "text" : "password"} name="password" class="p-xs txt-s lynx-white-color br-s flex mb-s items-center " style={{border: "1px solid grey", color:"#000000"}} placeholder="************"  onChange={(event)=>{setUserPassword(event.target.value)}} />
         </div>
         <div class="flex flex-column">
@@ -85,7 +85,7 @@ return(
         </div>
         <div class="flex flex-align-center flex-space-between mt-m mb-m">
           <div class="txt-s flex flex-align-center">
-            <input class="p-s txt-cursor" type="checkbox" name="rmbr-me" id="tc" value={checkboxStatus} onChange={(e)=>{onChangeHandler(e)}}/>
+            <input class="p-s txt-cursor" type="checkbox" name="rmbr-me" id="tc" checked={checkboxStatus} onChange={(e)=>{onChangeHandler(e)}}/>
             <label class="pl-xs txt-cursor" for="rmbr-me">I accept all Terms &amp; Conditions</label>
           </div>
          

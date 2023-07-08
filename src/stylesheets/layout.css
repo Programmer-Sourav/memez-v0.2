@@ -20,6 +20,7 @@
     width: max-content;
     position: fixed;
     top: 64px;
+    bottom: 0;
   }
   
   .sidebar2 {
@@ -34,5 +35,6 @@
   
   main {
     grid-area: main;
+    min-height: 1384px;
   }
   
