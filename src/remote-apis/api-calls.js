@@ -101,14 +101,29 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
         
         }
 
-        export const doEditAPost  = async (postId, postText, token, homePageDispatch) =>{
+        export const doEditAPost  = async (postId, postText, postContent, token, homePageDispatch) =>{
+
+          let resourceType
+            
+            const isVideo = (postContent) => {
+              return (postContent.match(/\.(mpg|mp2|mpeg|mpe|mpv|mp4)$/) != null);
+            }
+
+            function isImage(postContent) {
+              return (postContent.match(/\.(jpg|jpeg|gif|png)$/) != null);
+            }
+            
+            if(isImage(postContent))
+               resourceType = "image"
+            if(isVideo(postContent))
+               resourceType = "video"   
         
           try{
             
               const res = await axios.post(`/api/posts/edit/${postId}`,
           
                     
-                  { postData: { content: postText } },
+                  { postData: { content: postText, postContent, resourceType } },
                   {headers: {
                     authorization: token,
                   }}
@@ -116,6 +131,7 @@ export const doLoginCall = (userEmail, userPassword, authDispatch) =>{
              
               const { posts } = res.data 
               toast.success("Successfully Updated!")
+              console.log(334, posts)
               homePageDispatch({type: ACTION_TYPES.CREATE_A_POST, payload: posts})
           }
           catch(e){

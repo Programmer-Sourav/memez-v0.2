@@ -74,13 +74,15 @@ export default function Home(){
     const [ allUsers, setAllUsers ] = useState(users)
     
 
-   let filteredPostOfUser = updatedProducts.filter((postItem)=>postItem.content.toLowerCase().includes(searchVal.toLowerCase()))
+   let filteredPostOfUser = [...updatedProducts]
    
 
    if(sortVal==="latest")
-   filteredPostOfUser =  updatedProducts.sort((p1, p2)=>new Date(p2.updatedAt)>new Date(p1.updatedAt))
+   filteredPostOfUser =  [...updatedProducts].sort((p1, p2)=>new Date(p2.updatedAt)>new Date(p1.updatedAt))
    if(sortVal==="trending")
-   filteredPostOfUser = updatedProducts.sort((p1, p2)=>p2.likes.likeCount>p1.likes.likeCount)
+   filteredPostOfUser = [...updatedProducts].sort((p1, p2)=>p2.likes.likeCount>p1.likes.likeCount)
+
+   filteredPostOfUser = filteredPostOfUser.filter((postItem)=>postItem.content.toLowerCase().includes(searchVal.toLowerCase()))
 
    const organicUsers = () =>{
     const updated = users.filter((user)=>user._id!==authenticatedUser._id)
@@ -136,6 +138,7 @@ export default function Home(){
     //           <i className="bi bi-card-image" ></i>
     //       </div>
     //  ));
+    
 
     
     const getMeTheLatest = () =>{
@@ -324,6 +327,29 @@ export default function Home(){
                   setPostText(e.target.value);
                 }}
               />
+              <div className="flex flex-space-between pt-s">
+                <div className="flex " style={{gap : '1rem'}}>
+                <Uploady
+      destination={{ url: "https://api.cloudinary.com/v1_1/ds0k2xmd6/image/upload",
+          params:{upload_preset: "neogprojectpreset"} }}
+      // fileFilter={filterBySize}
+      accept="image/*"
+    >
+      <MyUploadButton/>
+     <span><UploadButton> <i className="bi bi-card-image" ></i></UploadButton></span>
+    <UploadProgress />
+    </Uploady>
+    <Uploady
+      destination={{ url: "https://api.cloudinary.com/v1_1/ds0k2xmd6/video/upload",
+          params:{upload_preset: "neogprojectpreset"} }}
+      // fileFilter={filterBySize}
+      accept="video/*">
+      <MyUploadButton/>
+      <span><UploadButton> <i className="bi bi-filetype-gif"></i></UploadButton></span>
+      <UploadProgress />
+    </Uploady>
+    </div>
+    </div>
               <button
                 style={{
                   background: "green",
@@ -448,7 +474,8 @@ export default function Home(){
                 <p>∙∙∙</p>
                 </MenuButton>
                 <MenuList>
-                <ChakraProvider><OpenModal data={{_id, content}}/></ChakraProvider> 
+                {(username!== authenticatedUser.username) ? "" : 
+                <ChakraProvider><OpenModal data={{_id, content}}/></ChakraProvider> }
                 <MenuDivider/>
                 <MenuItem height="24px" border="none" textStyle="bold" padding="4px" onClick={()=>deleteThisPostFromFeed(_id, username)}>Delete Post</MenuItem>
                 </MenuList>
