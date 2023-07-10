@@ -9,15 +9,15 @@ import { doDownloadBookMark } from "../remote-apis/api-calls";
 
 
 
-export default function Bookmark(){
+export default function Bookmark({bookmarks}){
 
-    const { bookmarked, bookmarks, token, homePageDispatch } = useContext(ApplicationContext)
+    // const { bookmarked, bookmarks, token, homePageDispatch } = useContext(ApplicationContext)
 
 
-    useEffect(()=>{
-        doDownloadBookMark(token, homePageDispatch)
-    },[])
-    
+    // useEffect(()=>{
+    //     doDownloadBookMark(token, homePageDispatch)
+    // },[])
+
     return(
         
         <div className="container">

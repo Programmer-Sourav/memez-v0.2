@@ -14,7 +14,7 @@ import InfinteScroll from "../components/InfiniteScroll"
 
   export default function BookmarkView({bookmarks}){
 
-    const {  homePageDispatch, token, loginStatus, authenticatedUser, postText, setPostText, items, setItems } = useContext(ApplicationContext)
+    const {  homePageDispatch, token, loginStatus, authenticatedUser, postText, setPostText } = useContext(ApplicationContext)
   
 
   const checkIfPostIsBookmarked = (postId) =>{ 
@@ -36,13 +36,13 @@ import InfinteScroll from "../components/InfiniteScroll"
     
     return(
         <main class="mt-xl">
-        <InfinteScroll providedData={bookmarks}/>
+        {/* <InfinteScroll providedData={bookmarks}/> */}
         <div class="flex flex-space-between mr-xxl flex-align-center pt-s">
           <h4 class="">Your Bookmarks</h4>
           <i class="bi bi-sliders2-vertical"></i>
         </div>
       
-        {items.length>0 && items.map((bookMark)=>(
+        {bookmarks.length>0 && bookmarks.map((bookMark)=>(
         
         <div class="white-bg mr-xxl p-xs mt-s" key={bookMark._id}>
           <div class="flex flex-row nowrap p-xs">

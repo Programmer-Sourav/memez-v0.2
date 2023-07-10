@@ -23,6 +23,7 @@ import Landing from './pages/Landing';
 import Explore from './pages/Explore/Explore';
 import ProfilePageTwo from './pages/ProfilePageTwo';
 import PostDescription from './pages/PostDescription';
+import InfinteScroll from './components/InfiniteScroll';
 
 function App() {
   
@@ -41,7 +42,7 @@ function App() {
           <Route path='/navigation' element={<Navigation/>}/>
           <Route path='/main' element={<MainView/>}/>
           <Route path='/right' element= {<RightMenu/>}/>
-          <Route path='/bookmark' element={<RequiresAuth><Bookmark/></RequiresAuth>}/>
+          <Route path='/bookmark' element={<RequiresAuth><InfinteScroll/></RequiresAuth>}/>
           <Route path='/myprofile' element={<RequiresAuth><ProfilePage/></RequiresAuth>}/>
           <Route path='/users/:_id' element={<RequiresAuth><ProfilePageOne/></RequiresAuth>}/>
           <Route path='/users/:_id' element={<RequiresAuth><ProfilePageTwo/></RequiresAuth>}/>
